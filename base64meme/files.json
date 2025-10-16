@@ -1,0 +1,20 @@
+[
+  {
+    "name": "无",
+    "ds": "开发测试",
+    "vin": "1.0",
+    "wrt": "TwperBody",
+    "time": "2023-12-01",
+    "url": "/data/files.json",
+    "format": "json"
+  },
+  {
+    "name": "default",
+    "ds": "默认",
+    "vin": "1.0.0",
+    "wrt": "TwperBody",
+    "time": "2025-10-16",
+    "url": "/base64meme/卡提希娅_emotion_data.json",
+    "format": "json"
+  }
+]
