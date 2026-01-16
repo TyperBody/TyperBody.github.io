@@ -30,10 +30,26 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          npm install
+          npm list
 
-      - name: Build Blog
-        run: npm run build
+      - name: Verify Theme Directory
+        run: |
+          echo "Checking theme directory..."
+          ls -la themes/
+          if [ -d "themes/hypertrance" ]; then
+            echo "Theme directory exists"
+            ls -la themes/hypertrance/
+          else
+            echo "ERROR: Theme directory does not exist!"
+            exit 1
+          fi
+
+      - name: Clean and Generate Site
+        run: |
+          npx hexo clean
+          npx hexo generate
         env:
           TZ: Asia/Shanghai
 
