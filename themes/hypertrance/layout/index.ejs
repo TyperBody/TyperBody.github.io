@@ -1,0 +1,49 @@
+<%- partial('layout') %>
+
+<div class="index-container">
+  <% if (is_home()) { %>
+    <div class="hero-section">
+      <h1 class="hero-title">
+        <span class="glitch" data-text="<%= config.title %>"><%= config.title %></span>
+      </h1>
+      <p class="hero-subtitle"><%= config.subtitle %></p>
+      <p class="hero-description"><%= config.description %></p>
+    </div>
+
+    <% if (theme.github_actions.enabled) { %>
+    <div class="github-actions-showcase">
+      <h2>GitHub Actions Showcase</h2>
+      <div class="actions-grid">
+        <% theme.github_actions.showcase.forEach(function(action) { %>
+        <div class="action-card">
+          <h3><%= action.name %></h3>
+          <p><%= action.description %></p>
+          <div class="action-badge <%= action.badge %>">
+            <%= action.badge %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="recent-posts">
+      <h2>Recent Posts</h2>
+      <div class="post-list">
+        <% site.posts.sort('-date').limit(10).each(function(post) { %>
+        <article class="post-card">
+          <h3 class="post-title">
+            <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+          </h3>
+          <p class="post-excerpt"><%= post.excerpt %></p>
+          <div class="post-meta">
+            <span class="post-date"><%= date(post.date, 'YYYY-MM-DD') %></span>
+          </div>
+        </article>
+        <% }); %>
+      </div>
+    </div>
+  <% } else { %>
+    <%- body %>
+  <% } %>
+</div>

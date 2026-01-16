@@ -1,0 +1,90 @@
+# Hexo Configuration
+
+# Site Information
+title: Hypertrance GitHub Actions Blog
+subtitle: Exploring the Future of CI/CD
+description: A blog about GitHub Actions with Hypertrance style - cyberpunk aesthetics meets modern automation
+keywords: GitHub Actions, CI/CD, Automation, Cyberpunk, DevOps
+author: TyperBody
+language: zh-CN
+timezone: Asia/Shanghai
+
+# URL
+url: https://typerbody.github.io
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: true
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: true
+  tab_replace: ''
+  wrap: true
+  hljs: false
+  preprocess: true
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: mtime
+
+# Pagination
+per_page: 10
+pagination_dir: page
+
+# Extensions
+theme: hypertrance
+
+# Deployment
+deploy:
+  type: git
+  repo: https://github.com/TyperBody/TyperBody.github.io
+  branch: main
+  name: TyperBody
+  email: typerbody@github.com
+
+# RSS
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
+# Sitemap
+sitemap:
+  path: sitemap.xml
+
+# Search
+search:
+  path: search.json
+  field: post
+  format: html
+  limit: 10000

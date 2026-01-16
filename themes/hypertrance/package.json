@@ -1,0 +1,12 @@
+{
+  "extends": "./_config.yml",
+  "css": {
+    "dir": "themes/hypertrance/source/css"
+  },
+  "js": {
+    "dir": "themes/hypertrance/source/js"
+  },
+  "libs": {
+    "css": []
+  }
+}

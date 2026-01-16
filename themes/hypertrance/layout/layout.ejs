@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="<%= config.language %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><%= config.title %></title>
+  <meta name="description" content="<%= config.description %>">
+  <meta name="keywords" content="<%= config.keywords %>">
+  <link rel="stylesheet" href="<%- theme.libs.css %>">
+  <link rel="stylesheet" href="<%- url_for(theme.css) %>/style.css">
+  <%- partial('partials/head') %>
+</head>
+<body>
+  <%- partial('partials/scanlines') %>
+  
+  <div class="container">
+    <header class="header">
+      <%- partial('partials/logo') %>
+      <%- partial('partials/nav') %>
+    </header>
+
+    <main class="main">
+      <%- body %>
+    </main>
+
+    <footer class="footer">
+      <%- partial('partials/footer') %>
+    </footer>
+  </div>
+
+  <%- partial('partials/back-to-top') %>
+  <script src="<%- url_for(theme.js) %>/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<link rel="icon" type="image/x-icon" href="<%- url_for('/favicon.ico') %>">
+<link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%- url_for('/atom.xml') %>">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="<%= config.title %>">
+<meta property="og:description" content="<%= config.description %>">
+<meta property="og:url" content="<%= config.url %>">
+<meta property="og:image" content="<%- url_for('/images/og-image.png') %>">
+<% if (theme.author) { %>
+<meta name="author" content="<%= theme.author %>">
+<% } %>
+<% if (page.description) { %>
+<meta name="description" content="<%= page.description %>">
+<% } else if (config.description) { %>
+<meta name="description" content="<%= config.description %>">
+<% } %>

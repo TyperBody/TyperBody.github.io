@@ -1,0 +1,38 @@
+{
+  "name": "hypertrance-github-actions-blog",
+  "version": "1.0.0",
+  "description": "A GitHub Actions themed blog with Hypertrance style",
+  "private": true,
+  "scripts": {
+    "build": "hexo generate",
+    "clean": "hexo clean",
+    "deploy": "hexo deploy",
+    "server": "hexo server",
+    "generate": "hexo generate"
+  },
+  "dependencies": {
+    "hexo": "^7.0.0",
+    "hexo-generator-archive": "^2.0.0",
+    "hexo-generator-category": "^2.0.0",
+    "hexo-generator-index": "^3.0.0",
+    "hexo-generator-tag": "^2.0.0",
+    "hexo-renderer-ejs": "^2.0.0",
+    "hexo-renderer-stylus": "^3.0.0",
+    "hexo-renderer-marked": "^6.0.0",
+    "hexo-server": "^3.0.0",
+    "hexo-generator-sitemap": "^3.0.0",
+    "hexo-generator-searchdb": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "github-actions",
+    "blog",
+    "hypertrance",
+    "cyberpunk",
+    "hexo"
+  ],
+  "author": "TyperBody",
+  "license": "MIT"
+}

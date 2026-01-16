@@ -1,0 +1,63 @@
+# Hypertrance Theme Configuration
+
+# Header
+menu:
+  Home: /
+  Archives: /archives
+  Categories: /categories
+  Tags: /tags
+  About: /about
+
+# Site Logo
+logo:
+  enabled: true
+  text: Hypertrance
+
+# Social Links
+social:
+  GitHub: https://github.com/TyperBody
+  Twitter: https://twitter.com/TyperBody
+
+# Sidebar
+sidebar:
+  position: right
+  width: 300
+  mobile: true
+
+# Footer
+footer:
+  powered: true
+  copyright: true
+  theme_info: true
+
+# GitHub Actions Showcase
+github_actions:
+  enabled: true
+  showcase:
+    - name: Deploy Blog
+      description: Automated deployment to GitHub Pages
+      workflow: deploy.yml
+      badge: passing
+    - name: Run Tests
+      description: Execute test suite on every push
+      workflow: tests.yml
+      badge: passing
+    - name: Build Docker
+      description: Build and push Docker images
+      workflow: docker.yml
+      badge: passing
+
+# Neon Color Scheme
+colors:
+  primary: "#ff00ff"    # Neon Pink
+  secondary: "#00ffff"  # Cyan
+  tertiary: "#bf00ff"   # Purple
+  background: "#0a0a0a" # Dark
+  text: "#e0e0e0"       # Light Gray
+
+# Animation Settings
+animations:
+  enabled: true
+  glitch_effect: true
+  neon_glow: true
+  scanlines: true

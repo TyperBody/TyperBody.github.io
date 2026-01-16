@@ -1,0 +1,9 @@
+<nav class="nav">
+  <% if (theme.menu) { %>
+    <% Object.keys(theme.menu).forEach(function(key) { %>
+      <% var link = theme.menu[key]; %>
+      <% if (typeof link === 'string') link = url_for(link); %>
+      <a href="<%- link %>" class="nav-link"><%= key %></a>
+    <% }); %>
+  <% } %>
+</nav>

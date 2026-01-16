@@ -1,0 +1,64 @@
+<div class="share-section">
+  <span class="share-label">Share:</span>
+  <div class="share-buttons">
+    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(page.url) %>&text=<%= encodeURIComponent(page.title) %>" 
+       target="_blank" rel="noopener" class="share-btn twitter">
+      Twitter
+    </a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(page.url) %>" 
+       target="_blank" rel="noopener" class="share-btn facebook">
+      Facebook
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent(page.url) %>&title=<%= encodeURIComponent(page.title) %>" 
+       target="_blank" rel="noopener" class="share-btn linkedin">
+      LinkedIn
+    </a>
+  </div>
+</div>
+
+<style>
+.share-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.share-label {
+  color: var(--color-text-muted);
+  margin-right: 15px;
+}
+
+.share-buttons {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.share-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-normal);
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+}
+
+.share-btn.twitter:hover {
+  border-color: #1da1f2;
+  color: #1da1f2;
+}
+
+.share-btn.facebook:hover {
+  border-color: #4267b2;
+  color: #4267b2;
+}
+
+.share-btn.linkedin:hover {
+  border-color: #0077b5;
+  color: #0077b5;
+}
+</style>

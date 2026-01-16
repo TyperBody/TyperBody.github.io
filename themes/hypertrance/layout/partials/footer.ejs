@@ -1,0 +1,118 @@
+<footer class="footer-content">
+  <div class="footer-grid">
+    <div class="footer-section">
+      <h4>About</h4>
+      <p><%= config.description %></p>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="<%- url_for('/archives') %>">Archives</a></li>
+        <li><a href="<%- url_for('/categories') %>">Categories</a></li>
+        <li><a href="<%- url_for('/tags') %>">Tags</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Social</h4>
+      <div class="social-links">
+        <% if (theme.social) { %>
+          <% Object.keys(theme.social).forEach(function(key) { %>
+            <a href="<%= theme.social[key] %>" target="_blank" rel="noopener" class="social-link">
+              <%= key %>
+            </a>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; <%= new Date().getFullYear() %> <%= config.author || 'TyperBody' %>. All rights reserved.</p>
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> with <a href="<%- url_for('/') %>">Hypertrance</a> theme</p>
+  </div>
+</footer>
+
+<style>
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-section h4 {
+  color: var(--color-primary);
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.footer-section p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer-section ul li a:hover {
+  color: var(--color-secondary);
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-link {
+  padding: 8px 15px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  transition: all var(--transition-normal);
+}
+
+.social-link:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: var(--glow-primary);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--color-border);
+  padding-top: 30px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+</style>
