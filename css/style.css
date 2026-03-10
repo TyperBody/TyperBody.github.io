@@ -28,48 +28,49 @@
 }
 
 :root {
-    /* 深蓝色调 */
-    --deep-blue: #0a0e27;
-    --navy-blue: #0d1b3e;
-    --cosmic-blue: #1a2a5e;
-    --electric-blue: #3a5fff;
-    --ice-blue: #5e8fff;
-    --light-blue: #7eb8ff;
+    /* 纯黑背景 - 只有微弱蓝色 */
+    --deep-blue: #010204;
+    --navy-blue: #020306;
+    --cosmic-blue: #030408;
+    --electric-blue: #0a1525;
+    --ice-blue: #152540;
+    --light-blue: #203555;
     
-    /* 银色/金属色调 */
-    --chrome-silver: #c0c7d6;
-    --bright-silver: #e8edf5;
-    --metallic: #9aa5bb;
-    --steel: #6b7a94;
-    --platinum: #d4dae8;
+    /* 银色/金属色调 - 冷色调金属 */
+    --chrome-silver: #405060;
+    --bright-silver: #506575;
+    --metallic: #354555;
+    --steel: #203040;
+    --platinum: #556575;
     
-    /* 强调色 */
-    --neon-accent: #00d4ff;
-    --glow-white: #ffffff;
-    --soft-purple: #8090ff;
+    /* 强调色 - 微弱冰蓝发光 */
+    --neon-accent: #1565a0;
+    --glow-white: #7090b0;
+    --soft-purple: #304060;
     
-    /* 背景色 */
-    --bg-dark: #050a1a;
-    --bg-darker: #020510;
-    --bg-gradient: linear-gradient(180deg, #020510 0%, #0a0e27 30%, #0d1b3e 70%, #0a0e27 100%);
-    --bg-card: rgba(13, 27, 62, 0.6);
-    --bg-card-hover: rgba(26, 42, 94, 0.8);
+    /* 背景色 - 几乎纯黑 */
+    --bg-dark: #010102;
+    --bg-darker: #000001;
+    --bg-gradient: linear-gradient(180deg, #000001 0%, #010204 20%, #020306 50%, #010204 80%, #000001 100%);
+    --bg-card: rgba(2, 3, 6, 0.9);
+    --bg-card-hover: rgba(3, 4, 8, 0.95);
     
-    /* 文字色 */
-    --text-primary: #e8edf5;
-    --text-secondary: #9aa5bb;
-    --text-muted: #5a6a8a;
+    /* 文字色 - 更暗淡 */
+    --text-primary: #506575;
+    --text-secondary: #354555;
+    --text-muted: #203040;
     
     /* 渐变 */
-    --gradient-silver: linear-gradient(135deg, #6b7a94 0%, #c0c7d6 50%, #e8edf5 100%);
-    --gradient-chrome: linear-gradient(135deg, #9aa5bb 0%, #e8edf5 25%, #c0c7d6 50%, #9aa5bb 75%, #6b7a94 100%);
-    --gradient-blue: linear-gradient(135deg, #3a5fff 0%, #00d4ff 100%);
-    --gradient-glow: linear-gradient(135deg, #5e8fff 0%, #00d4ff 50%, #8090ff 100%);
+    --gradient-silver: linear-gradient(135deg, #203040 0%, #405060 50%, #506575 100%);
+    --gradient-chrome: linear-gradient(135deg, #354555 0%, #506575 25%, #405060 50%, #354555 75%, #203040 100%);
+    --gradient-blue: linear-gradient(135deg, #0a1525 0%, #1565a0 100%);
+    --gradient-glow: linear-gradient(135deg, #152540 0%, #1565a0 50%, #304060 100%);
     
-    /* 字体 */
-    --font-display: 'Hyper1', 'Orbitron', sans-serif;
-    --font-body: 'Hyper2', 'Rajdhani', sans-serif;
+    /* 字体 - 英文使用自定义字体，中文使用系统字体 */
+    --font-display: 'Hyper1', 'Orbitron', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-body: 'Hyper2', 'Rajdhani', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
     --font-time: 'Air', 'Courier New', monospace;
+    --font-chinese: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
     
     /* 动画时间 */
     --transition-fast: 0.2s;
