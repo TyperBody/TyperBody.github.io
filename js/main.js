@@ -88,85 +88,186 @@ function initLightBurst() {
 }
 
 // ==========================================
-// 放射状不规则光线 - 类似激光/能量射线
+// 放射状不规则光线 - 使用 Canvas 绘制弯曲/折线
 // ==========================================
 function initRadialRays() {
     const raysContainer = document.getElementById('radial-rays');
     if (!raysContainer) return;
     
-    // 创建不规则放射光线
+    // 创建 Canvas
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    `;
+    raysContainer.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    let rays = [];
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resize();
+    window.addEventListener('resize', resize);
+    
+    // 光线类型
+    const RayTypes = {
+        STRAIGHT: 0,    // 直线
+        CURVED: 1,      // 弯曲
+        ZIGZAG: 2,      // 折线/闪电
+        WAVY: 3         // 波浪
+    };
+    
+    // 创建一条光线
     function createRay() {
-        const ray = document.createElement('div');
-        ray.className = 'ray';
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const angle = Math.random() * Math.PI * 2;
+        const length = 100 + Math.random() * Math.max(canvas.width, canvas.height) * 0.8;
+        const type = Math.floor(Math.random() * 4);
         
-        // 完全随机角度
-        const angle = Math.random() * 360;
-        // 随机长度 - 有些很长有些很短
-        const length = 20 + Math.random() * 130;
-        // 随机粗细
-        const thickness = 0.5 + Math.random() * 2;
-        // 随机透明度
-        const opacity = 0.05 + Math.random() * 0.4;
+        return {
+            angle: angle,
+            length: length,
+            type: type,
+            thickness: 0.3 + Math.random() * 2,
+            opacity: 0.1 + Math.random() * 0.5,
+            // 弯曲程度
+            curve: (Math.random() - 0.5) * 0.5,
+            // 折线段数
+            segments: 3 + Math.floor(Math.random() * 5),
+            // 波浪频率
+            frequency: 2 + Math.random() * 4,
+            // 波浪振幅
+            amplitude: 5 + Math.random() * 20,
+            // 动画相位
+            phase: Math.random() * Math.PI * 2,
+            // 闪烁速度
+            flickerSpeed: 0.5 + Math.random() * 2,
+            // 是否动态
+            isDynamic: Math.random() > 0.6
+        };
+    }
+    
+    // 初始化光线
+    for (let i = 0; i < 60; i++) {
+        rays.push(createRay());
+    }
+    
+    // 绘制单条光线
+    function drawRay(ray, time) {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
         
-        ray.style.transform = `rotate(${angle}deg)`;
-        ray.style.width = `${length}%`;
-        ray.style.height = `${thickness}px`;
-        ray.style.opacity = opacity;
+        // 动态闪烁
+        let opacity = ray.opacity;
+        if (ray.isDynamic) {
+            opacity *= 0.5 + 0.5 * Math.sin(time * ray.flickerSpeed + ray.phase);
+        }
         
-        // 锐利的激光效果
-        ray.style.background = `linear-gradient(90deg,
-            rgba(255, 255, 255, ${0.8 + Math.random() * 0.2}) 0%,
-            rgba(180, 220, 255, ${0.4 + Math.random() * 0.3}) ${5 + Math.random() * 10}%,
-            rgba(100, 180, 255, ${0.1 + Math.random() * 0.2}) ${20 + Math.random() * 20}%,
-            transparent ${50 + Math.random() * 30}%
-        )`;
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(ray.angle);
+        
+        // 创建渐变
+        const gradient = ctx.createLinearGradient(0, 0, ray.length, 0);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
+        gradient.addColorStop(0.1, `rgba(200, 230, 255, ${opacity * 0.7})`);
+        gradient.addColorStop(0.3, `rgba(100, 180, 255, ${opacity * 0.4})`);
+        gradient.addColorStop(0.6, `rgba(50, 120, 200, ${opacity * 0.1})`);
+        gradient.addColorStop(1, 'transparent');
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = ray.thickness;
+        ctx.lineCap = 'round';
         
         // 发光效果
-        ray.style.boxShadow = `0 0 ${2 + Math.random() * 8}px rgba(150, 200, 255, ${0.3 + Math.random() * 0.4})`;
+        ctx.shadowColor = 'rgba(100, 180, 255, 0.5)';
+        ctx.shadowBlur = 5 + ray.thickness * 2;
         
-        raysContainer.appendChild(ray);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
         
-        return ray;
-    }
-    
-    // 初始创建静态光线 - 主要框架
-    for (let i = 0; i < 40; i++) {
-        const ray = createRay();
-        // 部分光线有脉冲动画
-        if (Math.random() > 0.5) {
-            ray.style.animation = `rayFlicker ${1 + Math.random() * 3}s ease-in-out infinite`;
-            ray.style.animationDelay = `${Math.random() * 3}s`;
+        switch (ray.type) {
+            case RayTypes.STRAIGHT:
+                // 直线
+                ctx.lineTo(ray.length, 0);
+                break;
+                
+            case RayTypes.CURVED:
+                // 贝塞尔曲线 - 弯曲
+                const ctrlX = ray.length * 0.5;
+                const ctrlY = ray.length * ray.curve;
+                ctx.quadraticCurveTo(ctrlX, ctrlY, ray.length, ray.curve * ray.length * 0.3);
+                break;
+                
+            case RayTypes.ZIGZAG:
+                // 折线/闪电效果
+                const segLen = ray.length / ray.segments;
+                for (let i = 1; i <= ray.segments; i++) {
+                    const x = segLen * i;
+                    const y = (Math.random() - 0.5) * 30 * (1 - i / ray.segments);
+                    ctx.lineTo(x, y);
+                }
+                break;
+                
+            case RayTypes.WAVY:
+                // 波浪线
+                for (let x = 0; x <= ray.length; x += 5) {
+                    const y = Math.sin(x / ray.length * ray.frequency * Math.PI + time) * ray.amplitude * (1 - x / ray.length);
+                    ctx.lineTo(x, y);
+                }
+                break;
         }
+        
+        ctx.stroke();
+        ctx.restore();
     }
     
-    // 动态添加闪烁的短光线
-    setInterval(() => {
-        if (Math.random() > 0.3) {
-            const ray = createRay();
-            ray.style.width = `${10 + Math.random() * 40}%`;
-            ray.style.opacity = 0.3 + Math.random() * 0.5;
-            ray.style.animation = 'rayFlash 0.3s ease-out forwards';
+    // 动画循环
+    let lastTime = 0;
+    function animate(currentTime) {
+        const time = currentTime * 0.001;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // 绘制所有光线
+        rays.forEach(ray => drawRay(ray, time));
+        
+        // 随机添加新的闪烁光线
+        if (Math.random() > 0.95) {
+            const flashRay = createRay();
+            flashRay.opacity = 0.5 + Math.random() * 0.5;
+            flashRay.type = Math.floor(Math.random() * 4);
             
-            setTimeout(() => ray.remove(), 300);
+            // 快速闪烁后移除
+            let flashTime = 0;
+            const flashInterval = setInterval(() => {
+                flashTime += 16;
+                flashRay.opacity *= 0.9;
+                if (flashTime > 300) {
+                    clearInterval(flashInterval);
+                }
+            }, 16);
+            
+            rays.push(flashRay);
+            setTimeout(() => {
+                const idx = rays.indexOf(flashRay);
+                if (idx > -1) rays.splice(idx, 1);
+            }, 300);
         }
-    }, 100);
+        
+        requestAnimationFrame(animate);
+    }
     
-    // 添加光线动画样式
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes rayFlicker {
-            0%, 100% { opacity: var(--base-opacity, 0.2); }
-            25% { opacity: calc(var(--base-opacity, 0.2) * 0.5); }
-            50% { opacity: calc(var(--base-opacity, 0.2) * 1.5); }
-            75% { opacity: calc(var(--base-opacity, 0.2) * 0.8); }
-        }
-        @keyframes rayFlash {
-            0% { opacity: 0; transform: rotate(var(--angle)) scaleX(0.5); }
-            30% { opacity: 0.8; }
-            100% { opacity: 0; transform: rotate(var(--angle)) scaleX(1); }
-        }
-    `;
-    document.head.appendChild(style);
+    animate(0);
 }
 
 // ==========================================
