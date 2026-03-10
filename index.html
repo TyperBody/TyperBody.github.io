@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYPERTRANCE BLOG // 超频空间</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 动态背景 -->
+    <div class="bg-container">
+        <div class="grid-lines"></div>
+        <div class="scan-lines"></div>
+        <div class="stars" id="stars"></div>
+        <div class="floating-shapes" id="shapes"></div>
+    </div>
+
+    <!-- 故障效果覆盖层 -->
+    <div class="glitch-overlay"></div>
+
+    <!-- 导航栏 -->
+    <nav class="nav-bar">
+        <div class="nav-logo">
+            <span class="logo-text" data-text="HYPERTRANCE">HYPERTRANCE</span>
+            <span class="logo-sub">// 超频空间</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active" data-text="首页">首页</a>
+            <a href="#articles" class="nav-link" data-text="文章">文章</a>
+            <a href="#about" class="nav-link" data-text="关于">关于</a>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <!-- Hero 区域 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="glitch-text" data-text="欢迎来到超频空间">欢迎来到超频空间</h1>
+                <p class="hero-subtitle">
+                    <span class="typing-text">探索数字边界 // 记录思维火花 // 连接虚拟现实</span>
+                </p>
+                <div class="hero-decoration">
+                    <div class="deco-line"></div>
+                    <span class="deco-icon">◇</span>
+                    <div class="deco-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 文章列表区域 -->
+        <section class="articles-section" id="articles">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">▶</span>
+                    LATEST_POSTS
+                    <span class="title-sub">// 最新文章</span>
+                </h2>
+            </div>
+            <div class="articles-grid" id="articles-grid">
+                <!-- 文章卡片将由 JavaScript 动态生成 -->
+                <div class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <span>LOADING DATA...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于区域 -->
+        <section class="about-section" id="about">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">▶</span>
+                    ABOUT_ME
+                    <span class="title-sub">// 关于我</span>
+                </h2>
+            </div>
+            <div class="about-content">
+                <div class="about-avatar">
+                    <div class="avatar-frame">
+                        <div class="avatar-inner">
+                            <span class="avatar-icon">◈</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p class="about-intro">
+                        这是一个 <span class="highlight">Y2K 风格</span> 的个人博客，
+                        灵感来源于 <span class="highlight">Hypertrance</span> 音乐专辑封面的视觉美学。
+                    </p>
+                    <p class="about-desc">
+                        在这个数字空间里，我记录技术探索、创意想法和生活感悟。
+                        欢迎来到超频空间，让我们一起穿越赛博边界。
+                    </p>
+                    <div class="about-links">
+                        <a href="https://github.com" class="social-link" target="_blank">
+                            <span class="link-icon">◆</span> GitHub
+                        </a>
+                        <a href="https://twitter.com" class="social-link" target="_blank">
+                            <span class="link-icon">◆</span> Twitter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">HYPERTRANCE BLOG</div>
+            <div class="footer-info">
+                <span>© 2024 超频空间</span>
+                <span class="separator">|</span>
+                <span>Powered by GitHub Pages</span>
+            </div>
+        </div>
+        <div class="footer-decoration">
+            <div class="footer-line"></div>
+        </div>
+    </footer>
+
+    <!-- 鼠标跟随效果 -->
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

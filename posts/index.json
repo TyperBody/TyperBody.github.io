@@ -1,0 +1,23 @@
+[
+    {
+        "id": "welcome-to-hypertrance",
+        "title": "欢迎来到超频空间",
+        "date": "2024-01-15",
+        "excerpt": "这是我的第一篇博客文章，介绍这个 Y2K 风格的个人博客是如何诞生的，以及它的设计理念和技术实现。",
+        "tags": ["博客", "Y2K", "Hypertrance"]
+    },
+    {
+        "id": "y2k-design-aesthetics",
+        "title": "Y2K 设计美学：未来已来",
+        "date": "2024-01-20",
+        "excerpt": "探索 Y2K 设计美学的核心元素，从霓虹色彩到网格线条，了解这个千禧年风格是如何影响当代设计的。",
+        "tags": ["设计", "Y2K", "美学"]
+    },
+    {
+        "id": "markdown-tutorial",
+        "title": "Markdown 写作指南",
+        "date": "2024-01-25",
+        "excerpt": "学习如何使用 Markdown 语法为博客撰写文章，包括标题、列表、代码块、图片等常用格式的使用方法。",
+        "tags": ["教程", "Markdown", "写作"]
+    }
+]

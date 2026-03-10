@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "dev": "hexo server",
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "debug": "hexo generate --debug"
-  }
-}
