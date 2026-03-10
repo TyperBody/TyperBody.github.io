@@ -16,6 +16,9 @@ const CONFIG = {
 // 初始化
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    initLightBurst();
+    initRadialRays();
+    initInterferenceLines();
     initStars();
     initMeteors();
     initFloatingShapes();
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlitchEffect();
     initSmoothScroll();
     initParallax();
+    initNavbarScroll();
     
     // 根据页面类型加载内容
     if (document.getElementById('articles-grid')) {
@@ -38,6 +42,117 @@ document.addEventListener('DOMContentLoaded', () => {
         loadArticleContent();
     }
 });
+
+// ==========================================
+// 导航栏滚动显示
+// ==========================================
+function initNavbarScroll() {
+    const navbar = document.getElementById('navbar');
+    const heroSection = document.querySelector('.hero-fullpage');
+    
+    if (!navbar || !heroSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Hero 可见时隐藏导航栏
+                navbar.classList.add('nav-hidden');
+                navbar.classList.remove('nav-visible');
+            } else {
+                // Hero 不可见时显示导航栏
+                navbar.classList.remove('nav-hidden');
+                navbar.classList.add('nav-visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    observer.observe(heroSection);
+}
+
+// ==========================================
+// 中心爆发光源初始化
+// ==========================================
+function initLightBurst() {
+    const lightCore = document.querySelector('.light-core');
+    if (!lightCore) return;
+    
+    // 随机微小位置变化，增加动态感
+    setInterval(() => {
+        const offsetX = (Math.random() - 0.5) * 4;
+        const offsetY = (Math.random() - 0.5) * 4;
+        lightCore.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+    }, 100);
+}
+
+// ==========================================
+// 放射状光线
+// ==========================================
+function initRadialRays() {
+    const raysContainer = document.getElementById('radial-rays');
+    if (!raysContainer) return;
+    
+    // 创建多条放射光线
+    const rayCount = 24;
+    
+    for (let i = 0; i < rayCount; i++) {
+        const ray = document.createElement('div');
+        ray.className = 'ray';
+        
+        const angle = (i / rayCount) * 360;
+        const length = 50 + Math.random() * 100;
+        const opacity = 0.1 + Math.random() * 0.3;
+        
+        ray.style.transform = `rotate(${angle}deg)`;
+        ray.style.width = `${length}%`;
+        ray.style.opacity = opacity;
+        ray.style.animation = `rayPulse ${2 + Math.random() * 3}s ease-in-out infinite`;
+        ray.style.animationDelay = `${Math.random() * 2}s`;
+        
+        raysContainer.appendChild(ray);
+    }
+    
+    // 添加光线脉冲动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes rayPulse {
+            0%, 100% { opacity: var(--ray-opacity, 0.2); }
+            50% { opacity: calc(var(--ray-opacity, 0.2) * 1.5); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ==========================================
+// 电子干扰线
+// ==========================================
+function initInterferenceLines() {
+    const container = document.getElementById('interference-lines');
+    if (!container) return;
+    
+    function createInterferenceLine() {
+        const line = document.createElement('div');
+        line.className = 'interference-line';
+        
+        line.style.top = `${Math.random() * 100}%`;
+        line.style.width = `${30 + Math.random() * 70}%`;
+        line.style.setProperty('--duration', `${2 + Math.random() * 4}s`);
+        
+        container.appendChild(line);
+        
+        setTimeout(() => {
+            line.remove();
+        }, 6000);
+    }
+    
+    // 定期创建干扰线
+    setInterval(() => {
+        if (Math.random() > 0.6) {
+            createInterferenceLine();
+        }
+    }, 500);
+}
 
 // ==========================================
 // 二进制代码雨效果

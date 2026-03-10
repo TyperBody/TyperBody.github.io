@@ -66,11 +66,11 @@
     --gradient-blue: linear-gradient(135deg, #0a1525 0%, #1565a0 100%);
     --gradient-glow: linear-gradient(135deg, #152540 0%, #1565a0 50%, #304060 100%);
     
-    /* 字体 - 英文使用自定义字体，中文使用系统字体 */
-    --font-display: 'Hyper1', 'Orbitron', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    --font-body: 'Hyper2', 'Rajdhani', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    --font-time: 'Air', 'Courier New', monospace;
-    --font-chinese: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+    /* 字体 - 英文使用自定义字体，中文使用 Noto Sans SC */
+    --font-display: 'Hyper1', sans-serif;
+    --font-body: 'Hyper2', sans-serif;
+    --font-time: 'Air', monospace;
+    --font-chinese: 'Noto Sans SC', sans-serif;
     
     /* 动画时间 */
     --transition-fast: 0.2s;
@@ -101,7 +101,7 @@ body {
 }
 
 /* ==========================================
-   动态背景 - 宇宙深空风格
+   动态背景 - 宇宙深空风格 + 中心爆发光源
    ========================================== */
 .bg-container {
     position: fixed;
@@ -111,7 +111,209 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: var(--bg-gradient);
+    background: radial-gradient(ellipse at center, #020408 0%, #010203 30%, #000001 100%);
+}
+
+/* ==========================================
+   中心爆发光源 - 核心效果
+   ========================================== */
+.light-burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* 核心光点 */
+.light-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow:
+        0 0 20px 10px rgba(255, 255, 255, 0.9),
+        0 0 40px 20px rgba(200, 230, 255, 0.7),
+        0 0 80px 40px rgba(100, 180, 255, 0.5),
+        0 0 120px 60px rgba(50, 150, 255, 0.3),
+        0 0 200px 100px rgba(20, 100, 200, 0.2);
+    animation: corePulse 4s ease-in-out infinite;
+}
+
+@keyframes corePulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow:
+            0 0 20px 10px rgba(255, 255, 255, 0.9),
+            0 0 40px 20px rgba(200, 230, 255, 0.7),
+            0 0 80px 40px rgba(100, 180, 255, 0.5),
+            0 0 120px 60px rgba(50, 150, 255, 0.3),
+            0 0 200px 100px rgba(20, 100, 200, 0.2);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow:
+            0 0 30px 15px rgba(255, 255, 255, 1),
+            0 0 60px 30px rgba(200, 230, 255, 0.8),
+            0 0 100px 50px rgba(100, 180, 255, 0.6),
+            0 0 150px 75px rgba(50, 150, 255, 0.4),
+            0 0 250px 125px rgba(20, 100, 200, 0.3);
+    }
+}
+
+/* 十字星光芒 - 水平 */
+.cross-beam-h {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg,
+        transparent 0%,
+        transparent 30%,
+        rgba(100, 180, 255, 0.1) 40%,
+        rgba(200, 230, 255, 0.5) 48%,
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(200, 230, 255, 0.5) 52%,
+        rgba(100, 180, 255, 0.1) 60%,
+        transparent 70%,
+        transparent 100%
+    );
+    box-shadow: 0 0 30px 5px rgba(100, 180, 255, 0.3);
+    animation: beamPulse 3s ease-in-out infinite;
+}
+
+/* 十字星光芒 - 垂直 */
+.cross-beam-v {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg,
+        transparent 0%,
+        transparent 30%,
+        rgba(100, 180, 255, 0.1) 40%,
+        rgba(200, 230, 255, 0.5) 48%,
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(200, 230, 255, 0.5) 52%,
+        rgba(100, 180, 255, 0.1) 60%,
+        transparent 70%,
+        transparent 100%
+    );
+    box-shadow: 0 0 30px 5px rgba(100, 180, 255, 0.3);
+    animation: beamPulse 3s ease-in-out infinite 0.5s;
+}
+
+/* 对角光束 */
+.diagonal-beam {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 1px;
+    transform-origin: center;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        transparent 35%,
+        rgba(80, 150, 220, 0.05) 42%,
+        rgba(150, 200, 255, 0.3) 48%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(150, 200, 255, 0.3) 52%,
+        rgba(80, 150, 220, 0.05) 58%,
+        transparent 65%,
+        transparent 100%
+    );
+    animation: beamPulse 4s ease-in-out infinite;
+}
+
+.diagonal-beam:nth-child(1) { transform: translate(-50%, -50%) rotate(45deg); animation-delay: 0s; }
+.diagonal-beam:nth-child(2) { transform: translate(-50%, -50%) rotate(-45deg); animation-delay: 0.5s; }
+.diagonal-beam:nth-child(3) { transform: translate(-50%, -50%) rotate(22.5deg); animation-delay: 1s; }
+.diagonal-beam:nth-child(4) { transform: translate(-50%, -50%) rotate(-22.5deg); animation-delay: 1.5s; }
+.diagonal-beam:nth-child(5) { transform: translate(-50%, -50%) rotate(67.5deg); animation-delay: 2s; }
+.diagonal-beam:nth-child(6) { transform: translate(-50%, -50%) rotate(-67.5deg); animation-delay: 2.5s; }
+
+@keyframes beamPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* 放射状光线容器 */
+.radial-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+/* 单条放射光线 */
+.ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 1px;
+    transform-origin: left center;
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(150, 200, 255, 0.4) 10%,
+        rgba(80, 150, 220, 0.1) 30%,
+        transparent 60%
+    );
+}
+
+/* 噪点/颗粒感叠加 */
+.noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* 电子干扰细线 */
+.interference-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.1;
+}
+
+.interference-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(100, 180, 255, 0.5) 20%,
+        rgba(150, 200, 255, 0.8) 50%,
+        rgba(100, 180, 255, 0.5) 80%,
+        transparent 100%
+    );
+    animation: interferenceMove var(--duration) linear infinite;
+}
+
+@keyframes interferenceMove {
+    0% { transform: translateX(-100%); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
 }
 
 /* 网格线 - 银色透明 */
@@ -618,13 +820,179 @@ body {
 /* ==========================================
    主内容区
    ========================================== */
+
+/* ==========================================
+   首页全屏 Hero - 独占一页
+   ========================================== */
+.hero-fullpage {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-center {
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 400;
+    color: var(--chrome-silver);
+    letter-spacing: 20px;
+    text-transform: uppercase;
+    position: relative;
+    text-shadow:
+        0 0 40px rgba(21, 101, 160, 0.5),
+        0 0 80px rgba(21, 101, 160, 0.3),
+        0 0 120px rgba(21, 101, 160, 0.2);
+    animation: heroGlow 4s ease-in-out infinite;
+}
+
+@keyframes heroGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 40px rgba(21, 101, 160, 0.5),
+            0 0 80px rgba(21, 101, 160, 0.3);
+        opacity: 0.9;
+    }
+    50% {
+        text-shadow:
+            0 0 60px rgba(21, 101, 160, 0.7),
+            0 0 100px rgba(21, 101, 160, 0.5),
+            0 0 140px rgba(21, 101, 160, 0.3);
+        opacity: 1;
+    }
+}
+
+.hero-cn-title {
+    font-family: var(--font-chinese);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 100;
+    color: var(--metallic);
+    letter-spacing: 30px;
+    margin-top: 30px;
+    text-shadow: 0 0 30px rgba(21, 101, 160, 0.3);
+}
+
+.hero-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-accent), transparent);
+    margin: 40px auto;
+    opacity: 0.5;
+}
+
+.hero-tagline {
+    font-family: var(--font-time);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+}
+
+/* 滚动提示 */
+.scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-text {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.scroll-arrow {
+    color: var(--neon-accent);
+    font-size: 1rem;
+    opacity: 0.5;
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ==========================================
+   导航栏 - 滚动后显示
+   ========================================== */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(1, 2, 3, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(64, 80, 96, 0.2);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.nav-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.logo-text {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--chrome-silver);
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(21, 101, 160, 0.5);
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-link {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--neon-accent);
+    text-shadow: 0 0 15px rgba(21, 101, 160, 0.5);
+}
+
+/* ==========================================
+   主内容区
+   ========================================== */
 .main-content {
     position: relative;
     z-index: 1;
-    padding-top: 100px;
+    padding-top: 0;
 }
 
-/* Hero 区域 */
+/* 旧版 Hero 样式保留兼容 */
 .hero-section {
     min-height: 60vh;
     display: flex;
