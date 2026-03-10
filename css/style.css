@@ -1,7 +1,31 @@
 /* ==========================================
    HYPERTRANCE Y2K STYLE - 超频空间
-   深蓝 + 银色金属风格
+   深蓝 + 银色金属风格 + 二进制 + 时间
    ========================================== */
+
+/* ==========================================
+   自定义字体
+   ========================================== */
+@font-face {
+    font-family: 'Air';
+    src: url('../fonts/air.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hyper1';
+    src: url('../fonts/hyper1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Hyper2';
+    src: url('../fonts/hyper2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 :root {
     /* 深蓝色调 */
@@ -43,8 +67,9 @@
     --gradient-glow: linear-gradient(135deg, #5e8fff 0%, #00d4ff 50%, #8090ff 100%);
     
     /* 字体 */
-    --font-display: 'Orbitron', sans-serif;
-    --font-body: 'Rajdhani', sans-serif;
+    --font-display: 'Hyper1', 'Orbitron', sans-serif;
+    --font-body: 'Hyper2', 'Rajdhani', sans-serif;
+    --font-time: 'Air', 'Courier New', monospace;
     
     /* 动画时间 */
     --transition-fast: 0.2s;
@@ -160,6 +185,112 @@ body {
     }
 }
 
+/* ==========================================
+   二进制代码流 - 核心效果
+   ========================================== */
+.binary-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.binary-column {
+    position: absolute;
+    top: -100%;
+    font-family: var(--font-time);
+    font-size: 14px;
+    color: var(--neon-accent);
+    text-shadow: 0 0 10px var(--neon-accent);
+    opacity: 0.6;
+    writing-mode: vertical-rl;
+    animation: binaryFall var(--duration) linear infinite;
+    letter-spacing: 5px;
+}
+
+@keyframes binaryFall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(200vh);
+    }
+}
+
+.binary-char {
+    display: inline-block;
+    animation: binaryGlitch 0.5s ease-in-out infinite;
+}
+
+@keyframes binaryGlitch {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ==========================================
+   飞速时间显示
+   ========================================== */
+.time-display-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.flying-time {
+    position: absolute;
+    font-family: var(--font-time);
+    font-size: clamp(40px, 8vw, 120px);
+    color: rgba(192, 199, 214, 0.15);
+    text-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.3),
+        0 0 40px rgba(0, 212, 255, 0.2);
+    white-space: nowrap;
+    animation: timeFly var(--duration) linear infinite;
+    letter-spacing: 10px;
+}
+
+@keyframes timeFly {
+    0% {
+        transform: translateX(100vw) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(-100vw) scale(1.2);
+        opacity: 0;
+    }
+}
+
+.time-static {
+    position: fixed;
+    top: 20px;
+    right: 40px;
+    font-family: var(--font-time);
+    font-size: 2.5rem;
+    color: var(--chrome-silver);
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    z-index: 100;
+    letter-spacing: 5px;
+    opacity: 0.8;
+}
+
+.time-static .separator {
+    animation: blinkSeparator 1s step-end infinite;
+}
+
+@keyframes blinkSeparator {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 /* 流星效果 */
 .meteor {
     position: absolute;
@@ -233,6 +364,35 @@ body {
     }
     100% {
         transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* 数据流线条 */
+.data-stream {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--neon-accent) 20%,
+        var(--chrome-silver) 50%,
+        var(--neon-accent) 80%,
+        transparent 100%
+    );
+    animation: dataFlow var(--duration) linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes dataFlow {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(100vw);
         opacity: 0;
     }
 }
@@ -353,6 +513,7 @@ body {
 }
 
 .logo-sub {
+    font-family: var(--font-time);
     font-size: 0.75rem;
     color: var(--text-muted);
     letter-spacing: 4px;
@@ -497,6 +658,7 @@ body {
 
 .hero-subtitle {
     margin-top: 25px;
+    font-family: var(--font-time);
     font-size: 1.1rem;
     color: var(--text-secondary);
     letter-spacing: 3px;
@@ -567,6 +729,7 @@ body {
 }
 
 .title-sub {
+    font-family: var(--font-time);
     font-size: 0.8rem;
     color: var(--text-muted);
     font-weight: 400;
@@ -721,7 +884,7 @@ body {
 }
 
 .card-date {
-    font-family: var(--font-display);
+    font-family: var(--font-time);
     font-size: 0.7rem;
     color: var(--neon-accent);
     letter-spacing: 3px;
@@ -964,6 +1127,7 @@ body {
 }
 
 .footer-info {
+    font-family: var(--font-time);
     font-size: 0.85rem;
     color: var(--text-muted);
     letter-spacing: 1px;
@@ -1009,7 +1173,7 @@ body {
     justify-content: center;
     gap: 25px;
     margin-bottom: 25px;
-    font-family: var(--font-display);
+    font-family: var(--font-time);
     font-size: 0.8rem;
     color: var(--text-muted);
     letter-spacing: 2px;
@@ -1080,7 +1244,7 @@ body {
 }
 
 .article-body code {
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-time);
     background: rgba(0, 212, 255, 0.1);
     padding: 3px 10px;
     border-radius: 4px;
@@ -1171,6 +1335,13 @@ body {
     
     .nav-links {
         gap: 25px;
+    }
+    
+    .time-static {
+        font-size: 1.5rem;
+        top: auto;
+        bottom: 20px;
+        right: 20px;
     }
     
     .articles-grid {

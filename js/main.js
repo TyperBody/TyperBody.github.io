@@ -1,7 +1,7 @@
 /**
  * HYPERTRANCE BLOG - 超频空间
  * Y2K Style Personal Blog JavaScript
- * 深蓝 + 银色金属风格
+ * 深蓝 + 银色金属风格 + 二进制流 + 飞速时间
  */
 
 // ==========================================
@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initMeteors();
     initFloatingShapes();
     initLightRings();
+    initBinaryRain();
+    initFlyingTime();
+    initStaticTime();
+    initDataStreams();
     initCursorGlow();
     initGlitchEffect();
     initSmoothScroll();
@@ -34,6 +38,189 @@ document.addEventListener('DOMContentLoaded', () => {
         loadArticleContent();
     }
 });
+
+// ==========================================
+// 二进制代码雨效果
+// ==========================================
+function initBinaryRain() {
+    const bgContainer = document.querySelector('.bg-container');
+    if (!bgContainer) return;
+    
+    // 创建二进制容器
+    const binaryContainer = document.createElement('div');
+    binaryContainer.className = 'binary-container';
+    bgContainer.appendChild(binaryContainer);
+    
+    const columnCount = Math.floor(window.innerWidth / 50);
+    
+    function createBinaryColumn() {
+        const column = document.createElement('div');
+        column.className = 'binary-column';
+        
+        // 生成随机二进制字符串
+        const length = 20 + Math.floor(Math.random() * 30);
+        let binaryStr = '';
+        for (let i = 0; i < length; i++) {
+            binaryStr += Math.random() > 0.5 ? '1' : '0';
+        }
+        
+        column.textContent = binaryStr;
+        column.style.left = `${Math.random() * 100}%`;
+        column.style.setProperty('--duration', `${8 + Math.random() * 12}s`);
+        column.style.animationDelay = `${Math.random() * 10}s`;
+        column.style.opacity = 0.3 + Math.random() * 0.4;
+        column.style.fontSize = `${10 + Math.random() * 8}px`;
+        
+        binaryContainer.appendChild(column);
+        
+        // 动态更新二进制内容
+        const updateInterval = setInterval(() => {
+            let newStr = '';
+            for (let i = 0; i < length; i++) {
+                newStr += Math.random() > 0.5 ? '1' : '0';
+            }
+            column.textContent = newStr;
+        }, 100 + Math.random() * 200);
+        
+        // 动画结束后重新创建
+        setTimeout(() => {
+            clearInterval(updateInterval);
+            column.remove();
+            createBinaryColumn();
+        }, (8 + Math.random() * 12) * 1000);
+    }
+    
+    // 初始创建多个列
+    for (let i = 0; i < columnCount; i++) {
+        setTimeout(() => createBinaryColumn(), i * 200);
+    }
+}
+
+// ==========================================
+// 飞速时间效果
+// ==========================================
+function initFlyingTime() {
+    const bgContainer = document.querySelector('.bg-container');
+    if (!bgContainer) return;
+    
+    // 创建时间显示容器
+    const timeContainer = document.createElement('div');
+    timeContainer.className = 'time-display-container';
+    bgContainer.appendChild(timeContainer);
+    
+    function createFlyingTime() {
+        const timeElement = document.createElement('div');
+        timeElement.className = 'flying-time';
+        
+        // 生成随机时间格式
+        const formats = [
+            () => {
+                const h = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+                const m = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                const s = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                return `${h}:${m}:${s}`;
+            },
+            () => {
+                const h = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+                const m = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                return `${h}:${m}`;
+            },
+            () => {
+                const ms = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+                return `00:${ms}`;
+            },
+            () => {
+                const year = 1999 + Math.floor(Math.random() * 30);
+                return `${year}`;
+            },
+            () => {
+                const timestamp = Date.now() - Math.floor(Math.random() * 1000000000);
+                return timestamp.toString().slice(-8);
+            }
+        ];
+        
+        const formatFn = formats[Math.floor(Math.random() * formats.length)];
+        timeElement.textContent = formatFn();
+        
+        // 随机位置和大小
+        timeElement.style.top = `${10 + Math.random() * 70}%`;
+        timeElement.style.setProperty('--duration', `${4 + Math.random() * 6}s`);
+        timeElement.style.fontSize = `${30 + Math.random() * 90}px`;
+        timeElement.style.opacity = 0.1 + Math.random() * 0.2;
+        
+        timeContainer.appendChild(timeElement);
+        
+        // 快速更新时间显示
+        const updateInterval = setInterval(() => {
+            timeElement.textContent = formatFn();
+        }, 50 + Math.random() * 100);
+        
+        // 动画结束后移除
+        setTimeout(() => {
+            clearInterval(updateInterval);
+            timeElement.remove();
+        }, 10000);
+    }
+    
+    // 定期创建新的飞行时间
+    setInterval(createFlyingTime, 1500);
+    
+    // 初始创建几个
+    for (let i = 0; i < 3; i++) {
+        setTimeout(createFlyingTime, i * 500);
+    }
+}
+
+// ==========================================
+// 静态时间显示（右上角）
+// ==========================================
+function initStaticTime() {
+    const timeStatic = document.createElement('div');
+    timeStatic.className = 'time-static';
+    document.body.appendChild(timeStatic);
+    
+    function updateTime() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+        
+        timeStatic.innerHTML = `${h}<span class="separator">:</span>${m}<span class="separator">:</span>${s}<span class="ms">.${ms}</span>`;
+    }
+    
+    updateTime();
+    setInterval(updateTime, 10);
+}
+
+// ==========================================
+// 数据流线条
+// ==========================================
+function initDataStreams() {
+    const bgContainer = document.querySelector('.bg-container');
+    if (!bgContainer) return;
+    
+    function createDataStream() {
+        const stream = document.createElement('div');
+        stream.className = 'data-stream';
+        
+        stream.style.top = `${Math.random() * 100}%`;
+        stream.style.width = `${100 + Math.random() * 300}px`;
+        stream.style.setProperty('--duration', `${2 + Math.random() * 4}s`);
+        
+        bgContainer.appendChild(stream);
+        
+        setTimeout(() => {
+            stream.remove();
+        }, 6000);
+    }
+    
+    setInterval(() => {
+        if (Math.random() > 0.5) {
+            createDataStream();
+        }
+    }, 500);
+}
 
 // ==========================================
 // 星星背景 - 深空效果
@@ -81,13 +268,11 @@ function initMeteors() {
         
         starsContainer.appendChild(meteor);
         
-        // 动画结束后移除
         setTimeout(() => {
             meteor.remove();
         }, 4000);
     }
     
-    // 随机创建流星
     setInterval(() => {
         if (Math.random() > 0.7) {
             createMeteor();
@@ -102,19 +287,17 @@ function initFloatingShapes() {
     const shapesContainer = document.getElementById('shapes');
     if (!shapesContainer) return;
     
-    // 几何形状 - 更加Y2K风格
     const shapes = [
         '◇', '○', '△', '□', '◈', '✦', '⬡', '⬢', 
         '◯', '◭', '⟐', '⌬', '⏣', '⎔'
     ];
     
-    // 银色/蓝色色调
     const colors = [
         '#c0c7d6', '#e8edf5', '#9aa5bb', 
         '#5e8fff', '#00d4ff', '#3a5fff'
     ];
     
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
         const shape = document.createElement('div');
         shape.className = 'floating-shape';
         shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
@@ -153,14 +336,12 @@ function initLightRings() {
         }, 6000);
     }
     
-    // 定期创建光环
     setInterval(() => {
         if (Math.random() > 0.5) {
             createRing();
         }
     }, 3000);
     
-    // 初始创建几个
     for (let i = 0; i < 3; i++) {
         setTimeout(createRing, i * 1000);
     }
@@ -184,7 +365,6 @@ function initCursorGlow() {
     });
     
     function animateGlow() {
-        // 平滑跟随
         glowX += (mouseX - glowX) * 0.08;
         glowY += (mouseY - glowY) * 0.08;
         
@@ -195,15 +375,6 @@ function initCursorGlow() {
     }
     
     animateGlow();
-    
-    // 鼠标进入/离开时改变透明度
-    document.addEventListener('mouseenter', () => {
-        cursorGlow.style.opacity = '1';
-    });
-    
-    document.addEventListener('mouseleave', () => {
-        cursorGlow.style.opacity = '0.5';
-    });
 }
 
 // ==========================================
@@ -216,8 +387,6 @@ function initGlitchEffect() {
     setInterval(() => {
         if (Math.random() > 0.92) {
             overlay.classList.add('glitch-active');
-            
-            // 添加屏幕抖动效果
             document.body.style.transform = `translate(${(Math.random() - 0.5) * 4}px, ${(Math.random() - 0.5) * 4}px)`;
             
             setTimeout(() => {
@@ -251,7 +420,6 @@ function initSmoothScroll() {
 // ==========================================
 function initParallax() {
     const shapes = document.querySelectorAll('.floating-shape');
-    const stars = document.querySelectorAll('.star');
     
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
@@ -275,19 +443,14 @@ async function loadArticles() {
         
         const articles = await response.json();
         
-        // 清除加载动画
         grid.innerHTML = '';
-        
-        // 按日期排序（最新在前）
         articles.sort((a, b) => new Date(b.date) - new Date(a.date));
         
-        // 生成文章卡片
         articles.forEach((article, index) => {
             const card = createArticleCard(article, index);
             grid.appendChild(card);
         });
         
-        // 添加卡片入场动画
         animateCards();
         
     } catch (error) {
@@ -309,7 +472,6 @@ function createArticleCard(article, index) {
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
     
-    // Y2K 风格图标
     const icons = ['◇', '◈', '✦', '⬡', '⟐', '⏣', '⎔', '◭'];
     const icon = icons[index % icons.length];
     
@@ -359,7 +521,6 @@ async function loadArticleContent() {
     const dateElement = document.getElementById('article-date');
     const tagsContainer = document.getElementById('article-tags');
     
-    // 从 URL 获取文章 ID
     const urlParams = new URLSearchParams(window.location.search);
     const articleId = urlParams.get('id');
     
@@ -369,7 +530,6 @@ async function loadArticleContent() {
     }
     
     try {
-        // 加载文章索引获取元数据
         const indexResponse = await fetch(CONFIG.articlesIndex);
         const articles = await indexResponse.json();
         const articleMeta = articles.find(a => a.id === articleId);
@@ -378,7 +538,6 @@ async function loadArticleContent() {
             throw new Error('Article not found');
         }
         
-        // 更新页面元数据
         if (titleElement) titleElement.textContent = articleMeta.title;
         if (dateElement) dateElement.textContent = formatDate(articleMeta.date);
         if (tagsContainer && articleMeta.tags) {
@@ -387,20 +546,15 @@ async function loadArticleContent() {
                 .join('');
         }
         
-        // 更新页面标题
         document.title = `${articleMeta.title} | HYPERTRANCE BLOG`;
         
-        // 加载 Markdown 文件
         const mdResponse = await fetch(`${CONFIG.articlesPath}${articleId}.md`);
         if (!mdResponse.ok) throw new Error('Failed to load article content');
         
         const markdown = await mdResponse.text();
-        
-        // 解析 Markdown
         const html = marked.parse(markdown);
         contentContainer.innerHTML = html;
         
-        // 添加内容入场动画
         contentContainer.style.opacity = '0';
         contentContainer.style.transform = 'translateY(20px)';
         
