@@ -1,6 +1,7 @@
 /**
  * HYPERTRANCE BLOG - 超频空间
  * Y2K Style Personal Blog JavaScript
+ * 深蓝 + 银色金属风格
  */
 
 // ==========================================
@@ -16,10 +17,13 @@ const CONFIG = {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     initStars();
+    initMeteors();
     initFloatingShapes();
+    initLightRings();
     initCursorGlow();
     initGlitchEffect();
     initSmoothScroll();
+    initParallax();
     
     // 根据页面类型加载内容
     if (document.getElementById('articles-grid')) {
@@ -32,58 +36,147 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 星星背景
+// 星星背景 - 深空效果
 // ==========================================
 function initStars() {
     const starsContainer = document.getElementById('stars');
     if (!starsContainer) return;
     
-    const starCount = 100;
+    const starCount = 150;
     
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.className = 'star';
+        
+        const size = Math.random() * 3 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
         star.style.left = `${Math.random() * 100}%`;
         star.style.top = `${Math.random() * 100}%`;
-        star.style.setProperty('--duration', `${2 + Math.random() * 3}s`);
-        star.style.animationDelay = `${Math.random() * 2}s`;
+        star.style.setProperty('--duration', `${2 + Math.random() * 4}s`);
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        
+        // 随机颜色 - 银白色为主，偶尔有淡蓝色
+        const colors = ['#e8edf5', '#c0c7d6', '#5e8fff', '#00d4ff'];
+        const colorIndex = Math.random() > 0.8 ? Math.floor(Math.random() * 4) : 0;
+        star.style.background = `radial-gradient(circle, ${colors[colorIndex]} 0%, transparent 70%)`;
+        
         starsContainer.appendChild(star);
     }
 }
 
 // ==========================================
-// 漂浮形状
+// 流星效果
+// ==========================================
+function initMeteors() {
+    const starsContainer = document.getElementById('stars');
+    if (!starsContainer) return;
+    
+    function createMeteor() {
+        const meteor = document.createElement('div');
+        meteor.className = 'meteor';
+        meteor.style.left = `${20 + Math.random() * 60}%`;
+        meteor.style.top = '-100px';
+        meteor.style.setProperty('--duration', `${1.5 + Math.random() * 2}s`);
+        
+        starsContainer.appendChild(meteor);
+        
+        // 动画结束后移除
+        setTimeout(() => {
+            meteor.remove();
+        }, 4000);
+    }
+    
+    // 随机创建流星
+    setInterval(() => {
+        if (Math.random() > 0.7) {
+            createMeteor();
+        }
+    }, 2000);
+}
+
+// ==========================================
+// 漂浮形状 - 金属质感几何
 // ==========================================
 function initFloatingShapes() {
     const shapesContainer = document.getElementById('shapes');
     if (!shapesContainer) return;
     
-    const shapes = ['◇', '○', '△', '□', '◈', '✦'];
-    const colors = ['#ff00ff', '#00ffff', '#8000ff', '#ff1493', '#00ff80'];
+    // 几何形状 - 更加Y2K风格
+    const shapes = [
+        '◇', '○', '△', '□', '◈', '✦', '⬡', '⬢', 
+        '◯', '◭', '⟐', '⌬', '⏣', '⎔'
+    ];
     
-    for (let i = 0; i < 15; i++) {
+    // 银色/蓝色色调
+    const colors = [
+        '#c0c7d6', '#e8edf5', '#9aa5bb', 
+        '#5e8fff', '#00d4ff', '#3a5fff'
+    ];
+    
+    for (let i = 0; i < 20; i++) {
         const shape = document.createElement('div');
         shape.className = 'floating-shape';
         shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
         shape.style.left = `${Math.random() * 100}%`;
         shape.style.top = `${Math.random() * 100}%`;
-        shape.style.fontSize = `${20 + Math.random() * 40}px`;
+        shape.style.fontSize = `${15 + Math.random() * 35}px`;
         shape.style.color = colors[Math.floor(Math.random() * colors.length)];
-        shape.style.setProperty('--duration', `${5 + Math.random() * 10}s`);
-        shape.style.animationDelay = `${Math.random() * 5}s`;
+        shape.style.setProperty('--duration', `${8 + Math.random() * 15}s`);
+        shape.style.animationDelay = `${Math.random() * 8}s`;
         shapesContainer.appendChild(shape);
     }
 }
 
 // ==========================================
-// 鼠标跟随发光效果
+// 光环脉冲效果
+// ==========================================
+function initLightRings() {
+    const shapesContainer = document.getElementById('shapes');
+    if (!shapesContainer) return;
+    
+    function createRing() {
+        const ring = document.createElement('div');
+        ring.className = 'light-ring';
+        
+        const size = 100 + Math.random() * 200;
+        ring.style.width = `${size}px`;
+        ring.style.height = `${size}px`;
+        ring.style.left = `${Math.random() * 100}%`;
+        ring.style.top = `${Math.random() * 100}%`;
+        ring.style.setProperty('--duration', `${3 + Math.random() * 3}s`);
+        
+        shapesContainer.appendChild(ring);
+        
+        setTimeout(() => {
+            ring.remove();
+        }, 6000);
+    }
+    
+    // 定期创建光环
+    setInterval(() => {
+        if (Math.random() > 0.5) {
+            createRing();
+        }
+    }, 3000);
+    
+    // 初始创建几个
+    for (let i = 0; i < 3; i++) {
+        setTimeout(createRing, i * 1000);
+    }
+}
+
+// ==========================================
+// 鼠标跟随发光效果 - 冰蓝色
 // ==========================================
 function initCursorGlow() {
     const cursorGlow = document.getElementById('cursor-glow');
     if (!cursorGlow) return;
     
-    let mouseX = 0, mouseY = 0;
-    let glowX = 0, glowY = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let glowX = mouseX;
+    let glowY = mouseY;
     
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -91,8 +184,9 @@ function initCursorGlow() {
     });
     
     function animateGlow() {
-        glowX += (mouseX - glowX) * 0.1;
-        glowY += (mouseY - glowY) * 0.1;
+        // 平滑跟随
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
         
         cursorGlow.style.left = `${glowX}px`;
         cursorGlow.style.top = `${glowY}px`;
@@ -101,6 +195,15 @@ function initCursorGlow() {
     }
     
     animateGlow();
+    
+    // 鼠标进入/离开时改变透明度
+    document.addEventListener('mouseenter', () => {
+        cursorGlow.style.opacity = '1';
+    });
+    
+    document.addEventListener('mouseleave', () => {
+        cursorGlow.style.opacity = '0.5';
+    });
 }
 
 // ==========================================
@@ -111,13 +214,18 @@ function initGlitchEffect() {
     if (!overlay) return;
     
     setInterval(() => {
-        if (Math.random() > 0.95) {
+        if (Math.random() > 0.92) {
             overlay.classList.add('glitch-active');
+            
+            // 添加屏幕抖动效果
+            document.body.style.transform = `translate(${(Math.random() - 0.5) * 4}px, ${(Math.random() - 0.5) * 4}px)`;
+            
             setTimeout(() => {
                 overlay.classList.remove('glitch-active');
-            }, 100);
+                document.body.style.transform = '';
+            }, 150);
         }
-    }, 500);
+    }, 800);
 }
 
 // ==========================================
@@ -134,6 +242,23 @@ function initSmoothScroll() {
                     block: 'start'
                 });
             }
+        });
+    });
+}
+
+// ==========================================
+// 视差滚动效果
+// ==========================================
+function initParallax() {
+    const shapes = document.querySelectorAll('.floating-shape');
+    const stars = document.querySelectorAll('.star');
+    
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        
+        shapes.forEach((shape, index) => {
+            const speed = 0.02 + (index % 5) * 0.01;
+            shape.style.transform = `translateY(${scrollY * speed}px)`;
         });
     });
 }
@@ -162,6 +287,9 @@ async function loadArticles() {
             grid.appendChild(card);
         });
         
+        // 添加卡片入场动画
+        animateCards();
+        
     } catch (error) {
         console.error('Error loading articles:', error);
         grid.innerHTML = `
@@ -178,9 +306,11 @@ async function loadArticles() {
 function createArticleCard(article, index) {
     const card = document.createElement('article');
     card.className = 'article-card';
-    card.style.animationDelay = `${index * 0.1}s`;
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
     
-    const icons = ['◇', '◈', '✦', '○', '△'];
+    // Y2K 风格图标
+    const icons = ['◇', '◈', '✦', '⬡', '⟐', '⏣', '⎔', '◭'];
     const icon = icons[index % icons.length];
     
     const tagsHTML = article.tags 
@@ -206,6 +336,21 @@ function createArticleCard(article, index) {
 }
 
 // ==========================================
+// 卡片入场动画
+// ==========================================
+function animateCards() {
+    const cards = document.querySelectorAll('.article-card');
+    
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 150);
+    });
+}
+
+// ==========================================
 // 加载文章内容
 // ==========================================
 async function loadArticleContent() {
@@ -219,7 +364,7 @@ async function loadArticleContent() {
     const articleId = urlParams.get('id');
     
     if (!articleId) {
-        contentContainer.innerHTML = '<p>文章不存在</p>';
+        contentContainer.innerHTML = '<p>文章不存在 // ARTICLE NOT FOUND</p>';
         return;
     }
     
@@ -255,11 +400,21 @@ async function loadArticleContent() {
         const html = marked.parse(markdown);
         contentContainer.innerHTML = html;
         
+        // 添加内容入场动画
+        contentContainer.style.opacity = '0';
+        contentContainer.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            contentContainer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            contentContainer.style.opacity = '1';
+            contentContainer.style.transform = 'translateY(0)';
+        }, 100);
+        
     } catch (error) {
         console.error('Error loading article:', error);
         contentContainer.innerHTML = `
             <p>加载文章失败 // FAILED TO LOAD ARTICLE</p>
-            <a href="index.html" class="back-link">← 返回首页</a>
+            <a href="index.html" class="back-link">← 返回首页 // BACK</a>
         `;
     }
 }
