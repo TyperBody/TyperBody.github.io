@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLightBurst();
     initRadialRays();
     initInterferenceLines();
+    initNoiseEffect();
     initStars();
     initMeteors();
     initFloatingShapes();
@@ -87,45 +88,89 @@ function initLightBurst() {
 }
 
 // ==========================================
-// 放射状光线
+// 放射状不规则光线 - 类似激光/能量射线
 // ==========================================
 function initRadialRays() {
     const raysContainer = document.getElementById('radial-rays');
     if (!raysContainer) return;
     
-    // 创建多条放射光线
-    const rayCount = 24;
-    
-    for (let i = 0; i < rayCount; i++) {
+    // 创建不规则放射光线
+    function createRay() {
         const ray = document.createElement('div');
         ray.className = 'ray';
         
-        const angle = (i / rayCount) * 360;
-        const length = 50 + Math.random() * 100;
-        const opacity = 0.1 + Math.random() * 0.3;
+        // 完全随机角度
+        const angle = Math.random() * 360;
+        // 随机长度 - 有些很长有些很短
+        const length = 20 + Math.random() * 130;
+        // 随机粗细
+        const thickness = 0.5 + Math.random() * 2;
+        // 随机透明度
+        const opacity = 0.05 + Math.random() * 0.4;
         
         ray.style.transform = `rotate(${angle}deg)`;
         ray.style.width = `${length}%`;
+        ray.style.height = `${thickness}px`;
         ray.style.opacity = opacity;
-        ray.style.animation = `rayPulse ${2 + Math.random() * 3}s ease-in-out infinite`;
-        ray.style.animationDelay = `${Math.random() * 2}s`;
+        
+        // 锐利的激光效果
+        ray.style.background = `linear-gradient(90deg,
+            rgba(255, 255, 255, ${0.8 + Math.random() * 0.2}) 0%,
+            rgba(180, 220, 255, ${0.4 + Math.random() * 0.3}) ${5 + Math.random() * 10}%,
+            rgba(100, 180, 255, ${0.1 + Math.random() * 0.2}) ${20 + Math.random() * 20}%,
+            transparent ${50 + Math.random() * 30}%
+        )`;
+        
+        // 发光效果
+        ray.style.boxShadow = `0 0 ${2 + Math.random() * 8}px rgba(150, 200, 255, ${0.3 + Math.random() * 0.4})`;
         
         raysContainer.appendChild(ray);
+        
+        return ray;
     }
     
-    // 添加光线脉冲动画样式
+    // 初始创建静态光线 - 主要框架
+    for (let i = 0; i < 40; i++) {
+        const ray = createRay();
+        // 部分光线有脉冲动画
+        if (Math.random() > 0.5) {
+            ray.style.animation = `rayFlicker ${1 + Math.random() * 3}s ease-in-out infinite`;
+            ray.style.animationDelay = `${Math.random() * 3}s`;
+        }
+    }
+    
+    // 动态添加闪烁的短光线
+    setInterval(() => {
+        if (Math.random() > 0.3) {
+            const ray = createRay();
+            ray.style.width = `${10 + Math.random() * 40}%`;
+            ray.style.opacity = 0.3 + Math.random() * 0.5;
+            ray.style.animation = 'rayFlash 0.3s ease-out forwards';
+            
+            setTimeout(() => ray.remove(), 300);
+        }
+    }, 100);
+    
+    // 添加光线动画样式
     const style = document.createElement('style');
     style.textContent = `
-        @keyframes rayPulse {
-            0%, 100% { opacity: var(--ray-opacity, 0.2); }
-            50% { opacity: calc(var(--ray-opacity, 0.2) * 1.5); }
+        @keyframes rayFlicker {
+            0%, 100% { opacity: var(--base-opacity, 0.2); }
+            25% { opacity: calc(var(--base-opacity, 0.2) * 0.5); }
+            50% { opacity: calc(var(--base-opacity, 0.2) * 1.5); }
+            75% { opacity: calc(var(--base-opacity, 0.2) * 0.8); }
+        }
+        @keyframes rayFlash {
+            0% { opacity: 0; transform: rotate(var(--angle)) scaleX(0.5); }
+            30% { opacity: 0.8; }
+            100% { opacity: 0; transform: rotate(var(--angle)) scaleX(1); }
         }
     `;
     document.head.appendChild(style);
 }
 
 // ==========================================
-// 电子干扰线
+// 电子干扰线 - 水平扫描
 // ==========================================
 function initInterferenceLines() {
     const container = document.getElementById('interference-lines');
@@ -135,23 +180,87 @@ function initInterferenceLines() {
         const line = document.createElement('div');
         line.className = 'interference-line';
         
+        // 随机位置
         line.style.top = `${Math.random() * 100}%`;
-        line.style.width = `${30 + Math.random() * 70}%`;
-        line.style.setProperty('--duration', `${2 + Math.random() * 4}s`);
+        // 随机宽度
+        line.style.width = `${20 + Math.random() * 80}%`;
+        // 随机起始位置
+        line.style.left = `${Math.random() * 30}%`;
+        // 随机粗细
+        line.style.height = `${0.5 + Math.random() * 1.5}px`;
+        line.style.setProperty('--duration', `${1 + Math.random() * 3}s`);
         
         container.appendChild(line);
         
         setTimeout(() => {
             line.remove();
-        }, 6000);
+        }, 4000);
     }
     
-    // 定期创建干扰线
+    // 更频繁的干扰线
     setInterval(() => {
-        if (Math.random() > 0.6) {
+        if (Math.random() > 0.4) {
             createInterferenceLine();
         }
-    }, 500);
+    }, 200);
+    
+    // 初始创建几条
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createInterferenceLine, i * 100);
+    }
+}
+
+// ==========================================
+// 噪点/颗粒感增强
+// ==========================================
+function initNoiseEffect() {
+    const bgContainer = document.querySelector('.bg-container');
+    if (!bgContainer) return;
+    
+    // 创建 canvas 噪点
+    const noiseCanvas = document.createElement('canvas');
+    noiseCanvas.className = 'noise-canvas';
+    noiseCanvas.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.05;
+        mix-blend-mode: screen;
+    `;
+    
+    bgContainer.appendChild(noiseCanvas);
+    
+    const ctx = noiseCanvas.getContext('2d');
+    
+    function resize() {
+        noiseCanvas.width = window.innerWidth / 4;
+        noiseCanvas.height = window.innerHeight / 4;
+    }
+    
+    function generateNoise() {
+        const imageData = ctx.createImageData(noiseCanvas.width, noiseCanvas.height);
+        const data = imageData.data;
+        
+        for (let i = 0; i < data.length; i += 4) {
+            const value = Math.random() * 255;
+            // 偏蓝色的噪点
+            data[i] = value * 0.7;     // R
+            data[i + 1] = value * 0.85; // G
+            data[i + 2] = value;        // B
+            data[i + 3] = Math.random() * 50; // A
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+    }
+    
+    resize();
+    window.addEventListener('resize', resize);
+    
+    // 动态更新噪点
+    setInterval(generateNoise, 50);
 }
 
 // ==========================================
