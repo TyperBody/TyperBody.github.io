@@ -229,7 +229,7 @@ body {
 }
 
 /* ==========================================
-   飞速时间显示
+   飞速时间显示 - 蹦出效果
    ========================================== */
 .time-display-container {
     position: absolute;
@@ -242,29 +242,65 @@ body {
 .flying-time {
     position: absolute;
     font-family: var(--font-time);
-    font-size: clamp(40px, 8vw, 120px);
-    color: rgba(192, 199, 214, 0.15);
-    text-shadow: 
-        0 0 20px rgba(0, 212, 255, 0.3),
-        0 0 40px rgba(0, 212, 255, 0.2);
+    color: rgba(192, 199, 214, 0.25);
+    text-shadow:
+        0 0 30px rgba(0, 212, 255, 0.5),
+        0 0 60px rgba(0, 212, 255, 0.3),
+        0 0 100px rgba(0, 212, 255, 0.2);
     white-space: nowrap;
-    animation: timeFly var(--duration) linear infinite;
-    letter-spacing: 10px;
+    letter-spacing: 15px;
+    opacity: 0;
+    transform: scale(0);
 }
 
-@keyframes timeFly {
+/* 蹦出动画 */
+.flying-time.pop-in {
+    animation: timePop 0.15s ease-out forwards;
+}
+
+/* 横向滑动动画 */
+.flying-time.sliding {
+    animation: timeSlide var(--slide-duration) linear forwards;
+}
+
+/* 突然消失 */
+.flying-time.pop-out {
+    animation: timePopOut 0.05s ease-in forwards;
+}
+
+@keyframes timePop {
     0% {
-        transform: translateX(100vw) scale(0.5);
+        transform: scale(0) rotate(-5deg);
         opacity: 0;
     }
-    10% {
-        opacity: 0.8;
-    }
-    90% {
-        opacity: 0.8;
+    50% {
+        transform: scale(1.2) rotate(2deg);
+        opacity: 1;
     }
     100% {
-        transform: translateX(-100vw) scale(1.2);
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes timeSlide {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--slide-distance)) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes timePopOut {
+    0% {
+        transform: translateX(var(--current-x)) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--current-x)) scale(0);
         opacity: 0;
     }
 }

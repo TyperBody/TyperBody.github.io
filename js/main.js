@@ -97,7 +97,7 @@ function initBinaryRain() {
 }
 
 // ==========================================
-// 飞速时间效果
+// 飞速时间效果 - 蹦出 + 横向滑动 + 突然消失
 // ==========================================
 function initFlyingTime() {
     const bgContainer = document.querySelector('.bg-container');
@@ -136,38 +136,83 @@ function initFlyingTime() {
             () => {
                 const timestamp = Date.now() - Math.floor(Math.random() * 1000000000);
                 return timestamp.toString().slice(-8);
+            },
+            () => {
+                const h = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+                const m = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                const s = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                const ms = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+                return `${h}:${m}:${s}.${ms}`;
             }
         ];
         
         const formatFn = formats[Math.floor(Math.random() * formats.length)];
         timeElement.textContent = formatFn();
         
-        // 随机位置和大小
-        timeElement.style.top = `${10 + Math.random() * 70}%`;
-        timeElement.style.setProperty('--duration', `${4 + Math.random() * 6}s`);
-        timeElement.style.fontSize = `${30 + Math.random() * 90}px`;
-        timeElement.style.opacity = 0.1 + Math.random() * 0.2;
+        // 随机大尺寸 (60px - 200px)
+        const fontSize = 60 + Math.random() * 140;
+        timeElement.style.fontSize = `${fontSize}px`;
+        
+        // 随机垂直位置
+        timeElement.style.top = `${5 + Math.random() * 80}%`;
+        
+        // 随机起始水平位置 (可以从左边或右边开始)
+        const startFromLeft = Math.random() > 0.5;
+        const startX = startFromLeft ? -10 : 80 + Math.random() * 20;
+        timeElement.style.left = `${startX}%`;
+        
+        // 滑动方向和距离
+        const slideDirection = startFromLeft ? 1 : -1;
+        const slideDistance = (300 + Math.random() * 500) * slideDirection;
+        timeElement.style.setProperty('--slide-distance', `${slideDistance}px`);
+        
+        // 滑动时间 (1-4秒)
+        const slideDuration = 1 + Math.random() * 3;
+        timeElement.style.setProperty('--slide-duration', `${slideDuration}s`);
+        
+        // 随机透明度
+        timeElement.style.color = `rgba(192, 199, 214, ${0.15 + Math.random() * 0.25})`;
         
         timeContainer.appendChild(timeElement);
+        
+        // 阶段1: 蹦出 (0.15s)
+        timeElement.classList.add('pop-in');
         
         // 快速更新时间显示
         const updateInterval = setInterval(() => {
             timeElement.textContent = formatFn();
-        }, 50 + Math.random() * 100);
+        }, 30 + Math.random() * 70);
         
-        // 动画结束后移除
+        // 阶段2: 横向滑动
+        setTimeout(() => {
+            timeElement.classList.remove('pop-in');
+            timeElement.classList.add('sliding');
+        }, 150);
+        
+        // 阶段3: 突然消失 (在滑动过程中的随机时刻)
+        const disappearTime = 150 + (slideDuration * 1000 * (0.3 + Math.random() * 0.5));
+        
         setTimeout(() => {
             clearInterval(updateInterval);
-            timeElement.remove();
-        }, 10000);
+            // 记录当前位置用于消失动画
+            const currentX = slideDistance * (disappearTime - 150) / (slideDuration * 1000);
+            timeElement.style.setProperty('--current-x', `${currentX}px`);
+            timeElement.classList.remove('sliding');
+            timeElement.classList.add('pop-out');
+            
+            // 完全移除
+            setTimeout(() => {
+                timeElement.remove();
+            }, 50);
+        }, disappearTime);
     }
     
-    // 定期创建新的飞行时间
-    setInterval(createFlyingTime, 1500);
+    // 更频繁地创建时间元素
+    setInterval(createFlyingTime, 800 + Math.random() * 600);
     
     // 初始创建几个
-    for (let i = 0; i < 3; i++) {
-        setTimeout(createFlyingTime, i * 500);
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createFlyingTime, i * 300);
     }
 }
 
