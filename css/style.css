@@ -36,17 +36,17 @@
     --ice-blue: #152540;
     --light-blue: #203555;
     
-    /* 银色/金属色调 - 冷色调金属 */
-    --chrome-silver: #405060;
-    --bright-silver: #506575;
-    --metallic: #354555;
-    --steel: #203040;
-    --platinum: #556575;
+    /* 银色/金属色调 - 更亮的冷色调金属 */
+    --chrome-silver: #8899aa;
+    --bright-silver: #a0b0c0;
+    --metallic: #7088a0;
+    --steel: #506880;
+    --platinum: #b0c0d0;
     
     /* 强调色 - 微弱冰蓝发光 */
-    --neon-accent: #1565a0;
-    --glow-white: #7090b0;
-    --soft-purple: #304060;
+    --neon-accent: #2080c0;
+    --glow-white: #90b0d0;
+    --soft-purple: #506080;
     
     /* 背景色 - 几乎纯黑 */
     --bg-dark: #010102;
@@ -55,10 +55,10 @@
     --bg-card: rgba(2, 3, 6, 0.9);
     --bg-card-hover: rgba(3, 4, 8, 0.95);
     
-    /* 文字色 - 更暗淡 */
-    --text-primary: #506575;
-    --text-secondary: #354555;
-    --text-muted: #203040;
+    /* 文字色 - 更亮的银色 */
+    --text-primary: #a0b0c0;
+    --text-secondary: #8899aa;
+    --text-muted: #607080;
     
     /* 渐变 */
     --gradient-silver: linear-gradient(135deg, #203040 0%, #405060 50%, #506575 100%);
@@ -115,135 +115,90 @@ body {
 }
 
 /* ==========================================
-   中心爆发光源 - 核心效果
+   左上方爆发光源 - 核心效果
    ========================================== */
 .light-burst {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
 }
 
-/* 核心光点 */
+/* 核心光点 - 左上角位置 */
 .light-core {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px;
-    height: 8px;
+    top: 15%;
+    left: 20%;
+    width: 12px;
+    height: 12px;
     background: #ffffff;
     border-radius: 50%;
     box-shadow:
-        0 0 20px 10px rgba(255, 255, 255, 0.9),
-        0 0 40px 20px rgba(200, 230, 255, 0.7),
-        0 0 80px 40px rgba(100, 180, 255, 0.5),
-        0 0 120px 60px rgba(50, 150, 255, 0.3),
-        0 0 200px 100px rgba(20, 100, 200, 0.2);
+        0 0 30px 15px rgba(255, 255, 255, 0.95),
+        0 0 60px 30px rgba(200, 230, 255, 0.8),
+        0 0 120px 60px rgba(100, 180, 255, 0.6),
+        0 0 200px 100px rgba(50, 150, 255, 0.4),
+        0 0 350px 175px rgba(20, 100, 200, 0.25);
     animation: corePulse 4s ease-in-out infinite;
 }
 
 @keyframes corePulse {
     0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
         box-shadow:
-            0 0 20px 10px rgba(255, 255, 255, 0.9),
-            0 0 40px 20px rgba(200, 230, 255, 0.7),
-            0 0 80px 40px rgba(100, 180, 255, 0.5),
-            0 0 120px 60px rgba(50, 150, 255, 0.3),
-            0 0 200px 100px rgba(20, 100, 200, 0.2);
+            0 0 30px 15px rgba(255, 255, 255, 0.95),
+            0 0 60px 30px rgba(200, 230, 255, 0.8),
+            0 0 120px 60px rgba(100, 180, 255, 0.6),
+            0 0 200px 100px rgba(50, 150, 255, 0.4),
+            0 0 350px 175px rgba(20, 100, 200, 0.25);
     }
     50% {
-        transform: translate(-50%, -50%) scale(1.2);
+        transform: scale(1.3);
         box-shadow:
-            0 0 30px 15px rgba(255, 255, 255, 1),
-            0 0 60px 30px rgba(200, 230, 255, 0.8),
-            0 0 100px 50px rgba(100, 180, 255, 0.6),
-            0 0 150px 75px rgba(50, 150, 255, 0.4),
-            0 0 250px 125px rgba(20, 100, 200, 0.3);
+            0 0 40px 20px rgba(255, 255, 255, 1),
+            0 0 80px 40px rgba(200, 230, 255, 0.9),
+            0 0 150px 75px rgba(100, 180, 255, 0.7),
+            0 0 250px 125px rgba(50, 150, 255, 0.5),
+            0 0 400px 200px rgba(20, 100, 200, 0.35);
     }
 }
 
-/* 十字星光芒 - 水平 */
-.cross-beam-h {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    transform: translateY(-50%);
-    background: linear-gradient(90deg,
-        transparent 0%,
-        transparent 30%,
-        rgba(100, 180, 255, 0.1) 40%,
-        rgba(200, 230, 255, 0.5) 48%,
-        rgba(255, 255, 255, 0.9) 50%,
-        rgba(200, 230, 255, 0.5) 52%,
-        rgba(100, 180, 255, 0.1) 60%,
-        transparent 70%,
-        transparent 100%
-    );
-    box-shadow: 0 0 30px 5px rgba(100, 180, 255, 0.3);
-    animation: beamPulse 3s ease-in-out infinite;
-}
-
-/* 十字星光芒 - 垂直 */
+/* 光束从左上角发出 - 隐藏十字光束 */
+.cross-beam-h,
 .cross-beam-v {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 2px;
-    height: 100%;
-    transform: translateX(-50%);
-    background: linear-gradient(180deg,
-        transparent 0%,
-        transparent 30%,
-        rgba(100, 180, 255, 0.1) 40%,
-        rgba(200, 230, 255, 0.5) 48%,
-        rgba(255, 255, 255, 0.9) 50%,
-        rgba(200, 230, 255, 0.5) 52%,
-        rgba(100, 180, 255, 0.1) 60%,
-        transparent 70%,
-        transparent 100%
-    );
-    box-shadow: 0 0 30px 5px rgba(100, 180, 255, 0.3);
-    animation: beamPulse 3s ease-in-out infinite 0.5s;
+    display: none;
 }
 
-/* 对角光束 */
+/* 对角光束 - 从左上角射向右下 */
 .diagonal-beam {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200%;
+    top: 15%;
+    left: 20%;
+    width: 250%;
     height: 1px;
-    transform-origin: center;
+    transform-origin: left center;
     background: linear-gradient(90deg,
-        transparent 0%,
-        transparent 35%,
-        rgba(80, 150, 220, 0.05) 42%,
-        rgba(150, 200, 255, 0.3) 48%,
-        rgba(255, 255, 255, 0.6) 50%,
-        rgba(150, 200, 255, 0.3) 52%,
-        rgba(80, 150, 220, 0.05) 58%,
-        transparent 65%,
-        transparent 100%
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(200, 230, 255, 0.6) 5%,
+        rgba(150, 200, 255, 0.3) 15%,
+        rgba(80, 150, 220, 0.1) 30%,
+        transparent 60%
     );
     animation: beamPulse 4s ease-in-out infinite;
 }
 
-.diagonal-beam:nth-child(1) { transform: translate(-50%, -50%) rotate(45deg); animation-delay: 0s; }
-.diagonal-beam:nth-child(2) { transform: translate(-50%, -50%) rotate(-45deg); animation-delay: 0.5s; }
-.diagonal-beam:nth-child(3) { transform: translate(-50%, -50%) rotate(22.5deg); animation-delay: 1s; }
-.diagonal-beam:nth-child(4) { transform: translate(-50%, -50%) rotate(-22.5deg); animation-delay: 1.5s; }
-.diagonal-beam:nth-child(5) { transform: translate(-50%, -50%) rotate(67.5deg); animation-delay: 2s; }
-.diagonal-beam:nth-child(6) { transform: translate(-50%, -50%) rotate(-67.5deg); animation-delay: 2.5s; }
+/* 光束角度 - 全部从左上向右下方向 */
+.diagonal-beam:nth-child(1) { transform: rotate(25deg); animation-delay: 0s; }
+.diagonal-beam:nth-child(2) { transform: rotate(35deg); animation-delay: 0.3s; }
+.diagonal-beam:nth-child(3) { transform: rotate(45deg); animation-delay: 0.6s; }
+.diagonal-beam:nth-child(4) { transform: rotate(55deg); animation-delay: 0.9s; }
+.diagonal-beam:nth-child(5) { transform: rotate(65deg); animation-delay: 1.2s; }
+.diagonal-beam:nth-child(6) { transform: rotate(75deg); animation-delay: 1.5s; }
 
 @keyframes beamPulse {
-    0%, 100% { opacity: 0.6; }
+    0%, 100% { opacity: 0.5; }
     50% { opacity: 1; }
 }
 

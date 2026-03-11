@@ -365,7 +365,7 @@ function initNoiseEffect() {
 }
 
 // ==========================================
-// 二进制代码雨效果
+// 二进制效果 - 跟随鼠标
 // ==========================================
 function initBinaryRain() {
     const bgContainer = document.querySelector('.bg-container');
@@ -374,51 +374,118 @@ function initBinaryRain() {
     // 创建二进制容器
     const binaryContainer = document.createElement('div');
     binaryContainer.className = 'binary-container';
+    binaryContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 5;
+        overflow: hidden;
+    `;
     bgContainer.appendChild(binaryContainer);
     
-    const columnCount = Math.floor(window.innerWidth / 50);
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let particles = [];
+    const maxParticles = 40;
     
-    function createBinaryColumn() {
-        const column = document.createElement('div');
-        column.className = 'binary-column';
+    // 跟踪鼠标位置
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    function createBinaryParticle() {
+        if (particles.length >= maxParticles) return;
         
-        // 生成随机二进制字符串
-        const length = 20 + Math.floor(Math.random() * 30);
+        const particle = document.createElement('div');
+        particle.className = 'binary-particle';
+        
+        // 在鼠标周围随机位置生成
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 20 + Math.random() * 80;
+        const startX = mouseX + Math.cos(angle) * distance;
+        const startY = mouseY + Math.sin(angle) * distance;
+        
+        // 随机二进制字符
+        const length = 3 + Math.floor(Math.random() * 8);
         let binaryStr = '';
         for (let i = 0; i < length; i++) {
             binaryStr += Math.random() > 0.5 ? '1' : '0';
         }
         
-        column.textContent = binaryStr;
-        column.style.left = `${Math.random() * 100}%`;
-        column.style.setProperty('--duration', `${8 + Math.random() * 12}s`);
-        column.style.animationDelay = `${Math.random() * 10}s`;
-        column.style.opacity = 0.3 + Math.random() * 0.4;
-        column.style.fontSize = `${10 + Math.random() * 8}px`;
+        particle.textContent = binaryStr;
+        particle.style.cssText = `
+            position: absolute;
+            left: ${startX}px;
+            top: ${startY}px;
+            font-family: 'Air', monospace;
+            font-size: ${10 + Math.random() * 6}px;
+            color: rgba(160, 176, 192, ${0.3 + Math.random() * 0.4});
+            text-shadow: 0 0 5px rgba(32, 128, 192, 0.5);
+            writing-mode: vertical-rl;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        `;
         
-        binaryContainer.appendChild(column);
-        
-        // 动态更新二进制内容
-        const updateInterval = setInterval(() => {
-            let newStr = '';
-            for (let i = 0; i < length; i++) {
-                newStr += Math.random() > 0.5 ? '1' : '0';
-            }
-            column.textContent = newStr;
-        }, 100 + Math.random() * 200);
-        
-        // 动画结束后重新创建
-        setTimeout(() => {
-            clearInterval(updateInterval);
-            column.remove();
-            createBinaryColumn();
-        }, (8 + Math.random() * 12) * 1000);
+        binaryContainer.appendChild(particle);
+        particles.push({
+            element: particle,
+            x: startX,
+            y: startY,
+            vx: (Math.random() - 0.5) * 2,
+            vy: 1 + Math.random() * 2,
+            life: 100 + Math.random() * 100,
+            age: 0
+        });
     }
     
-    // 初始创建多个列
-    for (let i = 0; i < columnCount; i++) {
-        setTimeout(() => createBinaryColumn(), i * 200);
+    function updateParticles() {
+        particles = particles.filter(p => {
+            p.age++;
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            // 更新位置
+            p.element.style.left = `${p.x}px`;
+            p.element.style.top = `${p.y}px`;
+            
+            // 随机更新内容
+            if (Math.random() < 0.1) {
+                const length = p.element.textContent.length;
+                let newStr = '';
+                for (let i = 0; i < length; i++) {
+                    newStr += Math.random() > 0.5 ? '1' : '0';
+                }
+                p.element.textContent = newStr;
+            }
+            
+            // 淡出效果
+            if (p.age > p.life * 0.7) {
+                const opacity = 1 - (p.age - p.life * 0.7) / (p.life * 0.3);
+                p.element.style.opacity = Math.max(0, opacity);
+            }
+            
+            // 移除过期粒子
+            if (p.age >= p.life) {
+                p.element.remove();
+                return false;
+            }
+            return true;
+        });
     }
+    
+    // 定期创建新粒子
+    setInterval(createBinaryParticle, 80);
+    
+    // 更新粒子动画
+    function animate() {
+        updateParticles();
+        requestAnimationFrame(animate);
+    }
+    animate();
 }
 
 // ==========================================
@@ -474,8 +541,8 @@ function initFlyingTime() {
         const formatFn = formats[Math.floor(Math.random() * formats.length)];
         timeElement.textContent = formatFn();
         
-        // 随机大尺寸 (60px - 200px)
-        const fontSize = 60 + Math.random() * 140;
+        // 随机大尺寸 (100px - 350px)
+        const fontSize = 100 + Math.random() * 250;
         timeElement.style.fontSize = `${fontSize}px`;
         
         // 随机垂直位置
@@ -532,12 +599,12 @@ function initFlyingTime() {
         }, disappearTime);
     }
     
-    // 更频繁地创建时间元素
-    setInterval(createFlyingTime, 800 + Math.random() * 600);
+    // 减少时间效果数量 - 间隔更长
+    setInterval(createFlyingTime, 3000 + Math.random() * 2000);
     
-    // 初始创建几个
-    for (let i = 0; i < 5; i++) {
-        setTimeout(createFlyingTime, i * 300);
+    // 初始只创建2个
+    for (let i = 0; i < 2; i++) {
+        setTimeout(createFlyingTime, i * 800);
     }
 }
 
