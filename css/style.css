@@ -126,11 +126,11 @@ body {
     pointer-events: none;
 }
 
-/* 核心光点 - 偏右中心位置 (58%, 52%) */
+/* 核心光点 - 偏右偏下位置 (55%, 58%) */
 .light-core {
     position: absolute;
-    top: 52%;
-    left: 58%;
+    top: 58%;
+    left: 55%;
     transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
