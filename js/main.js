@@ -127,10 +127,11 @@ function initRadialRays() {
     
     // 创建一条光线
     function createRay() {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const angle = Math.random() * Math.PI * 2;
-        const length = 100 + Math.random() * Math.max(canvas.width, canvas.height) * 0.8;
+        const centerX = canvas.width * 0.85;
+        const centerY = canvas.height * 0.80;
+        // 限制角度范围: 从右下向左上发射 (约100度到260度，即主要向左上方向)
+        const angle = (Math.PI * 0.55) + Math.random() * Math.PI * 0.9;
+        const length = 150 + Math.random() * Math.max(canvas.width, canvas.height);
         const type = Math.floor(Math.random() * 4);
         
         return {
@@ -163,8 +164,9 @@ function initRadialRays() {
     
     // 绘制单条光线
     function drawRay(ray, time) {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+        // 光源在右下角 (85%, 80%)
+        const centerX = canvas.width * 0.85;
+        const centerY = canvas.height * 0.80;
         
         // 动态闪烁
         let opacity = ray.opacity;
@@ -389,7 +391,7 @@ function initBinaryRain() {
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
     let particles = [];
-    const maxParticles = 40;
+    const maxParticles = 12; // 减少粒子数量
     
     // 跟踪鼠标位置
     document.addEventListener('mousemove', (e) => {
@@ -403,14 +405,14 @@ function initBinaryRain() {
         const particle = document.createElement('div');
         particle.className = 'binary-particle';
         
-        // 在鼠标周围随机位置生成
+        // 在鼠标周围随机位置生成 - 更小范围
         const angle = Math.random() * Math.PI * 2;
-        const distance = 20 + Math.random() * 80;
+        const distance = 10 + Math.random() * 40;
         const startX = mouseX + Math.cos(angle) * distance;
         const startY = mouseY + Math.sin(angle) * distance;
         
-        // 随机二进制字符
-        const length = 3 + Math.floor(Math.random() * 8);
+        // 更短的二进制字符 (2-4位)
+        const length = 2 + Math.floor(Math.random() * 3);
         let binaryStr = '';
         for (let i = 0; i < length; i++) {
             binaryStr += Math.random() > 0.5 ? '1' : '0';
@@ -422,12 +424,12 @@ function initBinaryRain() {
             left: ${startX}px;
             top: ${startY}px;
             font-family: 'Air', monospace;
-            font-size: ${10 + Math.random() * 6}px;
-            color: rgba(160, 176, 192, ${0.3 + Math.random() * 0.4});
-            text-shadow: 0 0 5px rgba(32, 128, 192, 0.5);
+            font-size: ${8 + Math.random() * 4}px;
+            color: rgba(160, 176, 192, ${0.25 + Math.random() * 0.3});
+            text-shadow: 0 0 3px rgba(32, 128, 192, 0.4);
             writing-mode: vertical-rl;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.2s;
         `;
         
         binaryContainer.appendChild(particle);
@@ -435,9 +437,9 @@ function initBinaryRain() {
             element: particle,
             x: startX,
             y: startY,
-            vx: (Math.random() - 0.5) * 2,
-            vy: 1 + Math.random() * 2,
-            life: 100 + Math.random() * 100,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: 0.5 + Math.random() * 1,
+            life: 30 + Math.random() * 30, // 更短的生命周期
             age: 0
         });
     }
@@ -452,19 +454,9 @@ function initBinaryRain() {
             p.element.style.left = `${p.x}px`;
             p.element.style.top = `${p.y}px`;
             
-            // 随机更新内容
-            if (Math.random() < 0.1) {
-                const length = p.element.textContent.length;
-                let newStr = '';
-                for (let i = 0; i < length; i++) {
-                    newStr += Math.random() > 0.5 ? '1' : '0';
-                }
-                p.element.textContent = newStr;
-            }
-            
-            // 淡出效果
-            if (p.age > p.life * 0.7) {
-                const opacity = 1 - (p.age - p.life * 0.7) / (p.life * 0.3);
+            // 淡出效果 - 更快开始淡出
+            if (p.age > p.life * 0.5) {
+                const opacity = 1 - (p.age - p.life * 0.5) / (p.life * 0.5);
                 p.element.style.opacity = Math.max(0, opacity);
             }
             
@@ -477,8 +469,8 @@ function initBinaryRain() {
         });
     }
     
-    // 定期创建新粒子
-    setInterval(createBinaryParticle, 80);
+    // 定期创建新粒子 - 更长间隔
+    setInterval(createBinaryParticle, 150);
     
     // 更新粒子动画
     function animate() {

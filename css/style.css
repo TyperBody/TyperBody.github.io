@@ -115,7 +115,7 @@ body {
 }
 
 /* ==========================================
-   左上方爆发光源 - 核心效果
+   右下方爆发光源 - 核心效果
    ========================================== */
 .light-burst {
     position: absolute;
@@ -126,21 +126,21 @@ body {
     pointer-events: none;
 }
 
-/* 核心光点 - 左上角位置 */
+/* 核心光点 - 右下角位置 */
 .light-core {
     position: absolute;
-    top: 15%;
-    left: 20%;
-    width: 12px;
-    height: 12px;
+    bottom: 20%;
+    right: 15%;
+    width: 15px;
+    height: 15px;
     background: #ffffff;
     border-radius: 50%;
     box-shadow:
-        0 0 30px 15px rgba(255, 255, 255, 0.95),
-        0 0 60px 30px rgba(200, 230, 255, 0.8),
-        0 0 120px 60px rgba(100, 180, 255, 0.6),
-        0 0 200px 100px rgba(50, 150, 255, 0.4),
-        0 0 350px 175px rgba(20, 100, 200, 0.25);
+        0 0 40px 20px rgba(255, 255, 255, 0.95),
+        0 0 80px 40px rgba(200, 230, 255, 0.85),
+        0 0 150px 75px rgba(100, 180, 255, 0.65),
+        0 0 250px 125px rgba(50, 150, 255, 0.45),
+        0 0 400px 200px rgba(20, 100, 200, 0.3);
     animation: corePulse 4s ease-in-out infinite;
 }
 
@@ -148,54 +148,54 @@ body {
     0%, 100% {
         transform: scale(1);
         box-shadow:
-            0 0 30px 15px rgba(255, 255, 255, 0.95),
-            0 0 60px 30px rgba(200, 230, 255, 0.8),
-            0 0 120px 60px rgba(100, 180, 255, 0.6),
-            0 0 200px 100px rgba(50, 150, 255, 0.4),
-            0 0 350px 175px rgba(20, 100, 200, 0.25);
+            0 0 40px 20px rgba(255, 255, 255, 0.95),
+            0 0 80px 40px rgba(200, 230, 255, 0.85),
+            0 0 150px 75px rgba(100, 180, 255, 0.65),
+            0 0 250px 125px rgba(50, 150, 255, 0.45),
+            0 0 400px 200px rgba(20, 100, 200, 0.3);
     }
     50% {
-        transform: scale(1.3);
+        transform: scale(1.4);
         box-shadow:
-            0 0 40px 20px rgba(255, 255, 255, 1),
-            0 0 80px 40px rgba(200, 230, 255, 0.9),
-            0 0 150px 75px rgba(100, 180, 255, 0.7),
-            0 0 250px 125px rgba(50, 150, 255, 0.5),
-            0 0 400px 200px rgba(20, 100, 200, 0.35);
+            0 0 50px 25px rgba(255, 255, 255, 1),
+            0 0 100px 50px rgba(200, 230, 255, 0.95),
+            0 0 180px 90px rgba(100, 180, 255, 0.75),
+            0 0 300px 150px rgba(50, 150, 255, 0.55),
+            0 0 500px 250px rgba(20, 100, 200, 0.4);
     }
 }
 
-/* 光束从左上角发出 - 隐藏十字光束 */
+/* 隐藏十字光束 */
 .cross-beam-h,
 .cross-beam-v {
     display: none;
 }
 
-/* 对角光束 - 从左上角射向右下 */
+/* 对角光束 - 从右下角射向左上 */
 .diagonal-beam {
     position: absolute;
-    top: 15%;
-    left: 20%;
+    bottom: 20%;
+    right: 15%;
     width: 250%;
-    height: 1px;
-    transform-origin: left center;
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(200, 230, 255, 0.6) 5%,
-        rgba(150, 200, 255, 0.3) 15%,
-        rgba(80, 150, 220, 0.1) 30%,
+    height: 1.5px;
+    transform-origin: right center;
+    background: linear-gradient(270deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(200, 230, 255, 0.7) 5%,
+        rgba(150, 200, 255, 0.4) 15%,
+        rgba(80, 150, 220, 0.15) 30%,
         transparent 60%
     );
     animation: beamPulse 4s ease-in-out infinite;
 }
 
-/* 光束角度 - 全部从左上向右下方向 */
-.diagonal-beam:nth-child(1) { transform: rotate(25deg); animation-delay: 0s; }
-.diagonal-beam:nth-child(2) { transform: rotate(35deg); animation-delay: 0.3s; }
-.diagonal-beam:nth-child(3) { transform: rotate(45deg); animation-delay: 0.6s; }
-.diagonal-beam:nth-child(4) { transform: rotate(55deg); animation-delay: 0.9s; }
-.diagonal-beam:nth-child(5) { transform: rotate(65deg); animation-delay: 1.2s; }
-.diagonal-beam:nth-child(6) { transform: rotate(75deg); animation-delay: 1.5s; }
+/* 光束角度 - 全部从右下向左上方向 */
+.diagonal-beam:nth-child(1) { transform: rotate(-155deg); animation-delay: 0s; }
+.diagonal-beam:nth-child(2) { transform: rotate(-145deg); animation-delay: 0.3s; }
+.diagonal-beam:nth-child(3) { transform: rotate(-135deg); animation-delay: 0.6s; }
+.diagonal-beam:nth-child(4) { transform: rotate(-125deg); animation-delay: 0.9s; }
+.diagonal-beam:nth-child(5) { transform: rotate(-115deg); animation-delay: 1.2s; }
+.diagonal-beam:nth-child(6) { transform: rotate(-105deg); animation-delay: 1.5s; }
 
 @keyframes beamPulse {
     0%, 100% { opacity: 0.5; }
