@@ -115,7 +115,7 @@ body {
 }
 
 /* ==========================================
-   右下方爆发光源 - 核心效果
+   Hypertrance 光源系统 - 偏右中心
    ========================================== */
 .light-burst {
     position: absolute;
@@ -126,76 +126,55 @@ body {
     pointer-events: none;
 }
 
-/* 核心光点 - 右下角位置 */
+/* 核心光点 - 偏右中心位置 (58%, 52%) */
 .light-core {
     position: absolute;
-    bottom: 20%;
-    right: 15%;
-    width: 15px;
-    height: 15px;
+    top: 52%;
+    left: 58%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
     background: #ffffff;
     border-radius: 50%;
     box-shadow:
-        0 0 40px 20px rgba(255, 255, 255, 0.95),
-        0 0 80px 40px rgba(200, 230, 255, 0.85),
-        0 0 150px 75px rgba(100, 180, 255, 0.65),
-        0 0 250px 125px rgba(50, 150, 255, 0.45),
-        0 0 400px 200px rgba(20, 100, 200, 0.3);
+        0 0 60px 30px rgba(255, 255, 255, 1),
+        0 0 120px 60px rgba(220, 240, 255, 0.9),
+        0 0 200px 100px rgba(180, 220, 255, 0.7),
+        0 0 350px 175px rgba(100, 180, 255, 0.5),
+        0 0 500px 250px rgba(60, 140, 220, 0.3),
+        0 0 700px 350px rgba(30, 100, 180, 0.15);
     animation: corePulse 4s ease-in-out infinite;
 }
 
 @keyframes corePulse {
     0%, 100% {
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
         box-shadow:
-            0 0 40px 20px rgba(255, 255, 255, 0.95),
-            0 0 80px 40px rgba(200, 230, 255, 0.85),
-            0 0 150px 75px rgba(100, 180, 255, 0.65),
-            0 0 250px 125px rgba(50, 150, 255, 0.45),
-            0 0 400px 200px rgba(20, 100, 200, 0.3);
+            0 0 60px 30px rgba(255, 255, 255, 1),
+            0 0 120px 60px rgba(220, 240, 255, 0.9),
+            0 0 200px 100px rgba(180, 220, 255, 0.7),
+            0 0 350px 175px rgba(100, 180, 255, 0.5),
+            0 0 500px 250px rgba(60, 140, 220, 0.3),
+            0 0 700px 350px rgba(30, 100, 180, 0.15);
     }
     50% {
-        transform: scale(1.4);
+        transform: translate(-50%, -50%) scale(1.3);
         box-shadow:
-            0 0 50px 25px rgba(255, 255, 255, 1),
-            0 0 100px 50px rgba(200, 230, 255, 0.95),
-            0 0 180px 90px rgba(100, 180, 255, 0.75),
-            0 0 300px 150px rgba(50, 150, 255, 0.55),
-            0 0 500px 250px rgba(20, 100, 200, 0.4);
+            0 0 80px 40px rgba(255, 255, 255, 1),
+            0 0 150px 75px rgba(220, 240, 255, 0.95),
+            0 0 250px 125px rgba(180, 220, 255, 0.8),
+            0 0 420px 210px rgba(100, 180, 255, 0.6),
+            0 0 600px 300px rgba(60, 140, 220, 0.4),
+            0 0 850px 425px rgba(30, 100, 180, 0.2);
     }
 }
 
-/* 隐藏十字光束 */
+/* 隐藏CSS光束，使用Canvas绘制 */
 .cross-beam-h,
-.cross-beam-v {
+.cross-beam-v,
+.diagonal-beam {
     display: none;
 }
-
-/* 对角光束 - 从右下角射向左上 */
-.diagonal-beam {
-    position: absolute;
-    bottom: 20%;
-    right: 15%;
-    width: 250%;
-    height: 1.5px;
-    transform-origin: right center;
-    background: linear-gradient(270deg,
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(200, 230, 255, 0.7) 5%,
-        rgba(150, 200, 255, 0.4) 15%,
-        rgba(80, 150, 220, 0.15) 30%,
-        transparent 60%
-    );
-    animation: beamPulse 4s ease-in-out infinite;
-}
-
-/* 光束角度 - 全部从右下向左上方向 */
-.diagonal-beam:nth-child(1) { transform: rotate(-155deg); animation-delay: 0s; }
-.diagonal-beam:nth-child(2) { transform: rotate(-145deg); animation-delay: 0.3s; }
-.diagonal-beam:nth-child(3) { transform: rotate(-135deg); animation-delay: 0.6s; }
-.diagonal-beam:nth-child(4) { transform: rotate(-125deg); animation-delay: 0.9s; }
-.diagonal-beam:nth-child(5) { transform: rotate(-115deg); animation-delay: 1.2s; }
-.diagonal-beam:nth-child(6) { transform: rotate(-105deg); animation-delay: 1.5s; }
 
 @keyframes beamPulse {
     0%, 100% { opacity: 0.5; }

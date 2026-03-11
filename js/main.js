@@ -88,13 +88,14 @@ function initLightBurst() {
 }
 
 // ==========================================
-// 放射状不规则光线 - 使用 Canvas 绘制弯曲/折线
+// Hypertrance 风格光效系统 - 放射状能量光束
+// 特点：中心强光、体积光、烟雾粒子、扭曲射线
 // ==========================================
 function initRadialRays() {
     const raysContainer = document.getElementById('radial-rays');
     if (!raysContainer) return;
     
-    // 创建 Canvas
+    // 创建主 Canvas
     const canvas = document.createElement('canvas');
     canvas.style.cssText = `
         position: absolute;
@@ -108,6 +109,11 @@ function initRadialRays() {
     
     const ctx = canvas.getContext('2d');
     let rays = [];
+    let smokeParticles = [];
+    
+    // 光源位置 (偏右下，约60%, 55%)
+    let lightX = 0.58;
+    let lightY = 0.52;
     
     function resize() {
         canvas.width = window.innerWidth;
@@ -117,73 +123,120 @@ function initRadialRays() {
     resize();
     window.addEventListener('resize', resize);
     
-    // 光线类型
-    const RayTypes = {
-        STRAIGHT: 0,    // 直线
-        CURVED: 1,      // 弯曲
-        ZIGZAG: 2,      // 折线/闪电
-        WAVY: 3         // 波浪
-    };
-    
-    // 创建一条光线
+    // 创建主光线
     function createRay() {
-        const centerX = canvas.width * 0.85;
-        const centerY = canvas.height * 0.80;
-        // 限制角度范围: 从右下向左上发射 (约100度到260度，即主要向左上方向)
-        const angle = (Math.PI * 0.55) + Math.random() * Math.PI * 0.9;
-        const length = 150 + Math.random() * Math.max(canvas.width, canvas.height);
-        const type = Math.floor(Math.random() * 4);
+        // 主要向左上方发射，但有较大扩散
+        const baseAngle = Math.PI * 1.15; // 约207度，左上方
+        const spreadAngle = Math.PI * 0.85; // 较大扩散范围
+        const angle = baseAngle + (Math.random() - 0.5) * spreadAngle;
+        
+        const maxLen = Math.max(canvas.width, canvas.height) * 1.5;
+        const length = 200 + Math.random() * maxLen;
         
         return {
             angle: angle,
             length: length,
-            type: type,
-            thickness: 0.3 + Math.random() * 2,
-            opacity: 0.1 + Math.random() * 0.5,
-            // 弯曲程度
-            curve: (Math.random() - 0.5) * 0.5,
-            // 折线段数
-            segments: 3 + Math.floor(Math.random() * 5),
-            // 波浪频率
-            frequency: 2 + Math.random() * 4,
-            // 波浪振幅
-            amplitude: 5 + Math.random() * 20,
-            // 动画相位
+            thickness: 0.5 + Math.random() * 4,
+            opacity: 0.15 + Math.random() * 0.45,
+            // 断裂/扭曲参数
+            isBroken: Math.random() > 0.7,
+            breakPoint: 0.3 + Math.random() * 0.4,
+            curve: (Math.random() - 0.5) * 0.4,
+            segments: 4 + Math.floor(Math.random() * 6),
+            // 动画
             phase: Math.random() * Math.PI * 2,
-            // 闪烁速度
-            flickerSpeed: 0.5 + Math.random() * 2,
-            // 是否动态
-            isDynamic: Math.random() > 0.6
+            flickerSpeed: 0.3 + Math.random() * 1.5,
+            isDynamic: Math.random() > 0.4
         };
     }
     
-    // 初始化光线
-    for (let i = 0; i < 60; i++) {
-        rays.push(createRay());
+    // 创建烟雾粒子
+    function createSmokeParticle() {
+        const cx = canvas.width * lightX;
+        const cy = canvas.height * lightY;
+        const angle = Math.PI * 1.15 + (Math.random() - 0.5) * Math.PI * 0.9;
+        const dist = 50 + Math.random() * 400;
+        
+        return {
+            x: cx + Math.cos(angle) * dist,
+            y: cy + Math.sin(angle) * dist,
+            size: 30 + Math.random() * 100,
+            opacity: 0.03 + Math.random() * 0.08,
+            vx: Math.cos(angle) * (0.2 + Math.random() * 0.5),
+            vy: Math.sin(angle) * (0.2 + Math.random() * 0.5),
+            life: 200 + Math.random() * 300,
+            age: 0
+        };
     }
     
-    // 绘制单条光线
-    function drawRay(ray, time) {
-        // 光源在右下角 (85%, 80%)
-        const centerX = canvas.width * 0.85;
-        const centerY = canvas.height * 0.80;
+    // 初始化
+    for (let i = 0; i < 80; i++) {
+        rays.push(createRay());
+    }
+    for (let i = 0; i < 40; i++) {
+        smokeParticles.push(createSmokeParticle());
+    }
+    
+    // 绘制中心强光（过曝效果）
+    function drawCoreLight(time) {
+        const cx = canvas.width * lightX;
+        const cy = canvas.height * lightY;
         
-        // 动态闪烁
+        // 动态脉动
+        const pulse = 1 + 0.15 * Math.sin(time * 1.5);
+        
+        // 最内层：纯白过曝核心
+        const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 80 * pulse);
+        coreGrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        coreGrad.addColorStop(0.2, 'rgba(255, 255, 255, 0.95)');
+        coreGrad.addColorStop(0.5, 'rgba(220, 240, 255, 0.7)');
+        coreGrad.addColorStop(0.8, 'rgba(150, 200, 255, 0.3)');
+        coreGrad.addColorStop(1, 'rgba(100, 180, 255, 0)');
+        
+        ctx.fillStyle = coreGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // 中层：蓝青色辉光
+        const glowGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, 300 * pulse);
+        glowGrad.addColorStop(0, 'rgba(180, 220, 255, 0.5)');
+        glowGrad.addColorStop(0.3, 'rgba(100, 180, 230, 0.25)');
+        glowGrad.addColorStop(0.6, 'rgba(60, 140, 200, 0.1)');
+        glowGrad.addColorStop(1, 'rgba(30, 80, 150, 0)');
+        
+        ctx.fillStyle = glowGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // 外层：大范围环境光
+        const ambientGrad = ctx.createRadialGradient(cx, cy, 100, cx, cy, 600 * pulse);
+        ambientGrad.addColorStop(0, 'rgba(80, 150, 200, 0.15)');
+        ambientGrad.addColorStop(0.5, 'rgba(40, 100, 160, 0.05)');
+        ambientGrad.addColorStop(1, 'rgba(20, 60, 100, 0)');
+        
+        ctx.fillStyle = ambientGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    // 绘制单条光线（支持扭曲/断裂）
+    function drawRay(ray, time) {
+        const cx = canvas.width * lightX;
+        const cy = canvas.height * lightY;
+        
         let opacity = ray.opacity;
         if (ray.isDynamic) {
-            opacity *= 0.5 + 0.5 * Math.sin(time * ray.flickerSpeed + ray.phase);
+            opacity *= 0.4 + 0.6 * Math.sin(time * ray.flickerSpeed + ray.phase);
         }
         
         ctx.save();
-        ctx.translate(centerX, centerY);
+        ctx.translate(cx, cy);
         ctx.rotate(ray.angle);
         
-        // 创建渐变
+        // 创建渐变（近实远虚）
         const gradient = ctx.createLinearGradient(0, 0, ray.length, 0);
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
-        gradient.addColorStop(0.1, `rgba(200, 230, 255, ${opacity * 0.7})`);
-        gradient.addColorStop(0.3, `rgba(100, 180, 255, ${opacity * 0.4})`);
-        gradient.addColorStop(0.6, `rgba(50, 120, 200, ${opacity * 0.1})`);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.9})`);
+        gradient.addColorStop(0.05, `rgba(220, 240, 255, ${opacity * 0.8})`);
+        gradient.addColorStop(0.15, `rgba(150, 200, 255, ${opacity * 0.5})`);
+        gradient.addColorStop(0.4, `rgba(80, 150, 220, ${opacity * 0.2})`);
+        gradient.addColorStop(0.7, `rgba(50, 100, 180, ${opacity * 0.05})`);
         gradient.addColorStop(1, 'transparent');
         
         ctx.strokeStyle = gradient;
@@ -191,79 +244,119 @@ function initRadialRays() {
         ctx.lineCap = 'round';
         
         // 发光效果
-        ctx.shadowColor = 'rgba(100, 180, 255, 0.5)';
-        ctx.shadowBlur = 5 + ray.thickness * 2;
+        ctx.shadowColor = `rgba(100, 180, 255, ${opacity * 0.6})`;
+        ctx.shadowBlur = 8 + ray.thickness * 3;
         
         ctx.beginPath();
         ctx.moveTo(0, 0);
         
-        switch (ray.type) {
-            case RayTypes.STRAIGHT:
-                // 直线
-                ctx.lineTo(ray.length, 0);
-                break;
-                
-            case RayTypes.CURVED:
-                // 贝塞尔曲线 - 弯曲
-                const ctrlX = ray.length * 0.5;
-                const ctrlY = ray.length * ray.curve;
-                ctx.quadraticCurveTo(ctrlX, ctrlY, ray.length, ray.curve * ray.length * 0.3);
-                break;
-                
-            case RayTypes.ZIGZAG:
-                // 折线/闪电效果
-                const segLen = ray.length / ray.segments;
-                for (let i = 1; i <= ray.segments; i++) {
-                    const x = segLen * i;
-                    const y = (Math.random() - 0.5) * 30 * (1 - i / ray.segments);
-                    ctx.lineTo(x, y);
-                }
-                break;
-                
-            case RayTypes.WAVY:
-                // 波浪线
-                for (let x = 0; x <= ray.length; x += 5) {
-                    const y = Math.sin(x / ray.length * ray.frequency * Math.PI + time) * ray.amplitude * (1 - x / ray.length);
-                    ctx.lineTo(x, y);
-                }
-                break;
+        // 绘制扭曲/断裂的光线
+        if (ray.isBroken) {
+            // 断裂效果：中间有断口
+            const breakLen = ray.length * ray.breakPoint;
+            const gapLen = 20 + Math.random() * 40;
+            
+            // 第一段（带轻微弯曲）
+            const ctrl1X = breakLen * 0.5;
+            const ctrl1Y = breakLen * ray.curve * 0.5;
+            ctx.quadraticCurveTo(ctrl1X, ctrl1Y, breakLen, ray.curve * breakLen * 0.2);
+            ctx.stroke();
+            
+            // 断口后重新开始
+            ctx.beginPath();
+            ctx.moveTo(breakLen + gapLen, ray.curve * breakLen * 0.3);
+            ctx.lineTo(ray.length, ray.curve * ray.length * 0.1);
+        } else {
+            // 连续扭曲光线
+            const segLen = ray.length / ray.segments;
+            let lastY = 0;
+            for (let i = 1; i <= ray.segments; i++) {
+                const x = segLen * i;
+                const bendFactor = (1 - i / ray.segments);
+                const y = lastY + (Math.random() - 0.5) * 25 * bendFactor + ray.curve * segLen * 0.3;
+                ctx.lineTo(x, y);
+                lastY = y * 0.8;
+            }
         }
         
         ctx.stroke();
         ctx.restore();
     }
     
+    // 绘制烟雾/粒子层
+    function drawSmoke(time) {
+        smokeParticles.forEach((p, idx) => {
+            p.age++;
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            // 生命周期淡出
+            let alpha = p.opacity;
+            if (p.age > p.life * 0.7) {
+                alpha *= 1 - (p.age - p.life * 0.7) / (p.life * 0.3);
+            }
+            
+            // 绘制烟雾
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+            grad.addColorStop(0, `rgba(100, 180, 220, ${alpha * 1.5})`);
+            grad.addColorStop(0.3, `rgba(70, 140, 190, ${alpha})`);
+            grad.addColorStop(0.7, `rgba(40, 100, 150, ${alpha * 0.5})`);
+            grad.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = grad;
+            ctx.fillRect(p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
+            
+            // 重新生成死亡粒子
+            if (p.age >= p.life) {
+                smokeParticles[idx] = createSmokeParticle();
+            }
+        });
+    }
+    
+    // 添加颗粒/噪点质感
+    function addGrain(time) {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // 轻微噪点（只在有光的区域）
+        for (let i = 0; i < data.length; i += 16) {
+            if (data[i] > 10 || data[i+1] > 10 || data[i+2] > 10) {
+                const noise = (Math.random() - 0.5) * 15;
+                data[i] = Math.max(0, Math.min(255, data[i] + noise));
+                data[i+1] = Math.max(0, Math.min(255, data[i+1] + noise));
+                data[i+2] = Math.max(0, Math.min(255, data[i+2] + noise));
+            }
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+    }
+    
     // 动画循环
-    let lastTime = 0;
     function animate(currentTime) {
         const time = currentTime * 0.001;
         
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // 绘制所有光线
+        // 1. 绘制烟雾层（最底层）
+        drawSmoke(time);
+        
+        // 2. 绘制所有光线
         rays.forEach(ray => drawRay(ray, time));
         
-        // 随机添加新的闪烁光线
-        if (Math.random() > 0.95) {
+        // 3. 绘制中心强光（叠加模式）
+        ctx.globalCompositeOperation = 'screen';
+        drawCoreLight(time);
+        ctx.globalCompositeOperation = 'source-over';
+        
+        // 4. 随机闪烁光线
+        if (Math.random() > 0.93) {
             const flashRay = createRay();
-            flashRay.opacity = 0.5 + Math.random() * 0.5;
-            flashRay.type = Math.floor(Math.random() * 4);
-            
-            // 快速闪烁后移除
-            let flashTime = 0;
-            const flashInterval = setInterval(() => {
-                flashTime += 16;
-                flashRay.opacity *= 0.9;
-                if (flashTime > 300) {
-                    clearInterval(flashInterval);
-                }
-            }, 16);
-            
+            flashRay.opacity = 0.6 + Math.random() * 0.4;
             rays.push(flashRay);
             setTimeout(() => {
                 const idx = rays.indexOf(flashRay);
                 if (idx > -1) rays.splice(idx, 1);
-            }, 300);
+            }, 200 + Math.random() * 300);
         }
         
         requestAnimationFrame(animate);
