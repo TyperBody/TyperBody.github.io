@@ -8,19 +8,19 @@
     {
       "id": "tutorial",
       "name": "教程",
-      "icon": "📚",
+      "icon": "⟐",
       "color": "#00ffff"
     },
     {
       "id": "design",
       "name": "设计",
-      "icon": "🎨",
+      "icon": "✦",
       "color": "#ff00ff"
     },
     {
       "id": "music",
       "name": "音乐",
-      "icon": "🎵",
+      "icon": "◎",
       "color": "#00ff00"
     }
   ],
@@ -29,6 +29,7 @@
       "id": "hypertrance-intro",
       "name": "Hypertrance 入门系列",
       "description": "从零开始了解 Hypertrance",
+      "icon": "⬡",
       "articles": ["welcome-to-hypertrance", "y2k-design-aesthetics"]
     }
   ],

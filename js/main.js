@@ -1112,6 +1112,7 @@ function initParallax() {
 // ==========================================
 let articlesData = {
     categories: [],
+    collections: [],
     articles: [],
     currentCategory: 'all'
 };
@@ -1134,10 +1135,12 @@ async function loadArticles() {
             // 新版数据结构 v2.0
             articlesData.articles = data.articles;
             articlesData.categories = data.categories || [];
+            articlesData.collections = data.collections || [];
         } else {
             // 旧版数据结构（数组）
             articlesData.articles = data;
             articlesData.categories = [];
+            articlesData.collections = [];
         }
         
         // 按日期排序
@@ -1146,6 +1149,12 @@ async function loadArticles() {
         // 渲染分类筛选按钮
         if (filterContainer) {
             renderCategoryFilter(filterContainer);
+        }
+        
+        // 渲染合集展示区
+        const collectionsGrid = document.getElementById('collections-grid');
+        if (collectionsGrid) {
+            renderCollections(collectionsGrid);
         }
         
         // 从 URL hash 获取初始分类
@@ -1203,7 +1212,7 @@ function renderCategoryFilter(container) {
     // 创建"全部"按钮
     let html = `
         <button class="category-btn active" data-category="all">
-            <span class="icon">🌐</span>
+            <span class="icon">⊕</span>
             <span class="name">全部</span>
             <span class="count">${articles.length}</span>
         </button>
@@ -1299,6 +1308,101 @@ function renderArticles(grid, animate = false) {
         animateCards();
     }
 }
+
+// ==========================================
+// 渲染合集展示区
+// ==========================================
+function renderCollections(grid) {
+    const collections = articlesData.collections;
+    const articles = articlesData.articles;
+    
+    if (!collections || collections.length === 0) {
+        // 没有合集，隐藏整个区域
+        const collectionsSection = document.getElementById('collections');
+        if (collectionsSection) {
+            collectionsSection.style.display = 'none';
+        }
+        return;
+    }
+    
+    // 计算每个合集的统计信息
+    const collectionsWithStats = collections.map(collection => {
+        const collectionArticles = articles.filter(a => a.collection === collection.id);
+        const articleCount = collectionArticles.length;
+        
+        // 计算总阅读时间
+        let totalReadingTime = 0;
+        collectionArticles.forEach(article => {
+            if (article.readingTime) {
+                const match = article.readingTime.match(/(\d+)/);
+                if (match) {
+                    totalReadingTime += parseInt(match[1]);
+                }
+            }
+        });
+        
+        return {
+            ...collection,
+            articleCount,
+            totalReadingTime
+        };
+    });
+    
+    // 渲染合集卡片
+    grid.innerHTML = collectionsWithStats.map(collection => {
+        const icon = collection.icon || '⬡';
+        
+        return `
+            <div class="collection-card" data-collection="${collection.id}" onclick="handleCollectionClick('${collection.id}')">
+                <div class="collection-card-content">
+                    <div class="collection-card-header">
+                        <span class="collection-card-icon">${icon}</span>
+                        <h3 class="collection-card-title">${collection.name}</h3>
+                    </div>
+                    <p class="collection-card-desc">${collection.description || ''}</p>
+                    <div class="collection-card-meta">
+                        <span class="collection-meta-item">
+                            <span class="collection-meta-icon">◇</span>
+                            <span>${collection.articleCount} 篇文章</span>
+                        </span>
+                        <span class="collection-meta-item">
+                            <span class="collection-meta-icon">⏱</span>
+                            <span>${collection.totalReadingTime} min</span>
+                        </span>
+                    </div>
+                </div>
+                <span class="collection-card-arrow">→</span>
+            </div>
+        `;
+    }).join('');
+    
+    // 入场动画
+    const cards = grid.querySelectorAll('.collection-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
+/**
+ * 处理合集卡片点击
+ */
+function handleCollectionClick(collectionId) {
+    // 找到该合集的第一篇文章并跳转
+    const collection = articlesData.collections.find(c => c.id === collectionId);
+    if (collection && collection.articles && collection.articles.length > 0) {
+        const firstArticleId = collection.articles[0];
+        window.location.href = `post.html?id=${firstArticleId}`;
+    }
+}
+
+// 将函数暴露到全局
+window.handleCollectionClick = handleCollectionClick;
 
 // ==========================================
 // 更新文章网格内容
@@ -2034,12 +2138,14 @@ function handleSearchInput(e) {
 }
 
 /**
- * 模糊搜索实现
+ * 模糊搜索实现 - 支持文章和合集搜索
  */
 function fuzzySearch(query, articles) {
     const lowerQuery = query.toLowerCase();
+    const collections = articlesData.collections || [];
     
-    return articles
+    // 搜索文章
+    const articleResults = articles
         .filter(article => {
             const title = (article.title || '').toLowerCase();
             const excerpt = (article.excerpt || '').toLowerCase();
@@ -2053,10 +2159,69 @@ function fuzzySearch(query, articles) {
         })
         .map(article => ({
             ...article,
+            resultType: 'article',
             score: calculateRelevance(article, lowerQuery)
-        }))
+        }));
+    
+    // 搜索合集
+    const collectionResults = collections
+        .filter(collection => {
+            const name = (collection.name || '').toLowerCase();
+            const description = (collection.description || '').toLowerCase();
+            
+            return name.includes(lowerQuery) ||
+                   description.includes(lowerQuery);
+        })
+        .map(collection => {
+            // 获取合集文章数量
+            const collectionArticles = articles.filter(a => a.collection === collection.id);
+            let totalReadingTime = 0;
+            collectionArticles.forEach(article => {
+                if (article.readingTime) {
+                    const match = article.readingTime.match(/(\d+)/);
+                    if (match) totalReadingTime += parseInt(match[1]);
+                }
+            });
+            
+            return {
+                ...collection,
+                resultType: 'collection',
+                articleCount: collectionArticles.length,
+                totalReadingTime,
+                score: calculateCollectionRelevance(collection, lowerQuery)
+            };
+        });
+    
+    // 合并结果，合集优先显示
+    const allResults = [...collectionResults, ...articleResults];
+    
+    return allResults
         .sort((a, b) => b.score - a.score)
         .slice(0, SEARCH_CONFIG.maxResults);
+}
+
+/**
+ * 计算合集搜索相关度分数
+ */
+function calculateCollectionRelevance(collection, query) {
+    let score = 0;
+    const name = (collection.name || '').toLowerCase();
+    const description = (collection.description || '').toLowerCase();
+    
+    // 名称匹配权重最高
+    if (name.includes(query)) {
+        score += 120;
+        if (name.startsWith(query)) {
+            score += 60;
+        }
+    }
+    
+    // 描述匹配
+    if (description.includes(query)) {
+        score += 30;
+    }
+    
+    return score;
 }
 
 /**
@@ -2152,29 +2317,57 @@ function renderSearchResults(results, query) {
     const categories = articlesData.categories || [];
     
     // 渲染结果项
-    resultsList.innerHTML = results.map((article, index) => {
-        const highlightedTitle = highlightMatch(article.title, query);
-        const excerptSnippet = getExcerptSnippet(article.excerpt, query, 80);
-        const highlightedExcerpt = highlightMatch(excerptSnippet, query);
-        
-        // 获取分类名称
-        const category = categories.find(c => c.id === article.category);
-        const categoryName = category ? category.name : article.category || '';
-        
-        return `
-            <a href="post.html?id=${article.id}"
-               class="search-result-item ${index === searchState.selectedIndex ? 'selected' : ''}"
-               data-index="${index}">
-                <div class="result-main">
-                    <div class="result-title">${highlightedTitle}</div>
-                    <div class="result-excerpt">${highlightedExcerpt}</div>
-                </div>
-                <div class="result-meta">
-                    ${categoryName ? `<span class="result-category">${categoryName}</span>` : ''}
-                    <span class="result-date">${formatDate(article.date)}</span>
-                </div>
-            </a>
-        `;
+    resultsList.innerHTML = results.map((item, index) => {
+        if (item.resultType === 'collection') {
+            // 渲染合集结果
+            const highlightedName = highlightMatch(item.name, query);
+            const descSnippet = getExcerptSnippet(item.description, query, 60);
+            const highlightedDesc = highlightMatch(descSnippet, query);
+            const icon = item.icon || '⬡';
+            const firstArticleId = item.articles && item.articles.length > 0 ? item.articles[0] : '';
+            
+            return `
+                <a href="${firstArticleId ? `post.html?id=${firstArticleId}` : '#'}"
+                   class="search-result-item search-result-collection ${index === searchState.selectedIndex ? 'selected' : ''}"
+                   data-index="${index}">
+                    <div class="result-main">
+                        <div class="result-title">
+                            <span class="result-collection-icon">${icon}</span>
+                            ${highlightedName}
+                        </div>
+                        <div class="result-excerpt">${highlightedDesc}</div>
+                    </div>
+                    <div class="result-meta">
+                        <span class="result-category result-collection-tag">合集</span>
+                        <span class="result-date">${item.articleCount} 篇 · ${item.totalReadingTime} min</span>
+                    </div>
+                </a>
+            `;
+        } else {
+            // 渲染文章结果
+            const highlightedTitle = highlightMatch(item.title, query);
+            const excerptSnippet = getExcerptSnippet(item.excerpt, query, 80);
+            const highlightedExcerpt = highlightMatch(excerptSnippet, query);
+            
+            // 获取分类名称
+            const category = categories.find(c => c.id === item.category);
+            const categoryName = category ? category.name : item.category || '';
+            
+            return `
+                <a href="post.html?id=${item.id}"
+                   class="search-result-item ${index === searchState.selectedIndex ? 'selected' : ''}"
+                   data-index="${index}">
+                    <div class="result-main">
+                        <div class="result-title">${highlightedTitle}</div>
+                        <div class="result-excerpt">${highlightedExcerpt}</div>
+                    </div>
+                    <div class="result-meta">
+                        ${categoryName ? `<span class="result-category">${categoryName}</span>` : ''}
+                        <span class="result-date">${formatDate(item.date)}</span>
+                    </div>
+                </a>
+            `;
+        }
     }).join('');
     
     // 绑定鼠标悬停事件
@@ -2244,13 +2437,30 @@ function handleSearchKeydown(e) {
             e.preventDefault();
             if (searchState.selectedIndex >= 0 && results[searchState.selectedIndex]) {
                 // 跳转到选中结果
-                const article = results[searchState.selectedIndex];
+                const item = results[searchState.selectedIndex];
                 saveRecentSearch(searchState.query);
-                window.location.href = `post.html?id=${article.id}`;
+                if (item.resultType === 'collection') {
+                    // 合集：跳转到第一篇文章
+                    const firstArticleId = item.articles && item.articles.length > 0 ? item.articles[0] : '';
+                    if (firstArticleId) {
+                        window.location.href = `post.html?id=${firstArticleId}`;
+                    }
+                } else {
+                    // 文章
+                    window.location.href = `post.html?id=${item.id}`;
+                }
             } else if (searchState.query && results.length > 0) {
                 // 跳转到第一个结果
+                const firstItem = results[0];
                 saveRecentSearch(searchState.query);
-                window.location.href = `post.html?id=${results[0].id}`;
+                if (firstItem.resultType === 'collection') {
+                    const firstArticleId = firstItem.articles && firstItem.articles.length > 0 ? firstItem.articles[0] : '';
+                    if (firstArticleId) {
+                        window.location.href = `post.html?id=${firstArticleId}`;
+                    }
+                } else {
+                    window.location.href = `post.html?id=${firstItem.id}`;
+                }
             }
             break;
     }
