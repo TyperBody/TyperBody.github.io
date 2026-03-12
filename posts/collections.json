@@ -2,7 +2,7 @@
   "collections": [
     {
       "id": "blog-intro",
-      "name": "入门系列",
+      "name": "我的博客入门系列",
       "description": "从零开始了解博客的设计理念、写作技巧和技术实现，适合新手入门。",
       "icon": "⬡",
       "articles": ["welcome-to-hypertrance", "y2k-design-aesthetics"]
