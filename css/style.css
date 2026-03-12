@@ -1224,15 +1224,8 @@ body {
 /* ==========================================
    文章列表
    ========================================== */
-/* 内容区域（搜索和分类） */
-.content-section {
-    padding: 80px 0 40px;
-    display: block;
-    width: 100%;
-}
-
 .articles-section {
-    padding: 40px 0 80px;
+    padding: 60px 0 80px;
     display: block;
     width: 100%;
 }
@@ -3285,29 +3278,11 @@ body {
    合集展示区样式
    ========================================== */
 .collections-section {
-    padding: 60px 0 80px;
+    padding: 80px 0 60px;
     display: block;
     width: 100%;
 }
 
-/* section-subtitle 样式 */
-.section-subtitle {
-    font-family: 'Orbitron', 'Air', sans-serif;
-    font-size: 1rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.15em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.section-subtitle .title-bracket {
-    color: var(--accent-cyan);
-}
-
-.collections-header {
-    margin-bottom: 20px;
-}
 
 .collections-grid {
     display: grid;

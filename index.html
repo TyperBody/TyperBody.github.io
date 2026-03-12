@@ -62,8 +62,25 @@
 
     <!-- 主要内容区 -->
     <main class="main-content">
-        <!-- 搜索和分类区域 -->
-        <section class="content-section" id="content">
+        <!-- 合集展示区 - 最上方 -->
+        <section class="collections-section" id="collections">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-bracket">[</span>
+                    COLLECTIONS
+                    <span class="title-bracket">]</span>
+                </h2>
+            </div>
+            <div class="collections-grid" id="collections-grid">
+                <div class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <span>LOADING...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 文章列表区域 -->
+        <section class="articles-section" id="articles">
             <div class="section-header">
                 <h2 class="section-title">
                     <span class="title-bracket">[</span>
@@ -105,34 +122,7 @@
             <nav class="category-filter" id="category-filter">
                 <!-- 动态渲染分类按钮 -->
             </nav>
-        </section>
 
-        <!-- 合集展示区 - 独立区域 -->
-        <section class="collections-section" id="collections">
-            <div class="section-header collections-header">
-                <h3 class="section-subtitle">
-                    <span class="title-bracket">[</span>
-                    COLLECTIONS
-                    <span class="title-bracket">]</span>
-                </h3>
-            </div>
-            <div class="collections-grid" id="collections-grid">
-                <div class="loading-indicator">
-                    <div class="loading-spinner"></div>
-                    <span>LOADING...</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 文章列表区域 -->
-        <section class="articles-section" id="articles">
-            <div class="section-header">
-                <h3 class="section-subtitle">
-                    <span class="title-bracket">[</span>
-                    ARTICLES
-                    <span class="title-bracket">]</span>
-                </h3>
-            </div>
             <!-- 文章网格 -->
             <div class="articles-grid" id="articles-grid">
                 <div class="loading-indicator">
