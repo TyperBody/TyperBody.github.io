@@ -924,6 +924,8 @@ body {
     position: relative;
     z-index: 1;
     padding-top: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* 旧版 Hero 样式保留兼容 */
@@ -2313,16 +2315,11 @@ body {
 
 /* 文章页面布局调整（有 TOC 时） */
 @media (min-width: 1201px) {
-    .main-content {
-        display: flex;
-        justify-content: center;
-    }
-    
+    /* 首页保持垂直布局，文章页面需要单独处理 */
     .article-page {
         max-width: 800px;
-        margin: 0;
+        margin: 0 auto;
         padding-right: 40px;
-        flex: 0 1 800px;
     }
     
     /* TOC侧边栏不影响文章居中 */
