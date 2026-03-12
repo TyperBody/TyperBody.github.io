@@ -926,6 +926,8 @@ body {
     padding-top: 0;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* 旧版 Hero 样式保留兼容 */
@@ -1222,8 +1224,17 @@ body {
 /* ==========================================
    文章列表
    ========================================== */
+/* 内容区域（搜索和分类） */
+.content-section {
+    padding: 80px 0 40px;
+    display: block;
+    width: 100%;
+}
+
 .articles-section {
-    padding: 80px 0;
+    padding: 40px 0 80px;
+    display: block;
+    width: 100%;
 }
 
 .articles-grid {
@@ -1231,6 +1242,8 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 35px;
     padding: 0 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* 加载动画 */
@@ -3273,28 +3286,27 @@ body {
    ========================================== */
 .collections-section {
     padding: 60px 0 80px;
+    display: block;
+    width: 100%;
 }
 
-/* 合集区域在文章区域内部时的样式 */
-.articles-section .collections-section {
-    padding: 30px 0 40px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid rgba(192, 199, 214, 0.1);
-}
-
-.articles-section .collections-header {
-    margin-bottom: 20px;
-}
-
-.articles-section .section-subtitle {
+/* section-subtitle 样式 */
+.section-subtitle {
     font-family: 'Orbitron', 'Air', sans-serif;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.articles-section .section-subtitle .title-bracket {
+.section-subtitle .title-bracket {
     color: var(--accent-cyan);
+}
+
+.collections-header {
+    margin-bottom: 20px;
 }
 
 .collections-grid {
@@ -3302,6 +3314,8 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
     padding: 0 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* 合集卡片 */
