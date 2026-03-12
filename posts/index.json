@@ -8,5 +8,5 @@
     { "id": "design", "name": "设计", "icon": "✦", "color": "#ff00ff" },
     { "id": "music", "name": "音乐", "icon": "◎", "color": "#00ff00" }
   ],
-  "articles": ["welcome-to-hypertrance", "y2k-design-aesthetics", "markdown-tutorial"]
+  "articles": ["langbot-intro", "welcome-to-hypertrance", "y2k-design-aesthetics", "markdown-tutorial"]
 }
