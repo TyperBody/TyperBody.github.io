@@ -71,6 +71,40 @@
                     <span class="title-bracket">]</span>
                 </h2>
             </div>
+            
+            <!-- 搜索容器 -->
+            <div class="search-container" id="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="搜索文章... (Ctrl+K)" autocomplete="off">
+                    <span class="search-shortcut">Ctrl+K</span>
+                    <button class="search-clear" id="search-clear" style="display: none;">×</button>
+                </div>
+                <div class="search-results" id="search-results" style="display: none;">
+                    <div class="search-results-header">
+                        <span class="results-count" id="results-count"></span>
+                        <span class="search-hint">按 Enter 查看全部 · ↑↓ 选择</span>
+                    </div>
+                    <div class="search-results-list" id="search-results-list">
+                        <!-- 动态生成搜索结果 -->
+                    </div>
+                    <div class="search-no-results" id="search-no-results" style="display: none;">
+                        <span class="no-results-icon">🔮</span>
+                        <span class="no-results-text">未找到相关文章</span>
+                    </div>
+                    <div class="recent-searches" id="recent-searches" style="display: none;">
+                        <div class="recent-title">最近搜索</div>
+                        <div class="recent-list" id="recent-list">
+                            <!-- 动态生成最近搜索 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分类筛选导航 -->
+            <nav class="category-filter" id="category-filter">
+                <!-- 动态渲染分类按钮 -->
+            </nav>
             <div class="articles-grid" id="articles-grid">
                 <div class="loading-indicator">
                     <div class="loading-spinner"></div>

@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 根据页面类型加载内容
     if (document.getElementById('articles-grid')) {
         loadArticles();
+        // 初始化搜索功能
+        initSearch();
     }
     
     if (document.getElementById('article-content')) {
@@ -1106,26 +1108,62 @@ function initParallax() {
 }
 
 // ==========================================
+// 全局存储文章数据
+// ==========================================
+let articlesData = {
+    categories: [],
+    articles: [],
+    currentCategory: 'all'
+};
+
+// ==========================================
 // 加载文章列表
 // ==========================================
 async function loadArticles() {
     const grid = document.getElementById('articles-grid');
+    const filterContainer = document.getElementById('category-filter');
     
     try {
         const response = await fetch(CONFIG.articlesIndex);
         if (!response.ok) throw new Error('Failed to load articles index');
         
-        const articles = await response.json();
+        const data = await response.json();
         
-        grid.innerHTML = '';
-        articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // 存储数据（支持新旧两种数据结构）
+        if (data.articles) {
+            // 新版数据结构 v2.0
+            articlesData.articles = data.articles;
+            articlesData.categories = data.categories || [];
+        } else {
+            // 旧版数据结构（数组）
+            articlesData.articles = data;
+            articlesData.categories = [];
+        }
         
-        articles.forEach((article, index) => {
-            const card = createArticleCard(article, index);
-            grid.appendChild(card);
+        // 按日期排序
+        articlesData.articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // 渲染分类筛选按钮
+        if (filterContainer) {
+            renderCategoryFilter(filterContainer);
+        }
+        
+        // 从 URL hash 获取初始分类
+        const urlCategory = getCategoryFromHash();
+        articlesData.currentCategory = urlCategory;
+        
+        // 渲染文章列表
+        renderArticles(grid);
+        
+        // 监听 hash 变化
+        window.addEventListener('hashchange', () => {
+            const newCategory = getCategoryFromHash();
+            if (newCategory !== articlesData.currentCategory) {
+                articlesData.currentCategory = newCategory;
+                updateActiveFilter();
+                renderArticles(grid, true);
+            }
         });
-        
-        animateCards();
         
     } catch (error) {
         console.error('Error loading articles:', error);
@@ -1135,6 +1173,153 @@ async function loadArticles() {
             </div>
         `;
     }
+}
+
+// ==========================================
+// 从 URL hash 获取分类
+// ==========================================
+function getCategoryFromHash() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#category=')) {
+        return hash.replace('#category=', '');
+    }
+    return 'all';
+}
+
+// ==========================================
+// 渲染分类筛选按钮
+// ==========================================
+function renderCategoryFilter(container) {
+    const categories = articlesData.categories;
+    const articles = articlesData.articles;
+    
+    // 统计每个分类的文章数量
+    const categoryCounts = {};
+    articles.forEach(article => {
+        const cat = article.category || 'uncategorized';
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
+    
+    // 创建"全部"按钮
+    let html = `
+        <button class="category-btn active" data-category="all">
+            <span class="icon">🌐</span>
+            <span class="name">全部</span>
+            <span class="count">${articles.length}</span>
+        </button>
+    `;
+    
+    // 创建各分类按钮
+    categories.forEach(cat => {
+        const count = categoryCounts[cat.id] || 0;
+        if (count > 0) {
+            html += `
+                <button class="category-btn" data-category="${cat.id}">
+                    <span class="icon">${cat.icon}</span>
+                    <span class="name">${cat.name}</span>
+                    <span class="count">${count}</span>
+                </button>
+            `;
+        }
+    });
+    
+    container.innerHTML = html;
+    
+    // 绑定点击事件
+    container.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.dataset.category;
+            handleCategoryClick(category);
+        });
+    });
+    
+    // 设置初始激活状态
+    updateActiveFilter();
+}
+
+// ==========================================
+// 处理分类按钮点击
+// ==========================================
+function handleCategoryClick(category) {
+    if (category === articlesData.currentCategory) return;
+    
+    // 更新 URL hash
+    if (category === 'all') {
+        history.pushState(null, '', window.location.pathname + window.location.search);
+    } else {
+        history.pushState(null, '', `#category=${category}`);
+    }
+    
+    articlesData.currentCategory = category;
+    updateActiveFilter();
+    renderArticles(document.getElementById('articles-grid'), true);
+}
+
+// ==========================================
+// 更新激活的筛选按钮
+// ==========================================
+function updateActiveFilter() {
+    const container = document.getElementById('category-filter');
+    if (!container) return;
+    
+    container.querySelectorAll('.category-btn').forEach(btn => {
+        if (btn.dataset.category === articlesData.currentCategory) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// ==========================================
+// 渲染文章列表
+// ==========================================
+function renderArticles(grid, animate = false) {
+    const category = articlesData.currentCategory;
+    let articles = articlesData.articles;
+    
+    // 过滤文章
+    if (category !== 'all') {
+        articles = articles.filter(article => article.category === category);
+    }
+    
+    // 添加淡出动画
+    if (animate) {
+        grid.classList.add('fade-out');
+        setTimeout(() => {
+            updateArticleGrid(grid, articles);
+            grid.classList.remove('fade-out');
+            grid.classList.add('fade-in');
+            setTimeout(() => {
+                grid.classList.remove('fade-in');
+            }, 300);
+        }, 200);
+    } else {
+        updateArticleGrid(grid, articles);
+        animateCards();
+    }
+}
+
+// ==========================================
+// 更新文章网格内容
+// ==========================================
+function updateArticleGrid(grid, articles) {
+    if (articles.length === 0) {
+        grid.innerHTML = `
+            <div class="loading-indicator">
+                <span>该分类暂无文章 // NO ARTICLES IN THIS CATEGORY</span>
+            </div>
+        `;
+        return;
+    }
+    
+    grid.innerHTML = '';
+    articles.forEach((article, index) => {
+        const card = createArticleCard(article, index);
+        grid.appendChild(card);
+    });
+    
+    animateCards();
 }
 
 // ==========================================
@@ -1205,7 +1390,12 @@ async function loadArticleContent() {
     
     try {
         const indexResponse = await fetch(CONFIG.articlesIndex);
-        const articles = await indexResponse.json();
+        const indexData = await indexResponse.json();
+        
+        // 支持新旧数据结构
+        const articles = indexData.articles || indexData;
+        const collections = indexData.collections || [];
+        
         const articleMeta = articles.find(a => a.id === articleId);
         
         if (!articleMeta) {
@@ -1222,6 +1412,11 @@ async function loadArticleContent() {
         
         document.title = `${articleMeta.title} | HYPERTRANCE BLOG`;
         
+        // 初始化合集导航（如果文章属于某个合集）
+        if (articleMeta.collection) {
+            initCollectionNav(articleMeta, articles, collections);
+        }
+        
         const mdResponse = await fetch(`${CONFIG.articlesPath}${articleId}.md`);
         if (!mdResponse.ok) throw new Error('Failed to load article content');
         
@@ -1236,6 +1431,9 @@ async function loadArticleContent() {
             contentContainer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
             contentContainer.style.opacity = '1';
             contentContainer.style.transform = 'translateY(0)';
+            
+            // 文章渲染完成后初始化 TOC
+            initTOC();
         }, 100);
         
     } catch (error) {
@@ -1245,6 +1443,302 @@ async function loadArticleContent() {
             <a href="index.html" class="back-link">← 返回首页 // BACK</a>
         `;
     }
+}
+
+// ==========================================
+// TOC（目录）功能
+// ==========================================
+
+/**
+ * 初始化 TOC 功能
+ * 在文章内容渲染后调用
+ */
+function initTOC() {
+    const articleBody = document.getElementById('article-content');
+    const tocSidebar = document.getElementById('toc-sidebar');
+    const tocNav = document.getElementById('toc-nav');
+    const tocMobileNav = document.getElementById('toc-mobile-nav');
+    const progressBar = document.getElementById('reading-progress-bar');
+    
+    if (!articleBody || !tocNav) return;
+    
+    // 提取所有标题 (h1-h3)
+    const headings = articleBody.querySelectorAll('h1, h2, h3');
+    
+    if (headings.length === 0) {
+        // 没有标题，隐藏 TOC
+        if (tocSidebar) tocSidebar.style.display = 'none';
+        const tocFab = document.getElementById('toc-fab');
+        if (tocFab) tocFab.style.display = 'none';
+        return;
+    }
+    
+    // 为每个标题生成唯一 ID
+    headings.forEach((heading, index) => {
+        if (!heading.id) {
+            // 生成基于标题内容的 slug
+            const slug = generateSlug(heading.textContent);
+            heading.id = `heading-${slug}-${index}`;
+        }
+    });
+    
+    // 生成 TOC 内容
+    const tocHTML = generateTOCHTML(headings);
+    tocNav.innerHTML = tocHTML;
+    if (tocMobileNav) {
+        tocMobileNav.innerHTML = tocHTML;
+    }
+    
+    // 初始化滚动监听
+    initScrollSpy(headings);
+    
+    // 初始化阅读进度条
+    if (progressBar) {
+        initReadingProgress(progressBar);
+    }
+    
+    // 初始化移动端 TOC 交互
+    initMobileTOC();
+    
+    // 初始化 TOC 项点击事件
+    initTOCClickHandlers();
+}
+
+/**
+ * 生成 URL 友好的 slug
+ */
+function generateSlug(text) {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[\s]+/g, '-')
+        .replace(/[^\w\u4e00-\u9fa5-]/g, '')
+        .substring(0, 50);
+}
+
+/**
+ * 生成 TOC HTML
+ */
+function generateTOCHTML(headings) {
+    let html = '';
+    
+    headings.forEach(heading => {
+        const level = parseInt(heading.tagName.charAt(1));
+        const text = heading.textContent;
+        const id = heading.id;
+        
+        html += `
+            <a href="#${id}" class="toc-item toc-level-${level}" data-target="${id}">
+                <span class="toc-indicator"></span>
+                <span class="toc-text">${text}</span>
+            </a>
+        `;
+    });
+    
+    return html;
+}
+
+/**
+ * 初始化滚动监听（高亮当前章节）
+ */
+function initScrollSpy(headings) {
+    if (headings.length === 0) return;
+    
+    // 使用 Intersection Observer
+    const observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -70% 0px', // 顶部偏移导航栏高度
+        threshold: 0
+    };
+    
+    let currentActiveId = null;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                setActiveTOCItem(id);
+                currentActiveId = id;
+            }
+        });
+    }, observerOptions);
+    
+    headings.forEach(heading => {
+        observer.observe(heading);
+    });
+    
+    // 备用：滚动事件监听（处理快速滚动情况）
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            updateTOCOnScroll(headings);
+        }, 100);
+    });
+}
+
+/**
+ * 滚动时更新 TOC 高亮
+ */
+function updateTOCOnScroll(headings) {
+    const scrollPos = window.scrollY + 100; // 偏移量
+    
+    let currentHeading = null;
+    
+    headings.forEach(heading => {
+        if (heading.offsetTop <= scrollPos) {
+            currentHeading = heading;
+        }
+    });
+    
+    if (currentHeading) {
+        setActiveTOCItem(currentHeading.id);
+    }
+}
+
+/**
+ * 设置当前激活的 TOC 项
+ */
+function setActiveTOCItem(id) {
+    // 桌面端
+    const tocNav = document.getElementById('toc-nav');
+    // 移动端
+    const tocMobileNav = document.getElementById('toc-mobile-nav');
+    
+    [tocNav, tocMobileNav].forEach(nav => {
+        if (!nav) return;
+        
+        // 移除所有激活状态
+        nav.querySelectorAll('.toc-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // 添加新的激活状态
+        const activeItem = nav.querySelector(`.toc-item[data-target="${id}"]`);
+        if (activeItem) {
+            activeItem.classList.add('active');
+            
+            // 确保激活项在视口中可见（自动滚动 TOC）
+            scrollTOCItemIntoView(activeItem, nav);
+        }
+    });
+}
+
+/**
+ * 确保 TOC 项在视口中可见
+ */
+function scrollTOCItemIntoView(item, container) {
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    
+    // 检查是否在视口外
+    if (itemRect.top < containerRect.top || itemRect.bottom > containerRect.bottom) {
+        item.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+}
+
+/**
+ * 初始化阅读进度条
+ */
+function initReadingProgress(progressBar) {
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        
+        progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    }
+    
+    window.addEventListener('scroll', updateProgress);
+    window.addEventListener('resize', updateProgress);
+    
+    // 初始化
+    updateProgress();
+}
+
+/**
+ * 初始化移动端 TOC 交互
+ */
+function initMobileTOC() {
+    const tocFab = document.getElementById('toc-fab');
+    const tocPanel = document.getElementById('toc-mobile-panel');
+    const tocOverlay = document.getElementById('toc-mobile-overlay');
+    const tocClose = document.getElementById('toc-close');
+    
+    if (!tocFab || !tocPanel) return;
+    
+    // 打开面板
+    tocFab.addEventListener('click', () => {
+        tocPanel.classList.add('open');
+        if (tocOverlay) tocOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // 关闭面板
+    function closePanel() {
+        tocPanel.classList.remove('open');
+        if (tocOverlay) tocOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    
+    if (tocClose) {
+        tocClose.addEventListener('click', closePanel);
+    }
+    
+    if (tocOverlay) {
+        tocOverlay.addEventListener('click', closePanel);
+    }
+    
+    // 点击 TOC 项后关闭面板
+    const tocMobileNav = document.getElementById('toc-mobile-nav');
+    if (tocMobileNav) {
+        tocMobileNav.addEventListener('click', (e) => {
+            if (e.target.closest('.toc-item')) {
+                setTimeout(closePanel, 100);
+            }
+        });
+    }
+}
+
+/**
+ * 初始化 TOC 项点击事件（平滑滚动）
+ */
+function initTOCClickHandlers() {
+    const tocNav = document.getElementById('toc-nav');
+    const tocMobileNav = document.getElementById('toc-mobile-nav');
+    
+    [tocNav, tocMobileNav].forEach(nav => {
+        if (!nav) return;
+        
+        nav.addEventListener('click', (e) => {
+            const tocItem = e.target.closest('.toc-item');
+            if (!tocItem) return;
+            
+            e.preventDefault();
+            
+            const targetId = tocItem.dataset.target;
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // 计算偏移量（考虑固定导航栏）
+                const navBar = document.querySelector('.nav-bar');
+                const offset = navBar ? navBar.offsetHeight + 20 : 80;
+                
+                const targetPosition = targetElement.offsetTop - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // 更新 URL hash（不跳转）
+                history.pushState(null, '', `#${targetId}`);
+            }
+        });
+    });
 }
 
 // ==========================================
@@ -1259,10 +1753,678 @@ function formatDate(dateString) {
 }
 
 // ==========================================
+// 合集导航功能
+// ==========================================
+
+// LocalStorage 键名
+const READING_PROGRESS_KEY = 'hypertrance_reading_progress';
+
+/**
+ * 保存阅读进度
+ * @param {string} collectionId - 合集ID
+ * @param {string} articleSlug - 文章slug
+ */
+function saveReadingProgress(collectionId, articleSlug) {
+    const progress = JSON.parse(localStorage.getItem(READING_PROGRESS_KEY) || '{}');
+    if (!progress[collectionId]) {
+        progress[collectionId] = { read: [] };
+    }
+    if (!progress[collectionId].read.includes(articleSlug)) {
+        progress[collectionId].read.push(articleSlug);
+    }
+    localStorage.setItem(READING_PROGRESS_KEY, JSON.stringify(progress));
+}
+
+/**
+ * 获取阅读进度
+ * @param {string} collectionId - 合集ID
+ * @returns {Object} - 阅读进度对象
+ */
+function getReadingProgress(collectionId) {
+    const progress = JSON.parse(localStorage.getItem(READING_PROGRESS_KEY) || '{}');
+    return progress[collectionId] || { read: [] };
+}
+
+/**
+ * 初始化合集导航
+ * @param {Object} currentArticle - 当前文章元数据
+ * @param {Array} allArticles - 所有文章列表
+ * @param {Array} collections - 所有合集列表
+ */
+function initCollectionNav(currentArticle, allArticles, collections) {
+    const collectionNav = document.getElementById('collection-nav');
+    const collectionNameEl = document.getElementById('collection-name');
+    const collectionProgressEl = document.getElementById('collection-progress');
+    const collectionListEl = document.getElementById('collection-list');
+    const collectionToggleBtn = document.getElementById('collection-toggle');
+    const toggleIconEl = document.getElementById('toggle-icon');
+    const prevArticleEl = document.getElementById('prev-article');
+    const nextArticleEl = document.getElementById('next-article');
+    
+    if (!collectionNav || !currentArticle.collection) return;
+    
+    // 查找当前文章所属的合集
+    const collection = collections.find(c => c.id === currentArticle.collection);
+    if (!collection) return;
+    
+    // 获取合集中的所有文章（按 collectionOrder 排序）
+    const collectionArticles = allArticles
+        .filter(a => a.collection === collection.id)
+        .sort((a, b) => (a.collectionOrder || 0) - (b.collectionOrder || 0));
+    
+    if (collectionArticles.length === 0) return;
+    
+    // 找到当前文章在合集中的位置
+    const currentIndex = collectionArticles.findIndex(a => a.id === currentArticle.id);
+    if (currentIndex === -1) return;
+    
+    // 显示合集导航
+    collectionNav.style.display = 'block';
+    
+    // 设置合集名称
+    collectionNameEl.textContent = collection.name;
+    
+    // 设置进度
+    collectionProgressEl.textContent = `${currentIndex + 1}/${collectionArticles.length}`;
+    
+    // 保存当前文章的阅读记录
+    saveReadingProgress(collection.id, currentArticle.id);
+    
+    // 获取阅读进度
+    const readingProgress = getReadingProgress(collection.id);
+    
+    // 渲染文章列表
+    renderCollectionList(collectionListEl, collectionArticles, currentArticle.id, readingProgress);
+    
+    // 设置上一篇/下一篇按钮
+    if (currentIndex > 0) {
+        const prevArticle = collectionArticles[currentIndex - 1];
+        prevArticleEl.href = `post.html?id=${prevArticle.id}`;
+        prevArticleEl.style.visibility = 'visible';
+        prevArticleEl.title = prevArticle.title;
+    }
+    
+    if (currentIndex < collectionArticles.length - 1) {
+        const nextArticle = collectionArticles[currentIndex + 1];
+        nextArticleEl.href = `post.html?id=${nextArticle.id}`;
+        nextArticleEl.style.visibility = 'visible';
+        nextArticleEl.title = nextArticle.title;
+    }
+    
+    // 展开/收起切换
+    let isExpanded = false;
+    collectionToggleBtn.addEventListener('click', () => {
+        isExpanded = !isExpanded;
+        collectionListEl.classList.toggle('expanded', isExpanded);
+        toggleIconEl.textContent = isExpanded ? '▲' : '▼';
+        toggleIconEl.classList.toggle('rotated', isExpanded);
+    });
+}
+
+/**
+ * 渲染合集文章列表
+ * @param {HTMLElement} container - 列表容器
+ * @param {Array} articles - 合集中的文章列表
+ * @param {string} currentArticleId - 当前文章ID
+ * @param {Object} readingProgress - 阅读进度
+ */
+function renderCollectionList(container, articles, currentArticleId, readingProgress) {
+    const html = articles.map((article, index) => {
+        const isCurrent = article.id === currentArticleId;
+        const isRead = readingProgress.read.includes(article.id);
+        
+        let statusIcon = '';
+        let statusClass = '';
+        
+        if (isCurrent) {
+            statusIcon = '📖';
+            statusClass = 'current';
+        } else if (isRead) {
+            statusIcon = '✓';
+            statusClass = 'read';
+        } else {
+            statusIcon = String(index + 1);
+            statusClass = 'unread';
+        }
+        
+        return `
+            <a href="${isCurrent ? '#' : `post.html?id=${article.id}`}"
+               class="collection-item ${statusClass}"
+               ${isCurrent ? 'onclick="return false;"' : ''}>
+                <span class="item-status">${statusIcon}</span>
+                <span class="item-title">${article.title}</span>
+                ${article.readingTime ? `<span class="item-time">${article.readingTime}</span>` : ''}
+            </a>
+        `;
+    }).join('');
+    
+    container.innerHTML = html;
+}
+
+// ==========================================
+// 搜索功能
+// ==========================================
+
+// 搜索相关常量
+const SEARCH_CONFIG = {
+    debounceTime: 300,
+    maxRecentSearches: 5,
+    maxResults: 8,
+    recentSearchesKey: 'hypertrance_recent_searches'
+};
+
+// 搜索状态
+let searchState = {
+    isOpen: false,
+    selectedIndex: -1,
+    results: [],
+    query: ''
+};
+
+/**
+ * 初始化搜索功能
+ */
+function initSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    const searchResults = document.getElementById('search-results');
+    const searchContainer = document.getElementById('search-container');
+    
+    if (!searchInput) return;
+    
+    // 输入事件（带防抖）
+    const debouncedSearch = debounce(handleSearchInput, SEARCH_CONFIG.debounceTime);
+    searchInput.addEventListener('input', debouncedSearch);
+    
+    // 聚焦事件
+    searchInput.addEventListener('focus', () => {
+        searchState.isOpen = true;
+        showSearchPanel();
+    });
+    
+    // 清除按钮
+    if (searchClear) {
+        searchClear.addEventListener('click', () => {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+            clearSearchResults();
+            searchInput.focus();
+        });
+    }
+    
+    // 键盘事件
+    searchInput.addEventListener('keydown', handleSearchKeydown);
+    
+    // 点击外部关闭
+    document.addEventListener('click', (e) => {
+        if (searchContainer && !searchContainer.contains(e.target)) {
+            closeSearchPanel();
+        }
+    });
+    
+    // 全局键盘快捷键
+    document.addEventListener('keydown', (e) => {
+        // Ctrl+K 或 / 打开搜索
+        if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && !isInputFocused())) {
+            e.preventDefault();
+            searchInput.focus();
+            showSearchPanel();
+        }
+        
+        // Esc 关闭搜索
+        if (e.key === 'Escape' && searchState.isOpen) {
+            closeSearchPanel();
+            searchInput.blur();
+        }
+    });
+    
+    // 加载最近搜索
+    loadRecentSearches();
+}
+
+/**
+ * 判断是否有输入框聚焦
+ */
+function isInputFocused() {
+    const activeElement = document.activeElement;
+    return activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA');
+}
+
+/**
+ * 防抖函数
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/**
+ * 处理搜索输入
+ */
+function handleSearchInput(e) {
+    const query = e.target.value.trim();
+    const searchClear = document.getElementById('search-clear');
+    
+    // 显示/隐藏清除按钮
+    if (searchClear) {
+        searchClear.style.display = query.length > 0 ? 'flex' : 'none';
+    }
+    
+    if (query.length === 0) {
+        clearSearchResults();
+        showRecentSearches();
+        return;
+    }
+    
+    searchState.query = query;
+    
+    // 执行搜索
+    const results = fuzzySearch(query, articlesData.articles);
+    searchState.results = results;
+    searchState.selectedIndex = -1;
+    
+    renderSearchResults(results, query);
+}
+
+/**
+ * 模糊搜索实现
+ */
+function fuzzySearch(query, articles) {
+    const lowerQuery = query.toLowerCase();
+    
+    return articles
+        .filter(article => {
+            const title = (article.title || '').toLowerCase();
+            const excerpt = (article.excerpt || '').toLowerCase();
+            const tags = (article.tags || []).join(' ').toLowerCase();
+            const category = (article.category || '').toLowerCase();
+            
+            return title.includes(lowerQuery) ||
+                   excerpt.includes(lowerQuery) ||
+                   tags.includes(lowerQuery) ||
+                   category.includes(lowerQuery);
+        })
+        .map(article => ({
+            ...article,
+            score: calculateRelevance(article, lowerQuery)
+        }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, SEARCH_CONFIG.maxResults);
+}
+
+/**
+ * 计算搜索相关度分数
+ */
+function calculateRelevance(article, query) {
+    let score = 0;
+    const title = (article.title || '').toLowerCase();
+    const excerpt = (article.excerpt || '').toLowerCase();
+    const tags = (article.tags || []).join(' ').toLowerCase();
+    
+    // 标题匹配权重最高
+    if (title.includes(query)) {
+        score += 100;
+        // 标题开头匹配更高
+        if (title.startsWith(query)) {
+            score += 50;
+        }
+    }
+    
+    // 标签匹配
+    if (tags.includes(query)) {
+        score += 50;
+    }
+    
+    // 摘要匹配
+    if (excerpt.includes(query)) {
+        score += 20;
+    }
+    
+    // 时间权重（越新越靠前）
+    const date = new Date(article.date);
+    const now = new Date();
+    const daysDiff = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    score += Math.max(0, 10 - daysDiff / 30);
+    
+    return score;
+}
+
+/**
+ * 转义正则表达式特殊字符
+ */
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * 高亮匹配词
+ */
+function highlightMatch(text, query) {
+    if (!query || !text) return text;
+    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+}
+
+/**
+ * 渲染搜索结果
+ */
+function renderSearchResults(results, query) {
+    const resultsList = document.getElementById('search-results-list');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('search-no-results');
+    const recentSearches = document.getElementById('recent-searches');
+    const searchResults = document.getElementById('search-results');
+    
+    if (!resultsList || !searchResults) return;
+    
+    // 隐藏最近搜索
+    if (recentSearches) {
+        recentSearches.style.display = 'none';
+    }
+    
+    // 显示搜索结果面板
+    searchResults.style.display = 'block';
+    
+    if (results.length === 0) {
+        resultsList.innerHTML = '';
+        resultsList.style.display = 'none';
+        if (noResults) noResults.style.display = 'flex';
+        if (resultsCount) resultsCount.textContent = '';
+        return;
+    }
+    
+    if (noResults) noResults.style.display = 'none';
+    resultsList.style.display = 'block';
+    
+    // 更新结果计数
+    if (resultsCount) {
+        resultsCount.textContent = `找到 ${results.length} 个结果`;
+    }
+    
+    // 获取分类信息
+    const categories = articlesData.categories || [];
+    
+    // 渲染结果项
+    resultsList.innerHTML = results.map((article, index) => {
+        const highlightedTitle = highlightMatch(article.title, query);
+        const excerptSnippet = getExcerptSnippet(article.excerpt, query, 80);
+        const highlightedExcerpt = highlightMatch(excerptSnippet, query);
+        
+        // 获取分类名称
+        const category = categories.find(c => c.id === article.category);
+        const categoryName = category ? category.name : article.category || '';
+        
+        return `
+            <a href="post.html?id=${article.id}"
+               class="search-result-item ${index === searchState.selectedIndex ? 'selected' : ''}"
+               data-index="${index}">
+                <div class="result-main">
+                    <div class="result-title">${highlightedTitle}</div>
+                    <div class="result-excerpt">${highlightedExcerpt}</div>
+                </div>
+                <div class="result-meta">
+                    ${categoryName ? `<span class="result-category">${categoryName}</span>` : ''}
+                    <span class="result-date">${formatDate(article.date)}</span>
+                </div>
+            </a>
+        `;
+    }).join('');
+    
+    // 绑定鼠标悬停事件
+    resultsList.querySelectorAll('.search-result-item').forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            searchState.selectedIndex = index;
+            updateSelectedResult();
+        });
+    });
+}
+
+/**
+ * 获取摘要片段（围绕匹配词）
+ */
+function getExcerptSnippet(excerpt, query, maxLength) {
+    if (!excerpt) return '';
+    
+    const lowerExcerpt = excerpt.toLowerCase();
+    const lowerQuery = query.toLowerCase();
+    const index = lowerExcerpt.indexOf(lowerQuery);
+    
+    if (index === -1) {
+        return excerpt.substring(0, maxLength) + (excerpt.length > maxLength ? '...' : '');
+    }
+    
+    // 以匹配词为中心截取
+    const start = Math.max(0, index - 20);
+    const end = Math.min(excerpt.length, index + query.length + 60);
+    let snippet = excerpt.substring(start, end);
+    
+    if (start > 0) snippet = '...' + snippet;
+    if (end < excerpt.length) snippet = snippet + '...';
+    
+    return snippet;
+}
+
+/**
+ * 处理搜索键盘事件
+ */
+function handleSearchKeydown(e) {
+    const results = searchState.results;
+    
+    switch (e.key) {
+        case 'ArrowDown':
+            e.preventDefault();
+            if (results.length > 0) {
+                searchState.selectedIndex = Math.min(
+                    searchState.selectedIndex + 1,
+                    results.length - 1
+                );
+                updateSelectedResult();
+            }
+            break;
+            
+        case 'ArrowUp':
+            e.preventDefault();
+            if (results.length > 0) {
+                searchState.selectedIndex = Math.max(
+                    searchState.selectedIndex - 1,
+                    0
+                );
+                updateSelectedResult();
+            }
+            break;
+            
+        case 'Enter':
+            e.preventDefault();
+            if (searchState.selectedIndex >= 0 && results[searchState.selectedIndex]) {
+                // 跳转到选中结果
+                const article = results[searchState.selectedIndex];
+                saveRecentSearch(searchState.query);
+                window.location.href = `post.html?id=${article.id}`;
+            } else if (searchState.query && results.length > 0) {
+                // 跳转到第一个结果
+                saveRecentSearch(searchState.query);
+                window.location.href = `post.html?id=${results[0].id}`;
+            }
+            break;
+    }
+}
+
+/**
+ * 更新选中的搜索结果
+ */
+function updateSelectedResult() {
+    const items = document.querySelectorAll('.search-result-item');
+    items.forEach((item, index) => {
+        if (index === searchState.selectedIndex) {
+            item.classList.add('selected');
+            item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+            item.classList.remove('selected');
+        }
+    });
+}
+
+/**
+ * 显示搜索面板
+ */
+function showSearchPanel() {
+    const searchResults = document.getElementById('search-results');
+    const searchInput = document.getElementById('search-input');
+    const searchContainer = document.getElementById('search-container');
+    
+    if (searchContainer) {
+        searchContainer.classList.add('active');
+    }
+    
+    if (searchResults && searchInput) {
+        // 如果有搜索内容，显示结果；否则显示最近搜索
+        if (searchInput.value.trim()) {
+            handleSearchInput({ target: searchInput });
+        } else {
+            searchResults.style.display = 'block';
+            showRecentSearches();
+        }
+    }
+}
+
+/**
+ * 关闭搜索面板
+ */
+function closeSearchPanel() {
+    const searchResults = document.getElementById('search-results');
+    const searchContainer = document.getElementById('search-container');
+    
+    searchState.isOpen = false;
+    searchState.selectedIndex = -1;
+    
+    if (searchResults) {
+        searchResults.style.display = 'none';
+    }
+    
+    if (searchContainer) {
+        searchContainer.classList.remove('active');
+    }
+}
+
+/**
+ * 清除搜索结果
+ */
+function clearSearchResults() {
+    const resultsList = document.getElementById('search-results-list');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('search-no-results');
+    
+    if (resultsList) resultsList.innerHTML = '';
+    if (resultsCount) resultsCount.textContent = '';
+    if (noResults) noResults.style.display = 'none';
+    
+    searchState.results = [];
+    searchState.selectedIndex = -1;
+    searchState.query = '';
+}
+
+/**
+ * 保存最近搜索
+ */
+function saveRecentSearch(query) {
+    if (!query || query.trim().length === 0) return;
+    
+    let recentSearches = JSON.parse(
+        localStorage.getItem(SEARCH_CONFIG.recentSearchesKey) || '[]'
+    );
+    
+    // 移除重复项
+    recentSearches = recentSearches.filter(s => s.toLowerCase() !== query.toLowerCase());
+    
+    // 添加到开头
+    recentSearches.unshift(query.trim());
+    
+    // 限制数量
+    recentSearches = recentSearches.slice(0, SEARCH_CONFIG.maxRecentSearches);
+    
+    localStorage.setItem(SEARCH_CONFIG.recentSearchesKey, JSON.stringify(recentSearches));
+}
+
+/**
+ * 加载并显示最近搜索
+ */
+function loadRecentSearches() {
+    const recentSearches = JSON.parse(
+        localStorage.getItem(SEARCH_CONFIG.recentSearchesKey) || '[]'
+    );
+    
+    return recentSearches;
+}
+
+/**
+ * 显示最近搜索
+ */
+function showRecentSearches() {
+    const recentSearchesContainer = document.getElementById('recent-searches');
+    const recentList = document.getElementById('recent-list');
+    const resultsList = document.getElementById('search-results-list');
+    const noResults = document.getElementById('search-no-results');
+    
+    if (!recentSearchesContainer || !recentList) return;
+    
+    // 隐藏搜索结果
+    if (resultsList) resultsList.style.display = 'none';
+    if (noResults) noResults.style.display = 'none';
+    
+    const recentSearches = loadRecentSearches();
+    
+    if (recentSearches.length === 0) {
+        recentSearchesContainer.style.display = 'none';
+        return;
+    }
+    
+    recentSearchesContainer.style.display = 'block';
+    
+    recentList.innerHTML = recentSearches.map(search => `
+        <button class="recent-item" data-search="${escapeHtml(search)}">
+            <span class="recent-icon">🕐</span>
+            <span class="recent-text">${escapeHtml(search)}</span>
+            <span class="recent-arrow">→</span>
+        </button>
+    `).join('');
+    
+    // 绑定点击事件
+    recentList.querySelectorAll('.recent-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = item.dataset.search;
+                handleSearchInput({ target: searchInput });
+            }
+        });
+    });
+}
+
+/**
+ * 转义 HTML
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// ==========================================
 // 导出给全局使用
 // ==========================================
 window.HypertranceBlog = {
     loadArticles,
     loadArticleContent,
-    formatDate
+    formatDate,
+    saveReadingProgress,
+    getReadingProgress,
+    initSearch,
+    fuzzySearch
 };

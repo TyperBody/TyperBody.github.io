@@ -1,23 +1,116 @@
-[
+{
+  "meta": {
+    "version": "2.0",
+    "lastUpdated": "2026-03-12",
+    "totalArticles": 3
+  },
+  "categories": [
     {
-        "id": "welcome-to-hypertrance",
-        "title": "欢迎来到超频空间",
-        "date": "2024-01-15",
-        "excerpt": "这是我的第一篇博客文章，介绍这个 Y2K 风格的个人博客是如何诞生的，以及它的设计理念和技术实现。",
-        "tags": ["博客", "Y2K", "Hypertrance"]
+      "id": "tutorial",
+      "name": "教程",
+      "icon": "📚",
+      "color": "#00ffff"
     },
     {
-        "id": "y2k-design-aesthetics",
-        "title": "Y2K 设计美学：未来已来",
-        "date": "2024-01-20",
-        "excerpt": "探索 Y2K 设计美学的核心元素，从霓虹色彩到网格线条，了解这个千禧年风格是如何影响当代设计的。",
-        "tags": ["设计", "Y2K", "美学"]
+      "id": "design",
+      "name": "设计",
+      "icon": "🎨",
+      "color": "#ff00ff"
     },
     {
-        "id": "markdown-tutorial",
-        "title": "Markdown 写作指南",
-        "date": "2024-01-25",
-        "excerpt": "学习如何使用 Markdown 语法为博客撰写文章，包括标题、列表、代码块、图片等常用格式的使用方法。",
-        "tags": ["教程", "Markdown", "写作"]
+      "id": "music",
+      "name": "音乐",
+      "icon": "🎵",
+      "color": "#00ff00"
     }
-]
+  ],
+  "collections": [
+    {
+      "id": "hypertrance-intro",
+      "name": "Hypertrance 入门系列",
+      "description": "从零开始了解 Hypertrance",
+      "articles": ["welcome-to-hypertrance", "y2k-design-aesthetics"]
+    }
+  ],
+  "articles": [
+    {
+      "id": "welcome-to-hypertrance",
+      "title": "欢迎来到超频空间",
+      "date": "2024-01-15",
+      "excerpt": "这是我的第一篇博客文章，介绍这个 Y2K 风格的个人博客是如何诞生的，以及它的设计理念和技术实现。",
+      "tags": ["博客", "Y2K", "Hypertrance"],
+      "slug": "welcome-to-hypertrance",
+      "coverImage": null,
+      "category": "music",
+      "collection": "hypertrance-intro",
+      "collectionOrder": 1,
+      "featured": true,
+      "readingTime": "2 min",
+      "headings": [
+        { "level": 1, "text": "欢迎来到超频空间", "id": "欢迎来到超频空间" },
+        { "level": 2, "text": "关于这个博客", "id": "关于这个博客" },
+        { "level": 2, "text": "技术栈", "id": "技术栈" },
+        { "level": 2, "text": "如何添加文章", "id": "如何添加文章" },
+        { "level": 2, "text": "未来计划", "id": "未来计划" }
+      ]
+    },
+    {
+      "id": "y2k-design-aesthetics",
+      "title": "Y2K 设计美学：未来已来",
+      "date": "2024-01-20",
+      "excerpt": "探索 Y2K 设计美学的核心元素，从霓虹色彩到网格线条，了解这个千禧年风格是如何影响当代设计的。",
+      "tags": ["设计", "Y2K", "美学"],
+      "slug": "y2k-design-aesthetics",
+      "coverImage": null,
+      "category": "design",
+      "collection": "hypertrance-intro",
+      "collectionOrder": 2,
+      "featured": true,
+      "readingTime": "3 min",
+      "headings": [
+        { "level": 1, "text": "Y2K 设计美学：未来已来", "id": "y2k-设计美学未来已来" },
+        { "level": 2, "text": "什么是 Y2K 美学？", "id": "什么是-y2k-美学" },
+        { "level": 3, "text": "1. 霓虹色彩", "id": "1-霓虹色彩" },
+        { "level": 3, "text": "2. 几何形状", "id": "2-几何形状" },
+        { "level": 3, "text": "3. 故障艺术 (Glitch Art)", "id": "3-故障艺术-glitch-art" },
+        { "level": 2, "text": "Hypertrance 与视觉", "id": "hypertrance-与视觉" },
+        { "level": 2, "text": "在现代设计中的应用", "id": "在现代设计中的应用" },
+        { "level": 2, "text": "设计建议", "id": "设计建议" }
+      ]
+    },
+    {
+      "id": "markdown-tutorial",
+      "title": "Markdown 写作指南",
+      "date": "2024-01-25",
+      "excerpt": "学习如何使用 Markdown 语法为博客撰写文章，包括标题、列表、代码块、图片等常用格式的使用方法。",
+      "tags": ["教程", "Markdown", "写作"],
+      "slug": "markdown-tutorial",
+      "coverImage": null,
+      "category": "tutorial",
+      "collection": null,
+      "collectionOrder": null,
+      "featured": false,
+      "readingTime": "5 min",
+      "headings": [
+        { "level": 1, "text": "Markdown 写作指南", "id": "markdown-写作指南" },
+        { "level": 2, "text": "标题", "id": "标题" },
+        { "level": 2, "text": "文本格式", "id": "文本格式" },
+        { "level": 3, "text": "粗体和斜体", "id": "粗体和斜体" },
+        { "level": 2, "text": "列表", "id": "列表" },
+        { "level": 3, "text": "无序列表", "id": "无序列表" },
+        { "level": 3, "text": "有序列表", "id": "有序列表" },
+        { "level": 2, "text": "链接和图片", "id": "链接和图片" },
+        { "level": 3, "text": "链接", "id": "链接" },
+        { "level": 3, "text": "图片", "id": "图片" },
+        { "level": 2, "text": "代码", "id": "代码" },
+        { "level": 3, "text": "行内代码", "id": "行内代码" },
+        { "level": 3, "text": "代码块", "id": "代码块" },
+        { "level": 2, "text": "引用", "id": "引用" },
+        { "level": 2, "text": "分隔线", "id": "分隔线" },
+        { "level": 2, "text": "表格", "id": "表格" },
+        { "level": 2, "text": "任务列表", "id": "任务列表" },
+        { "level": 2, "text": "写作建议", "id": "写作建议" }
+      ]
+    }
+  ]
+}
