@@ -1,0 +1,30 @@
+{
+  "title": "Markdown 写作指南",
+  "date": "2024-01-25",
+  "excerpt": "学习如何使用 Markdown 语法为博客撰写文章，包括标题、列表、代码块、图片等常用格式的使用方法。",
+  "tags": ["教程", "Markdown", "写作"],
+  "category": "tutorial",
+  "featured": false,
+  "readingTime": "5 min",
+  "coverImage": null,
+  "headings": [
+    { "level": 1, "text": "Markdown 写作指南", "id": "markdown-写作指南" },
+    { "level": 2, "text": "标题", "id": "标题" },
+    { "level": 2, "text": "文本格式", "id": "文本格式" },
+    { "level": 3, "text": "粗体和斜体", "id": "粗体和斜体" },
+    { "level": 2, "text": "列表", "id": "列表" },
+    { "level": 3, "text": "无序列表", "id": "无序列表" },
+    { "level": 3, "text": "有序列表", "id": "有序列表" },
+    { "level": 2, "text": "链接和图片", "id": "链接和图片" },
+    { "level": 3, "text": "链接", "id": "链接" },
+    { "level": 3, "text": "图片", "id": "图片" },
+    { "level": 2, "text": "代码", "id": "代码" },
+    { "level": 3, "text": "行内代码", "id": "行内代码" },
+    { "level": 3, "text": "代码块", "id": "代码块" },
+    { "level": 2, "text": "引用", "id": "引用" },
+    { "level": 2, "text": "分隔线", "id": "分隔线" },
+    { "level": 2, "text": "表格", "id": "表格" },
+    { "level": 2, "text": "任务列表", "id": "任务列表" },
+    { "level": 2, "text": "写作建议", "id": "写作建议" }
+  ]
+}

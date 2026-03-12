@@ -10,6 +10,7 @@
 const CONFIG = {
     articlesPath: 'posts/',
     articlesIndex: 'posts/index.json',
+    collectionsIndex: 'posts/collections.json',
 };
 
 // ==========================================
@@ -1125,21 +1126,49 @@ async function loadArticles() {
     const filterContainer = document.getElementById('category-filter');
     
     try {
-        const response = await fetch(CONFIG.articlesIndex);
-        if (!response.ok) throw new Error('Failed to load articles index');
+        // 1. 加载主索引文件获取文章ID列表和分类
+        const indexResponse = await fetch(CONFIG.articlesIndex);
+        if (!indexResponse.ok) throw new Error('Failed to load articles index');
+        const indexData = await indexResponse.json();
         
-        const data = await response.json();
+        // 获取分类信息
+        articlesData.categories = indexData.categories || [];
         
-        // 存储数据（支持新旧两种数据结构）
-        if (data.articles) {
-            // 新版数据结构 v2.0
-            articlesData.articles = data.articles;
-            articlesData.categories = data.categories || [];
-            articlesData.collections = data.collections || [];
-        } else {
-            // 旧版数据结构（数组）
-            articlesData.articles = data;
-            articlesData.categories = [];
+        // 获取文章ID列表
+        const articleIds = indexData.articles || [];
+        
+        // 2. 并行加载所有文章的JSON文件
+        const articlePromises = articleIds.map(async (articleId) => {
+            try {
+                const response = await fetch(`${CONFIG.articlesPath}${articleId}.json`);
+                if (!response.ok) {
+                    console.warn(`Failed to load article: ${articleId}`);
+                    return null;
+                }
+                const articleData = await response.json();
+                // 添加 id 字段（从文件名获取）
+                return { ...articleData, id: articleId };
+            } catch (error) {
+                console.warn(`Error loading article ${articleId}:`, error);
+                return null;
+            }
+        });
+        
+        // 等待所有文章加载完成，过滤掉失败的
+        const loadedArticles = await Promise.all(articlePromises);
+        articlesData.articles = loadedArticles.filter(article => article !== null);
+        
+        // 3. 加载合集信息
+        try {
+            const collectionsResponse = await fetch(CONFIG.collectionsIndex);
+            if (collectionsResponse.ok) {
+                const collectionsData = await collectionsResponse.json();
+                articlesData.collections = collectionsData.collections || [];
+            } else {
+                articlesData.collections = [];
+            }
+        } catch (error) {
+            console.warn('Failed to load collections:', error);
             articlesData.collections = [];
         }
         
@@ -1438,14 +1467,28 @@ function createArticleCard(article, index) {
     const icons = ['◇', '◈', '✦', '⬡', '⟐', '⏣', '⎔', '◭'];
     const icon = icons[index % icons.length];
     
-    const tagsHTML = article.tags 
+    const tagsHTML = article.tags
         ? article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')
         : '';
     
+    // 判断是否有封面图片
+    let cardImageHTML;
+    if (article.coverImage) {
+        cardImageHTML = `
+            <div class="card-image card-image--has-cover">
+                <img src="${article.coverImage}" alt="${article.title}" class="card-cover-image" loading="lazy">
+            </div>
+        `;
+    } else {
+        cardImageHTML = `
+            <div class="card-image">
+                <span class="card-icon">${icon}</span>
+            </div>
+        `;
+    }
+    
     card.innerHTML = `
-        <div class="card-image">
-            <span class="card-icon">${icon}</span>
-        </div>
+        ${cardImageHTML}
         <div class="card-content">
             <div class="card-date">${formatDate(article.date)}</div>
             <h3 class="card-title">${article.title}</h3>
@@ -1493,17 +1536,23 @@ async function loadArticleContent() {
     }
     
     try {
-        const indexResponse = await fetch(CONFIG.articlesIndex);
-        const indexData = await indexResponse.json();
+        // 1. 加载文章元数据
+        const metaResponse = await fetch(`${CONFIG.articlesPath}${articleId}.json`);
+        if (!metaResponse.ok) throw new Error('Article not found');
+        const articleMeta = await metaResponse.json();
+        articleMeta.id = articleId; // 添加 id 字段
         
-        // 支持新旧数据结构
-        const articles = indexData.articles || indexData;
-        const collections = indexData.collections || [];
-        
-        const articleMeta = articles.find(a => a.id === articleId);
-        
-        if (!articleMeta) {
-            throw new Error('Article not found');
+        // 2. 加载合集信息
+        let collections = [];
+        let allArticles = [];
+        try {
+            const collectionsResponse = await fetch(CONFIG.collectionsIndex);
+            if (collectionsResponse.ok) {
+                const collectionsData = await collectionsResponse.json();
+                collections = collectionsData.collections || [];
+            }
+        } catch (error) {
+            console.warn('Failed to load collections:', error);
         }
         
         if (titleElement) titleElement.textContent = articleMeta.title;
@@ -1514,11 +1563,48 @@ async function loadArticleContent() {
                 .join('');
         }
         
+        // 如果有封面图片，添加封面图片显示
+        if (articleMeta.coverImage) {
+            const articleHeader = document.querySelector('.article-header');
+            if (articleHeader) {
+                const coverImageContainer = document.createElement('div');
+                coverImageContainer.className = 'article-cover-container';
+                coverImageContainer.innerHTML = `
+                    <img src="${articleMeta.coverImage}" alt="${articleMeta.title}" class="article-cover-image">
+                `;
+                articleHeader.insertBefore(coverImageContainer, articleHeader.firstChild);
+            }
+        }
+        
         document.title = `${articleMeta.title} | HYPERTRANCE BLOG`;
         
         // 初始化合集导航（如果文章属于某个合集）
-        if (articleMeta.collection) {
-            initCollectionNav(articleMeta, articles, collections);
+        const belongsToCollection = collections.find(c => c.articles && c.articles.includes(articleId));
+        if (belongsToCollection) {
+            // 加载合集中所有文章的元数据用于导航
+            const collectionArticlePromises = belongsToCollection.articles.map(async (id) => {
+                try {
+                    const response = await fetch(`${CONFIG.articlesPath}${id}.json`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        return { ...data, id, collection: belongsToCollection.id };
+                    }
+                } catch (e) {
+                    console.warn(`Failed to load article ${id} for collection nav`);
+                }
+                return null;
+            });
+            allArticles = (await Promise.all(collectionArticlePromises)).filter(a => a !== null);
+            
+            // 为文章添加合集信息和顺序
+            allArticles.forEach((article, index) => {
+                article.collectionOrder = index + 1;
+            });
+            
+            articleMeta.collection = belongsToCollection.id;
+            articleMeta.collectionOrder = belongsToCollection.articles.indexOf(articleId) + 1;
+            
+            initCollectionNav(articleMeta, allArticles, collections);
         }
         
         const mdResponse = await fetch(`${CONFIG.articlesPath}${articleId}.md`);

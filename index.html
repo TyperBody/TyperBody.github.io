@@ -105,24 +105,26 @@
             <nav class="category-filter" id="category-filter">
                 <!-- 动态渲染分类按钮 -->
             </nav>
-            <div class="articles-grid" id="articles-grid">
-                <div class="loading-indicator">
-                    <div class="loading-spinner"></div>
-                    <span>LOADING...</span>
-                </div>
-            </div>
-        </section>
 
-        <!-- 合集展示区 -->
-        <section class="collections-section" id="collections">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <span class="title-bracket">[</span>
-                    COLLECTIONS
-                    <span class="title-bracket">]</span>
-                </h2>
-            </div>
-            <div class="collections-grid" id="collections-grid">
+            <!-- 合集展示区 - 移至文章列表上方 -->
+            <section class="collections-section" id="collections">
+                <div class="section-header collections-header">
+                    <h3 class="section-subtitle">
+                        <span class="title-bracket">[</span>
+                        COLLECTIONS
+                        <span class="title-bracket">]</span>
+                    </h3>
+                </div>
+                <div class="collections-grid" id="collections-grid">
+                    <div class="loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <span>LOADING...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 文章网格 -->
+            <div class="articles-grid" id="articles-grid">
                 <div class="loading-indicator">
                     <div class="loading-spinner"></div>
                     <span>LOADING...</span>

@@ -1,0 +1,18 @@
+{
+  "title": "欢迎来到超频空间",
+  "date": "2024-01-15",
+  "excerpt": "探索这个融合 Y2K 美学与 Hypertrance 风格的数字空间，了解它的设计理念、视觉元素和技术实现。",
+  "tags": ["博客", "设计", "Y2K", "Hypertrance", "个人网站"],
+  "category": "design",
+  "featured": true,
+  "readingTime": "5 min",
+  "coverImage": null,
+  "headings": [
+    { "level": 1, "text": "欢迎来到超频空间", "id": "欢迎来到超频空间" },
+    { "level": 2, "text": "设计理念", "id": "设计理念" },
+    { "level": 2, "text": "视觉元素", "id": "视觉元素" },
+    { "level": 2, "text": "技术实现", "id": "技术实现" },
+    { "level": 2, "text": "关于博主", "id": "关于博主" },
+    { "level": 2, "text": "未来展望", "id": "未来展望" }
+  ]
+}

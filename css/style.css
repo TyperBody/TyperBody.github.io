@@ -1360,6 +1360,99 @@ body {
     filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
 }
 
+/* 封面图片样式 - 带有封面图的卡片 */
+.card-image--has-cover {
+    padding: 0;
+}
+
+.card-image--has-cover::before {
+    display: none;
+}
+
+.card-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    transition: transform var(--transition-normal) ease, filter var(--transition-normal) ease;
+    filter: saturate(0.9) brightness(0.95);
+}
+
+.article-card:hover .card-cover-image {
+    transform: scale(1.05);
+    filter: saturate(1.1) brightness(1.05);
+}
+
+/* 封面图片霓虹边框效果 */
+.card-image--has-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 60px rgba(0, 20, 40, 0.3);
+    opacity: 0.8;
+    transition: opacity var(--transition-normal);
+}
+
+.article-card:hover .card-image--has-cover::after {
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 40px rgba(0, 100, 200, 0.2);
+    opacity: 0.6;
+}
+
+/* 文章详情页封面图片样式 */
+.article-cover-container {
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    position: relative;
+    border: 1px solid rgba(100, 150, 200, 0.2);
+    box-shadow:
+        0 0 30px rgba(0, 100, 200, 0.1),
+        0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.article-cover-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+        180deg,
+        transparent 60%,
+        rgba(0, 0, 0, 0.3) 85%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+}
+
+.article-cover-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+        inset 0 0 60px rgba(0, 100, 200, 0.1),
+        inset 0 -2px 0 rgba(0, 150, 255, 0.3);
+}
+
+.article-cover-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.95) brightness(0.98);
+}
+
 .card-content {
     padding: 28px;
     position: relative;
@@ -3180,6 +3273,28 @@ body {
    ========================================== */
 .collections-section {
     padding: 60px 0 80px;
+}
+
+/* 合集区域在文章区域内部时的样式 */
+.articles-section .collections-section {
+    padding: 30px 0 40px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(192, 199, 214, 0.1);
+}
+
+.articles-section .collections-header {
+    margin-bottom: 20px;
+}
+
+.articles-section .section-subtitle {
+    font-family: 'Orbitron', 'Air', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.15em;
+}
+
+.articles-section .section-subtitle .title-bracket {
+    color: var(--accent-cyan);
 }
 
 .collections-grid {
