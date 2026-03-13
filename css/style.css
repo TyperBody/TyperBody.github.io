@@ -2429,8 +2429,8 @@ body {
 
 @media (min-width: 1401px) {
     .article-page {
-        max-width: 1000px;
-        flex: 0 1 1000px;
+        max-width: 1500px;
+        flex: 0 1 1200px;
     }
 }
 
