@@ -3,6 +3,7 @@
   "date": "2024-01-25",
   "excerpt": "作为LangBot核心开发者，我计划制作一个完整的系列教程，涵盖从基础使用到高级功能的各个方面，帮助用户系统性地掌握这个强大的AI编程辅助工具。",
   "tags": ["教程", "LangBot", "人工智能", "编程辅助"],
+  "seoKeywords": ["LangBot教程", "AI聊天机器人", "ChatGPT替代", "大语言模型", "LLM教程", "AI编程助手", "智能对话系统", "开源AI工具","Astrbot","Astrbot教程","astrbot使用指南","astrbot入门教程","openclaw"],
   "category": "tutorial",
   "featured": false,
   "readingTime": "8 min",

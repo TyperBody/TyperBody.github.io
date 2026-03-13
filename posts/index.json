@@ -8,5 +8,10 @@
     { "id": "design", "name": "设计", "icon": "✦", "color": "#ff00ff" },
     { "id": "langbot", "name": "LangBot", "icon": "⚙", "color": "#ff0000" }
   ],
-  "articles": ["langbot-intro", "welcome-to-hypertrance", "y2k-design-aesthetics", "markdown-tutorial"]
+  "articles": [
+    "langbot-intro",
+    "welcome-to-hypertrance",
+    "y2k-design-aesthetics",
+    "markdown-tutorial"
+]
 }

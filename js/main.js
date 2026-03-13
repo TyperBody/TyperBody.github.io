@@ -1578,6 +1578,9 @@ async function loadArticleContent() {
         
         document.title = `${articleMeta.title} | HYPERTRANCE BLOG`;
         
+        // SEO优化：添加隐藏的关键词到meta标签（搜索引擎可见，用户不可见）
+        updateSEOMeta(articleMeta);
+        
         // 初始化合集导航（如果文章属于某个合集）
         const belongsToCollection = collections.find(c => c.articles && c.articles.includes(articleId));
         if (belongsToCollection) {
@@ -1633,6 +1636,117 @@ async function loadArticleContent() {
             <a href="index.html" class="back-link">← 返回首页 // BACK</a>
         `;
     }
+}
+
+// ==========================================
+// SEO 优化 - 动态添加meta标签
+// ==========================================
+
+/**
+ * 更新页面的SEO meta标签
+ * 添加隐藏的SEO关键词，搜索引擎可见但用户不可见
+ * @param {Object} articleMeta - 文章元数据
+ */
+function updateSEOMeta(articleMeta) {
+    const head = document.head;
+    
+    // 1. 添加/更新 description meta标签
+    let descMeta = document.querySelector('meta[name="description"]');
+    if (!descMeta) {
+        descMeta = document.createElement('meta');
+        descMeta.name = 'description';
+        head.appendChild(descMeta);
+    }
+    descMeta.content = articleMeta.excerpt || articleMeta.title;
+    
+    // 2. 合并可见标签和隐藏SEO关键词
+    const visibleTags = articleMeta.tags || [];
+    const seoKeywords = articleMeta.seoKeywords || [];
+    const allKeywords = [...new Set([...visibleTags, ...seoKeywords])]; // 去重
+    
+    // 3. 添加/更新 keywords meta标签（搜索引擎可见）
+    let keywordsMeta = document.querySelector('meta[name="keywords"]');
+    if (!keywordsMeta) {
+        keywordsMeta = document.createElement('meta');
+        keywordsMeta.name = 'keywords';
+        head.appendChild(keywordsMeta);
+    }
+    keywordsMeta.content = allKeywords.join(', ');
+    
+    // 4. Open Graph 标签（社交媒体分享优化）
+    const ogTags = {
+        'og:title': articleMeta.title,
+        'og:description': articleMeta.excerpt || articleMeta.title,
+        'og:type': 'article',
+        'og:url': window.location.href
+    };
+    
+    if (articleMeta.coverImage) {
+        ogTags['og:image'] = new URL(articleMeta.coverImage, window.location.href).href;
+    }
+    
+    Object.entries(ogTags).forEach(([property, content]) => {
+        let ogMeta = document.querySelector(`meta[property="${property}"]`);
+        if (!ogMeta) {
+            ogMeta = document.createElement('meta');
+            ogMeta.setAttribute('property', property);
+            head.appendChild(ogMeta);
+        }
+        ogMeta.content = content;
+    });
+    
+    // 5. Twitter Card 标签
+    const twitterTags = {
+        'twitter:card': 'summary_large_image',
+        'twitter:title': articleMeta.title,
+        'twitter:description': articleMeta.excerpt || articleMeta.title
+    };
+    
+    if (articleMeta.coverImage) {
+        twitterTags['twitter:image'] = new URL(articleMeta.coverImage, window.location.href).href;
+    }
+    
+    Object.entries(twitterTags).forEach(([name, content]) => {
+        let twitterMeta = document.querySelector(`meta[name="${name}"]`);
+        if (!twitterMeta) {
+            twitterMeta = document.createElement('meta');
+            twitterMeta.name = name;
+            head.appendChild(twitterMeta);
+        }
+        twitterMeta.content = content;
+    });
+    
+    // 6. 添加文章结构化数据（JSON-LD，对SEO非常有帮助）
+    const existingJsonLd = document.querySelector('script[type="application/ld+json"]');
+    if (existingJsonLd) {
+        existingJsonLd.remove();
+    }
+    
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": articleMeta.title,
+        "description": articleMeta.excerpt || articleMeta.title,
+        "keywords": allKeywords.join(', '),
+        "datePublished": articleMeta.date,
+        "author": {
+            "@type": "Person",
+            "name": "TyperBody"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TYPERBODY BLOG"
+        }
+    };
+    
+    if (articleMeta.coverImage) {
+        jsonLd.image = new URL(articleMeta.coverImage, window.location.href).href;
+    }
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(jsonLd);
+    head.appendChild(script);
 }
 
 // ==========================================
