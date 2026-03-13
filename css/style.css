@@ -2416,7 +2416,7 @@ body {
 @media (min-width: 1201px) {
     /* 首页保持垂直布局，文章页面需要单独处理 */
     .article-page {
-        max-width: 800px;
+        max-width: 960px;
         margin: 0 auto;
         padding-right: 40px;
     }
@@ -2429,8 +2429,8 @@ body {
 
 @media (min-width: 1401px) {
     .article-page {
-        max-width: 850px;
-        flex: 0 1 850px;
+        max-width: 1000px;
+        flex: 0 1 1000px;
     }
 }
 
