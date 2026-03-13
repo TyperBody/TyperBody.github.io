@@ -2416,9 +2416,9 @@ body {
 @media (min-width: 1201px) {
     /* 首页保持垂直布局，文章页面需要单独处理 */
     .article-page {
-        max-width: 960px;
+        max-width: 950px;
         margin: 0 auto;
-        padding-right: 230px;
+        padding-right: 240px;
     }
     
     /* TOC侧边栏不影响文章居中 */
