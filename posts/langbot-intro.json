@@ -8,5 +8,23 @@
   "readingTime": "8 min",
   "coverImage": "images/social.png",
   "headings": [
+    { "level": 1, "text": "关于我要做一个LangBot系列教程的事情", "id": "关于我要做一个langbot系列教程的事情" },
+    { "level": 2, "text": "LangBot是什么？", "id": "langbot是什么" },
+    { "level": 2, "text": "为什么需要这个系列教程？", "id": "为什么需要这个系列教程" },
+    { "level": 3, "text": "信息碎片化", "id": "信息碎片化" },
+    { "level": 3, "text": "深度不足", "id": "深度不足" },
+    { "level": 3, "text": "更新滞后", "id": "更新滞后" },
+    { "level": 3, "text": "缺乏资源", "id": "缺乏资源" },
+    { "level": 2, "text": "预期读者群体", "id": "预期读者群体" },
+    { "level": 3, "text": "初学者", "id": "初学者" },
+    { "level": 3, "text": "中级用户", "id": "中级用户" },
+    { "level": 3, "text": "高级用户和开发者", "id": "高级用户和开发者" },
+    { "level": 2, "text": "教程的特点", "id": "教程的特点" },
+    { "level": 3, "text": "实践导向", "id": "实践导向" },
+    { "level": 3, "text": "循序渐进", "id": "循序渐进" },
+    { "level": 3, "text": "注重原理", "id": "注重原理" },
+    { "level": 3, "text": "保持更新", "id": "保持更新" },
+    { "level": 2, "text": "如何获取帮助？", "id": "如何获取帮助" },
+    { "level": 2, "text": "结语", "id": "结语" }
   ]
 }
