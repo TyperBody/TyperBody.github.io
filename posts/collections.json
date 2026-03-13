@@ -6,6 +6,13 @@
       "description": "从零开始了解博客的设计理念、写作技巧和技术实现，适合新手入门。",
       "icon": "⬡",
       "articles": ["welcome-to-hypertrance", "y2k-design-aesthetics"]
+    },
+    {
+      "id": "langbot-intro",
+      "name": "LangBot系列教程",
+      "description": "从基础使用，系统性掌握LangBot的强大功能。",
+      "icon": "⚙",
+      "articles": ["langbot-intro"]
     }
   ]
 }
