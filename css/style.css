@@ -2418,7 +2418,7 @@ body {
     .article-page {
         max-width: 960px;
         margin: 0 auto;
-        padding-right: 180px;
+        padding-right: 230px;
     }
     
     /* TOC侧边栏不影响文章居中 */
