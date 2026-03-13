@@ -6,7 +6,7 @@
   "categories": [
     { "id": "tutorial", "name": "教程", "icon": "⟐", "color": "#00ffff" },
     { "id": "design", "name": "设计", "icon": "✦", "color": "#ff00ff" },
-    { "id": "music", "name": "音乐", "icon": "◎", "color": "#00ff00" }
+    { "id": "langbot", "name": "LangBot", "icon": "⚙", "color": "#ff0000" }
   ],
   "articles": ["langbot-intro", "welcome-to-hypertrance", "y2k-design-aesthetics", "markdown-tutorial"]
 }

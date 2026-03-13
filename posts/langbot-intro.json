@@ -1,11 +1,11 @@
 {
   "title": "关于我要做一个LangBot系列教程的事情",
   "date": "2024-01-25",
-  "excerpt": "我计划制作一个关于 LangBot 的系列教程，涵盖从基础使用到高级功能的各个方面，帮助用户更好地理解和使用这个工具。",
-  "tags": ["教程", "LangBot"],
+  "excerpt": "作为LangBot核心开发者，我计划制作一个完整的系列教程，涵盖从基础使用到高级功能的各个方面，帮助用户系统性地掌握这个强大的AI编程辅助工具。",
+  "tags": ["教程", "LangBot", "人工智能", "编程辅助"],
   "category": "tutorial",
   "featured": false,
-  "readingTime": "5 min",
+  "readingTime": "8 min",
   "coverImage": "images/social.png",
   "headings": [
   ]
