@@ -3497,17 +3497,19 @@ body {
    ========================================== */
 
 /* 隐藏的SEO关键词 - 对搜索引擎可见，对用户不可见 */
+/* 使用屏幕外定位而不是display:none，确保搜索引擎能抓取内容 */
 .seo-keywords {
     position: absolute !important;
     left: -9999px !important;
     top: -9999px !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
     overflow: hidden !important;
-    visibility: hidden !important;
+    opacity: 0.01 !important;
     pointer-events: none !important;
-    display: none !important;
+    user-select: none !important;
+    /* 注意：不使用display:none，因为搜索引擎可能不会抓取display:none的内容 */
+    /* 不使用visibility:hidden，因为某些搜索引擎可能忽略 */
 }
 
 /* Canonical链接样式（隐藏） */

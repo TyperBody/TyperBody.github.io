@@ -204,6 +204,7 @@ function updateArticleStructuredData(articleMeta, articleId) {
 /**
  * 添加隐藏的SEO关键词
  * 这些关键词对搜索引擎可见，但对用户不可见
+ * 注意：使用CSS隐藏技术，而不是display:none，以确保搜索引擎能抓取
  */
 function addHiddenSEOKeywords(articleMeta) {
     if (!articleMeta.seoKeywords || !Array.isArray(articleMeta.seoKeywords)) return;
@@ -215,14 +216,20 @@ function addHiddenSEOKeywords(articleMeta) {
         seoContainer.id = 'seo-keywords-container';
         seoContainer.className = 'seo-keywords';
         seoContainer.setAttribute('aria-hidden', 'true');
-        seoContainer.style.cssText = 'position: absolute; left: -9999px; top: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden;';
+        seoContainer.setAttribute('role', 'presentation');
+        // 使用CSS类隐藏，而不是display:none，确保搜索引擎能抓取
         document.body.appendChild(seoContainer);
     }
     
-    // 添加SEO关键词
-    seoContainer.innerHTML = articleMeta.seoKeywords
-        .map(keyword => `<span>${keyword}</span>`)
-        .join(' ');
+    // 清空并添加SEO关键词
+    seoContainer.innerHTML = '';
+    articleMeta.seoKeywords.forEach(keyword => {
+        const span = document.createElement('span');
+        span.textContent = keyword;
+        span.style.display = 'inline-block';
+        span.style.marginRight = '5px';
+        seoContainer.appendChild(span);
+    });
 }
 
 // ==========================================
