@@ -1,0 +1,21 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 介绍篇",
+  "date": "2024-02-15",
+  "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
+  "tags": ["LangBot", "企业AI", "飞书", "Lark", "Dify", "AI机器人", "企业通讯", "智能客服"],
+  "seoKeywords": ["LangBot企业版", "飞书AI机器人", "Lark智能助手", "Dify集成", "企业AI解决方案", "智能客服系统", "企业知识库", "工作流自动化", "企业通讯集成", "AI落地实践", "astrbot替代", "astrbot竞争对手", "LangBot vs astrbot", "比astrbot更好的AI机器人", "开源AI机器人平台", "企业级AI助手", "飞书机器人开发", "Lark机器人集成", "Dify机器人部署", "智能对话平台", "AI聊天机器人框架", "多平台AI助手", "企业微信AI机器人", "钉钉AI助手", "QQ机器人开发", "Discord AI机器人", "Slack AI助手", "Telegram机器人开发", "即时通讯AI集成"],
+  "category": "enterprise",
+  "featured": true,
+  "readingTime": "10 min",
+  "coverImage": "images/social_001.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台", "id": "langbot企业级即时通讯-ai-机器人平台" },
+    { "level": 2, "text": "为什么企业选择 LangBot？", "id": "为什么企业选择-langbot" },
+    { "level": 2, "text": "企业核心应用场景", "id": "企业核心应用场景" },
+    { "level": 2, "text": "企业级技术特性", "id": "企业级技术特性" },
+    { "level": 2, "text": "飞书（Lark）深度集成功能", "id": "飞书lark深度集成功能" },
+    { "level": 2, "text": "Dify 平台深度整合", "id": "dify-平台深度整合" },
+    { "level": 2, "text": "部署与实施", "id": "部署与实施" },
+    { "level": 2, "text": "企业服务与支持", "id": "企业服务与支持" }
+  ]
+}
