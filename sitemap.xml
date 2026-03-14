@@ -81,6 +81,22 @@
         <priority>0.7</priority>
     </url>
     
+    <!-- 文章：LangBot 2 - VS Code扩展 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot2</loc>
+        <lastmod>2026-03-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 文章：LangBot 3 - 跨平台部署 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot3</loc>
+        <lastmod>2026-03-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
     <!-- 静态资源目录 -->
     <url>
         <loc>https://typerbody.xyz/css/</loc>
