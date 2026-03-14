@@ -9,6 +9,7 @@
     { "id": "langbot", "name": "LangBot", "icon": "⚙", "color": "#ff0000" }
   ],
   "articles": [
+    "langbot1",
     "langbot-intro",
     "welcome-to-hypertrance",
     "y2k-design-aesthetics",
