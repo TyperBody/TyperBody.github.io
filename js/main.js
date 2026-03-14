@@ -157,6 +157,7 @@ function updateArticleStructuredData(articleMeta, articleId) {
     const baseUrl = 'https://typerbody.xyz';
     const articleUrl = `${baseUrl}/post.html?id=${articleId}`;
     
+    // 主要文章结构化数据
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -174,7 +175,9 @@ function updateArticleStructuredData(articleMeta, articleId) {
             "name": "TYPERBODY",
             "logo": {
                 "@type": "ImageObject",
-                "url": `${baseUrl}/images/social.png`
+                "url": `${baseUrl}/images/social.png`,
+                "width": 1200,
+                "height": 630
             }
         },
         "mainEntityOfPage": {
@@ -194,10 +197,52 @@ function updateArticleStructuredData(articleMeta, articleId) {
         structuredData.keywords = articleMeta.seoKeywords.join(', ');
     }
     
-    // 更新JSON-LD脚本
+    // 更新文章JSON-LD脚本
     const jsonLdScript = document.getElementById('article-structured-data');
     if (jsonLdScript) {
         jsonLdScript.textContent = JSON.stringify(structuredData, null, 2);
+    }
+    
+    // 更新面包屑结构化数据
+    updateBreadcrumbStructuredData(articleMeta, articleId);
+}
+
+/**
+ * 更新面包屑结构化数据
+ */
+function updateBreadcrumbStructuredData(articleMeta, articleId) {
+    const baseUrl = 'https://typerbody.xyz';
+    const articleUrl = `${baseUrl}/post.html?id=${articleId}`;
+    
+    const breadcrumbData = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "首页",
+                "item": baseUrl + "/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "文章",
+                "item": baseUrl + "/index.html#articles"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": articleMeta.title,
+                "item": articleUrl
+            }
+        ]
+    };
+    
+    // 更新面包屑JSON-LD脚本
+    const breadcrumbScript = document.getElementById('breadcrumb-structured-data');
+    if (breadcrumbScript) {
+        breadcrumbScript.textContent = JSON.stringify(breadcrumbData, null, 2);
     }
 }
 
