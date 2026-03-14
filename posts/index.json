@@ -6,7 +6,8 @@
   "categories": [
     { "id": "tutorial", "name": "教程", "icon": "⟐", "color": "#00ffff" },
     { "id": "design", "name": "设计", "icon": "✦", "color": "#ff00ff" },
-    { "id": "langbot", "name": "LangBot", "icon": "⚙", "color": "#ff0000" }
+    { "id": "LangBot", "name": "LangBot", "icon": "⚙", "color": "#ff0000" },
+    { "id": "music", "name": "音乐", "icon": "◎", "color": "#ffff00" }
   ],
   "articles": [
     "langbot1",
