@@ -1851,12 +1851,12 @@ body {
 
 .article-body code {
     font-family: var(--font-time);
-    background: rgba(192, 199, 214, 0.15);
+    background: rgba(187, 84, 255, 0.24);
     padding: 3px 10px;
     border-radius: 4px;
-    color: #e0e6ed;
+    color: var(--neon-accent);
     font-size: 0.9em;
-    border: 1px solid rgba(192, 199, 214, 0.25);
+    border: 1px solid rgba(187, 84, 255, 0.445);
 }
 
 .article-body pre {
