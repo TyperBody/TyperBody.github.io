@@ -1851,7 +1851,7 @@ body {
 
 .article-body code {
     font-family: var(--font-time);
-    background: rgba(255, 255, 255, 0.507);
+    background: rgba(0, 212, 255, 0.1);
     padding: 3px 10px;
     border-radius: 4px;
     color: var(--neon-accent);
