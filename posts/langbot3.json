@@ -7,7 +7,7 @@
   "category": "tutorial",
   "featured": false,
   "readingTime": "12 min",
-  "coverImage": "images/social_001.png",
+  "coverImage": "images/social_003.png",
   "headings": [
     { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 包管理器与手机部署篇", "id": "langbot企业级即时通讯-ai-机器人平台-包管理器与手机部署篇" },
     { "level": 2, "text": "使用包管理器部署", "id": "使用包管理器部署" },
