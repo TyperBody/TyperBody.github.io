@@ -1498,11 +1498,13 @@ function renderCategoryFilter(container) {
     const categories = articlesData.categories;
     const articles = articlesData.articles;
     
-    // 统计每个分类的文章数量
+    // 统计每个分类的文章数量（支持多分类）
     const categoryCounts = {};
     articles.forEach(article => {
-        const cat = article.category || 'uncategorized';
-        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        const cats = Array.isArray(article.category) ? article.category : [article.category || 'uncategorized'];
+        cats.forEach(cat => {
+            categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        });
     });
     
     // 创建"全部"按钮
@@ -1583,9 +1585,12 @@ function renderArticles(grid, animate = false) {
     const category = articlesData.currentCategory;
     let articles = articlesData.articles;
     
-    // 过滤文章
+    // 过滤文章（支持多分类）
     if (category !== 'all') {
-        articles = articles.filter(article => article.category === category);
+        articles = articles.filter(article => {
+            const cats = Array.isArray(article.category) ? article.category : [article.category];
+            return cats.includes(category);
+        });
     }
     
     // 添加淡出动画

@@ -4,7 +4,7 @@
   "excerpt": "使用包管理器（uv）部署LangBot，支持Windows、Linux、Mac OS及手机端Termux环境，提供跨平台的AI机器人部署方案。",
   "tags": ["LangBot", "包管理器", "uv部署", "跨平台", "Termux", "手机部署", "AI机器人", "企业AI"],
   "seoKeywords": ["LangBot包管理器部署", "uv部署LangBot", "跨平台AI部署", "手机端AI部署", "Termux部署AI", "Windows部署LangBot", "Linux部署LangBot", "MacOS部署LangBot", "Astrbot跨平台对比", "OpenClaw跨平台对比", "LangBot vs Astrbot部署", "LangBot vs OpenClaw部署", "企业AI移动部署", "AI机器人手机端", "Termux AI部署指南", "uv包管理器教程", "Python包管理部署", "生产环境部署", "测试环境部署", "个人使用部署", "开发者部署方案", "快速原型部署", "AI应用部署", "企业通讯AI移动端", "飞书机器人移动部署", "Dify集成移动部署", "智能客服移动端", "工作流自动化移动部署", "AI知识库移动端", "开源AI工具跨平台对比"],
-  "category": "tutorial",
+  "category": ["LangBot", "tutorial"],
   "featured": false,
   "readingTime": "12 min",
   "coverImage": "images/social_003.png",

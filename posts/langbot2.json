@@ -4,7 +4,7 @@
   "excerpt": "社区提供的一键Linux部署方案，由社区成员西塘贡献的LangBot非官方安装脚本，简化企业AI机器人平台的部署流程。",
   "tags": ["LangBot", "社区部署", "Linux", "一键安装", "AI机器人", "企业AI", "开源部署"],
   "seoKeywords": ["LangBot社区部署", "Linux一键安装", "AI机器人部署", "企业AI平台部署", "社区贡献", "非官方安装脚本", "西塘LangBot脚本", "Astrbot部署对比", "OpenClaw部署对比", "LangBot vs Astrbot部署", "LangBot vs OpenClaw部署", "企业AI快速部署", "开源AI部署方案", "Linux服务器部署", "自动化部署脚本", "AI机器人安装指南", "企业通讯AI部署", "飞书机器人部署", "Dify集成部署", "智能客服系统部署", "工作流自动化部署", "AI知识库部署", "生产环境部署", "测试环境部署", "个人使用部署", "社区支持方案", "开源工具部署对比"],
-  "category": "tutorial",
+  "category": ["LangBot", "tutorial"],
   "featured": false,
   "readingTime": "8 min",
   "coverImage": "images/social_002.png",
