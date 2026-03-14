@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "3.0",
-    "lastUpdated": "2026-03-12"
+    "version": "4.0",
+    "lastUpdated": "2026-03-19"
   },
   "categories": [
     { "id": "tutorial", "name": "教程", "icon": "⟐", "color": "#00ffff" },
