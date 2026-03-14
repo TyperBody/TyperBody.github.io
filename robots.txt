@@ -1,0 +1,55 @@
+# robots.txt for typerbody.xyz
+# SEO Optimization for GitHub Pages
+# Target: Compete with Astrbot and OpenClaw
+
+User-agent: *
+Allow: /
+
+# Disallow problematic URL parameters that cause duplicate content
+# These parameters create multiple URL versions of the same content
+Disallow: /*?enable_bottom_share_style=*
+Disallow: /*?utm_*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
+Disallow: /*?msclkid=*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+Disallow: /*?campaign=*
+Disallow: /*?medium=*
+Disallow: /*?term=*
+
+# Allow important directories
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /fonts/
+Allow: /posts/
+
+# Sitemap location (will be created in next step)
+Sitemap: https://typerbody.xyz/sitemap.xml
+
+# Additional directives for specific search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /*?enable_bottom_share_style=*
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /*?enable_bottom_share_style=*
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /*?enable_bottom_share_style=*
+
+User-agent: Yandex
+Allow: /
+Disallow: /*?enable_bottom_share_style=*
+
+# Host directive
+Host: typerbody.xyz
+
+# Competitive keywords note: Targeting Astrbot and OpenClaw market

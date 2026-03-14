@@ -14,9 +14,224 @@ const CONFIG = {
 };
 
 // ==========================================
+// SEO优化函数
+// ==========================================
+
+/**
+ * URL参数规范化 - 解决重复内容问题
+ * 移除有害的URL参数，防止搜索引擎索引多个版本
+ */
+function normalizeURLForSEO() {
+    try {
+        const url = new URL(window.location.href);
+        const currentParams = new URLSearchParams(url.search);
+        
+        // 需要移除的有害SEO参数列表
+        // 这些参数会导致相同内容有多个URL版本
+        const harmfulParams = [
+            'enable_bottom_share_style', // 主要问题参数
+            'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', // UTM跟踪参数
+            'fbclid', // Facebook点击ID
+            'gclid', // Google广告点击ID
+            'msclkid', // Microsoft广告点击ID
+            'ref', 'source', // 引用来源参数
+            'campaign', 'medium', 'term', // 营销参数
+            'share', 'share_id', // 分享参数
+            'from', 'via' // 来源参数
+        ];
+        
+        let hasChanges = false;
+        
+        // 移除所有有害参数
+        harmfulParams.forEach(param => {
+            if (currentParams.has(param)) {
+                currentParams.delete(param);
+                hasChanges = true;
+                console.log(`SEO优化: 移除了有害参数 "${param}"`);
+            }
+        });
+        
+        // 如果参数被修改，更新URL（使用replaceState不刷新页面）
+        if (hasChanges) {
+            const newSearch = currentParams.toString();
+            const newURL = newSearch ? `${url.pathname}?${newSearch}` : url.pathname;
+            
+            // 更新浏览器URL而不刷新页面
+            window.history.replaceState({}, '', newURL);
+            console.log(`SEO优化: URL已规范化 ${window.location.href}`);
+        }
+        
+        return !hasChanges; // 返回true表示URL已经是规范化的
+    } catch (error) {
+        console.error('SEO优化: URL规范化失败', error);
+        return true;
+    }
+}
+
+/**
+ * 更新动态SEO标签
+ * 在文章页面加载时更新meta标签
+ */
+function updateDynamicSEOTags(articleMeta, articleId) {
+    if (!articleMeta || !articleId) return;
+    
+    const baseUrl = 'https://typerbody.xyz';
+    const articleUrl = `${baseUrl}/post.html?id=${articleId}`;
+    
+    // 更新页面标题
+    const pageTitle = `${articleMeta.title} | TYPERBODY BLOG`;
+    document.title = pageTitle;
+    
+    // 更新canonical URL
+    const canonicalEl = document.getElementById('canonical-url');
+    if (canonicalEl) {
+        canonicalEl.href = articleUrl;
+    }
+    
+    // 更新meta描述
+    const description = articleMeta.excerpt || articleMeta.title;
+    const descEl = document.getElementById('meta-description');
+    if (descEl) {
+        descEl.content = description;
+    }
+    
+    // 更新meta关键词
+    const keywords = articleMeta.seoKeywords ? articleMeta.seoKeywords.join(', ') : '';
+    const keywordsEl = document.getElementById('meta-keywords');
+    if (keywordsEl) {
+        keywordsEl.content = keywords;
+    }
+    
+    // 更新Open Graph标签
+    updateOpenGraphTags(articleMeta, articleId);
+    
+    // 更新结构化数据
+    updateArticleStructuredData(articleMeta, articleId);
+    
+    // 添加隐藏的SEO关键词（搜索引擎能看到，用户看不到）
+    addHiddenSEOKeywords(articleMeta);
+}
+
+/**
+ * 更新Open Graph标签
+ */
+function updateOpenGraphTags(articleMeta, articleId) {
+    const baseUrl = 'https://typerbody.xyz';
+    const articleUrl = `${baseUrl}/post.html?id=${articleId}`;
+    
+    // Open Graph标题
+    const ogTitle = document.getElementById('og-title');
+    if (ogTitle) ogTitle.content = articleMeta.title;
+    
+    // Open Graph描述
+    const ogDescription = document.getElementById('og-description');
+    if (ogDescription) ogDescription.content = articleMeta.excerpt || articleMeta.title;
+    
+    // Open Graph URL
+    const ogUrl = document.getElementById('og-url');
+    if (ogUrl) ogUrl.content = articleUrl;
+    
+    // Open Graph图片
+    const ogImage = document.getElementById('og-image');
+    if (ogImage && articleMeta.coverImage) {
+        ogImage.content = `${baseUrl}/${articleMeta.coverImage}`;
+    }
+    
+    // Twitter卡片
+    const twitterTitle = document.getElementById('twitter-title');
+    if (twitterTitle) twitterTitle.content = articleMeta.title;
+    
+    const twitterDescription = document.getElementById('twitter-description');
+    if (twitterDescription) twitterDescription.content = articleMeta.excerpt || articleMeta.title;
+    
+    const twitterImage = document.getElementById('twitter-image');
+    if (twitterImage && articleMeta.coverImage) {
+        twitterImage.content = `${baseUrl}/${articleMeta.coverImage}`;
+    }
+}
+
+/**
+ * 更新文章结构化数据
+ */
+function updateArticleStructuredData(articleMeta, articleId) {
+    const baseUrl = 'https://typerbody.xyz';
+    const articleUrl = `${baseUrl}/post.html?id=${articleId}`;
+    
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": articleMeta.title,
+        "description": articleMeta.excerpt || articleMeta.title,
+        "datePublished": articleMeta.date,
+        "dateModified": articleMeta.date,
+        "author": {
+            "@type": "Person",
+            "name": "TYPERBODY",
+            "url": baseUrl
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TYPERBODY",
+            "logo": {
+                "@type": "ImageObject",
+                "url": `${baseUrl}/images/social.png`
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": articleUrl
+        },
+        "url": articleUrl
+    };
+    
+    // 添加图片
+    if (articleMeta.coverImage) {
+        structuredData.image = `${baseUrl}/${articleMeta.coverImage}`;
+    }
+    
+    // 添加关键词
+    if (articleMeta.seoKeywords && articleMeta.seoKeywords.length > 0) {
+        structuredData.keywords = articleMeta.seoKeywords.join(', ');
+    }
+    
+    // 更新JSON-LD脚本
+    const jsonLdScript = document.getElementById('article-structured-data');
+    if (jsonLdScript) {
+        jsonLdScript.textContent = JSON.stringify(structuredData, null, 2);
+    }
+}
+
+/**
+ * 添加隐藏的SEO关键词
+ * 这些关键词对搜索引擎可见，但对用户不可见
+ */
+function addHiddenSEOKeywords(articleMeta) {
+    if (!articleMeta.seoKeywords || !Array.isArray(articleMeta.seoKeywords)) return;
+    
+    // 创建或获取隐藏关键词容器
+    let seoContainer = document.getElementById('seo-keywords-container');
+    if (!seoContainer) {
+        seoContainer = document.createElement('div');
+        seoContainer.id = 'seo-keywords-container';
+        seoContainer.className = 'seo-keywords';
+        seoContainer.setAttribute('aria-hidden', 'true');
+        seoContainer.style.cssText = 'position: absolute; left: -9999px; top: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden;';
+        document.body.appendChild(seoContainer);
+    }
+    
+    // 添加SEO关键词
+    seoContainer.innerHTML = articleMeta.seoKeywords
+        .map(keyword => `<span>${keyword}</span>`)
+        .join(' ');
+}
+
+// ==========================================
 // 初始化
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    // SEO优化：URL参数规范化（解决重复内容问题）
+    normalizeURLForSEO();
+    
     initLightBurst();
     initRadialRays();
     initInterferenceLines();
@@ -1578,8 +1793,8 @@ async function loadArticleContent() {
         
         document.title = `${articleMeta.title} | HYPERTRANCE BLOG`;
         
-        // SEO优化：添加隐藏的关键词到meta标签（搜索引擎可见，用户不可见）
-        updateSEOMeta(articleMeta);
+        // SEO优化：更新动态SEO标签（包括canonical、meta描述、关键词、Open Graph等）
+        updateDynamicSEOTags(articleMeta, articleId);
         
         // 初始化合集导航（如果文章属于某个合集）
         const belongsToCollection = collections.find(c => c.articles && c.articles.includes(articleId));

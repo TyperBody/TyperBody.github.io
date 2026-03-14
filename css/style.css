@@ -3491,3 +3491,98 @@ body {
     border-color: rgba(255, 0, 255, 0.3) !important;
     color: #ff00ff !important;
 }
+
+/* ==========================================
+   SEO优化样式
+   ========================================== */
+
+/* 隐藏的SEO关键词 - 对搜索引擎可见，对用户不可见 */
+.seo-keywords {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    display: none !important;
+}
+
+/* Canonical链接样式（隐藏） */
+.link-rel-canonical {
+    display: none !important;
+}
+
+/* 结构化数据容器（隐藏） */
+[itemscope],
+[itemtype] {
+    /* 保持正常显示，但确保不干扰布局 */
+}
+
+/* 移动端SEO优化 */
+@media (max-width: 768px) {
+    /* 确保隐藏元素在移动端也保持隐藏 */
+    .seo-keywords {
+        display: none !important;
+    }
+}
+
+/* 打印样式中的SEO优化 */
+@media print {
+    .seo-keywords {
+        display: none !important;
+    }
+}
+
+/* 辅助功能优化 - 确保屏幕阅读器能正确处理隐藏内容 */
+.seo-keywords[aria-hidden="true"] {
+    /* 已经通过CSS隐藏，但确保屏幕阅读器忽略 */
+}
+
+/* 竞争性SEO优化：针对Astrbot和OpenClaw市场 */
+/* 这些样式确保我们的SEO元素正确显示给搜索引擎 */
+.meta-robots,
+.meta-description,
+.meta-keywords {
+    /* 正常显示，但用户不可见 */
+    display: none;
+}
+
+/* Open Graph和Twitter卡片图片优化 */
+.og-image,
+.twitter-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 结构化数据微数据样式 */
+.microdata {
+    display: none; /* 对用户隐藏，但对搜索引擎可见 */
+}
+
+/* 面包屑导航SEO优化 */
+.breadcrumb {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.breadcrumb a {
+    color: var(--chrome-silver);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--neon-accent);
+    text-decoration: underline;
+}
+
+/* URL规范化视觉反馈（调试用） */
+.url-normalized::after {
+    content: "✓";
+    color: #00ff00;
+    margin-left: 5px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
