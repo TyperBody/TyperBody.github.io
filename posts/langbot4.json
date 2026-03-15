@@ -1,0 +1,15 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 部署篇",
+  "date": "2024-03-28",
+  "excerpt": "使用 Docker 容器快速部署 LangBot 企业级 AI 机器人平台，提供完整的容器化部署方案，包括端口映射、镜像源配置和网络代理设置。",
+  "tags": ["Docker", "容器部署", "LangBot", "企业AI", "部署教程", "生产环境", "Docker Compose", "容器化"],
+  "seoKeywords": ["LangBot Docker部署", "Docker容器部署", "LangBot生产环境部署", "企业AI容器化", "Docker Compose部署", "LangBot部署教程", "AI机器人部署", "企业通讯AI部署", "Docker端口映射", "容器镜像源配置", "Docker代理设置", "LangBot Docker Compose", "生产环境AI部署", "企业级AI平台部署", "Docker容器化AI", "LangBot部署指南", "容器网络配置", "Docker部署最佳实践", "AI应用容器部署", "企业AI解决方案部署", "飞书机器人Docker部署", "Dify集成Docker部署", "智能客服系统部署", "工作流自动化部署", "AI知识库容器部署", "开源AI工具部署", "LangBot vs Astrbot部署对比", "LangBot vs OpenClaw部署对比"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "5 min",
+  "coverImage": "images/social_004.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 部署篇", "id": "langbot企业级即时通讯-ai-机器人平台-部署篇" },
+    { "level": 2, "text": "使用Docker容器", "id": "使用docker容器" }
+  ]
+}
