@@ -12,7 +12,7 @@
       "name": "LangBot系列教程",
       "description": "从基础使用，系统性掌握LangBot的强大功能。",
       "icon": "⚙",
-      "articles": ["langbot-intro", "langbot1", "langbot1_1", "langbot2", "langbot3", "langbot4"]
+      "articles": ["langbot-intro", "langbot1", "langbot1_1", "langbot2", "langbot3", "langbot4", "langbot5"]
     }
   ]
 }

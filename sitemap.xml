@@ -113,6 +113,14 @@
         <priority>0.8</priority>
     </url>
     
+    <!-- 文章：LangBot 5 - 手动部署篇 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot5</loc>
+        <lastmod>2026-03-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
     <!-- 静态资源目录 -->
     <url>
         <loc>https://typerbody.xyz/css/</loc>
