@@ -1,5 +1,5 @@
 {
-  "title": "# LangBot：企业级即时通讯 AI 机器人平台 部署篇",
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 手动部署篇",
   "date": "2024-03-30",
   "excerpt": "详细的手动部署和开发环境部署指南，涵盖 Node.js、Python 环境配置，LangBot 前后端启动步骤，以及常见问题解决方案。",
   "tags": ["手动部署", "开发环境", "Node.js", "Python", "LangBot", "部署教程", "生产环境", "uv", "pnpm", "虚拟环境"],

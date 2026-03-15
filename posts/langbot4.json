@@ -1,5 +1,5 @@
 {
-  "title": "# LangBot：企业级即时通讯 AI 机器人平台 部署篇",
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 docker部署篇",
   "date": "2024-03-28",
   "excerpt": "使用 Docker 容器快速部署 LangBot 企业级 AI 机器人平台，提供完整的容器化部署方案，包括端口映射、镜像源配置和网络代理设置。",
   "tags": ["Docker", "容器部署", "LangBot", "企业AI", "部署教程", "生产环境", "Docker Compose", "容器化"],
