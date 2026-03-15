@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "4.0",
-    "lastUpdated": "2026-03-19"
+    "lastUpdated": "2026-03-15"
   },
   "categories": [
     { "id": "tutorial", "name": "教程", "icon": "⟐", "color": "#00ffff" },
@@ -11,6 +11,7 @@
   ],
   "articles": [
     "langbot1",
+    "langbot1_1",
     "langbot2",
     "langbot3",
     "langbot-intro",

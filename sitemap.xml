@@ -89,6 +89,14 @@
         <priority>0.8</priority>
     </url>
     
+    <!-- 文章：LangBot 1.1 - Git工具篇 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot1_1</loc>
+        <lastmod>2026-03-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
     <!-- 文章：LangBot 3 - 跨平台部署 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot3</loc>
