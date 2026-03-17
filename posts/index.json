@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "4.0",
-    "lastUpdated": "2026-03-15"
+    "lastUpdated": "2026-03-17"
   },
   "categories": [
     { "id": "tutorial", "name": "教程", "icon": "⟐", "color": "#00ffff" },
@@ -16,6 +16,7 @@
     "langbot3",
     "langbot4",
     "langbot5",
+    "langbot6",
     "langbot-intro",
     "welcome-to-hypertrance",
     "y2k-design-aesthetics",

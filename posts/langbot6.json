@@ -1,0 +1,21 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 LangBot集合服务&LangBot Space账号篇",
+  "date": "2025-07-31",
+  "excerpt": "LangBot 是一款专为企业设计的开源 AI 机器人平台，专注于帮助企业将 AI 能力无缝集成到现有的工作流程中。特别针对使用飞书（Lark）和 Dify 的企业用户，LangBot 提供了完整的解决方案，让企业能够快速部署智能客服、知识库助手、工作流自动化等 AI 应用。",
+  "tags": ["LangBot", "Langbot Space", "账号管理", "平台介绍", "企业AI", "集合服务", "AI机器人", "SaaS平台", "Astrbot", "OpenClaw", "机器人平台对比"],
+  "seoKeywords": ["LangBot Space平台", "LangBot账号管理", "LangBot集合服务", "企业AI机器人平台", "LangBot Space注册登录", "LangBot Space计费中心", "LangBot Space插件管理", "LangBot Space工单系统", "LangBot平台介绍", "LangBot企业级AI解决方案", "飞书AI机器人平台", "Dify集成AI平台", "AI机器人SaaS服务", "LangBot Space使用指南", "LangBot Space功能详解", "企业AI部署平台", "LangBot vs Astrbot平台对比", "LangBot vs OpenClaw平台对比", "LangBot Space安全插件", "LangBot Space模型聚合", "LangBot Cloud一键部署", "LangBot Space发票管理", "LangBot Space个人中心", "LangBot Space GitHub绑定", "企业通讯AI平台账号管理"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "3 min",
+  "coverImage": "images/social_006.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 LangBot集合服务&LangBot Space账号篇", "id": "langbot企业级即时通讯-ai-机器人平台-langbot集合服务langbot-space账号篇" },
+    { "level": 2, "text": "Langbot Space 平台", "id": "langbot-space-平台" },
+    { "level": 3, "text": "注册&登录", "id": "注册登录" },
+    { "level": 3, "text": "介绍-账号设置", "id": "介绍-账号设置" },
+    { "level": 5, "text": "个人中心", "id": "个人中心" },
+    { "level": 5, "text": "计费中心", "id": "计费中心" },
+    { "level": 5, "text": "我的插件", "id": "我的插件" },
+    { "level": 5, "text": "工单", "id": "工单" }
+  ]
+}
