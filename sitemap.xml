@@ -5,12 +5,13 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
     <!-- TYPERBODY 博客网站地图 -->
-    <!-- 生成时间：2026-03-14 -->
+    <!-- 优化版本：2026-03-17 -->
+    <!-- 由AI框架项目开发者编写的前沿AI bot技术分享论坛，同时提供Y2k音乐杂谈 -->
     
     <!-- 首页 - 最高优先级 -->
     <url>
         <loc>https://typerbody.xyz/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
@@ -18,7 +19,7 @@
     <!-- 文章列表页面 -->
     <url>
         <loc>https://typerbody.xyz/index.html#articles</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -26,7 +27,7 @@
     <!-- 合集页面 -->
     <url>
         <loc>https://typerbody.xyz/index.html#collections</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -34,17 +35,17 @@
     <!-- 关于页面 -->
     <url>
         <loc>https://typerbody.xyz/index.html#about</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     
-    <!-- 文章详情页模板（动态生成，这里列出所有文章） -->
+    <!-- 文章详情页（实际存在的文章） -->
     
     <!-- 文章：LangBot系列教程介绍 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot-intro</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -52,7 +53,7 @@
     <!-- 文章：LangBot企业版介绍 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot1</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -60,7 +61,7 @@
     <!-- 文章：欢迎来到超频空间 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=welcome-to-hypertrance</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -68,7 +69,7 @@
     <!-- 文章：Y2K设计美学 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=y2k-design-aesthetics</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -76,7 +77,7 @@
     <!-- 文章：Markdown教程 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=markdown-tutorial</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -84,7 +85,7 @@
     <!-- 文章：LangBot 2 - VS Code扩展 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot2</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -92,7 +93,7 @@
     <!-- 文章：LangBot 1.1 - Git工具篇 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot1_1</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -100,7 +101,7 @@
     <!-- 文章：LangBot 3 - 跨平台部署 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot3</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -108,7 +109,7 @@
     <!-- 文章：LangBot 4 - 部署篇 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot4</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -116,7 +117,63 @@
     <!-- 文章：LangBot 5 - 手动部署篇 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot5</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 新增：企业AI机器人平台页面 -->
+    <url>
+        <loc>https://typerbody.xyz/enterprise-ai-bot-platform.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- 新增：最前沿Bot框架与技术 -->
+    <url>
+        <loc>https://typerbody.xyz/frontier-bot-frameworks.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 新增：音乐杂谈 -->
+    <url>
+        <loc>https://typerbody.xyz/music-talks.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- 新增：Dify集成指南 -->
+    <url>
+        <loc>https://typerbody.xyz/dify-integration.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 新增：飞书(Lark)集成 -->
+    <url>
+        <loc>https://typerbody.xyz/lark-integration.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 新增：钉钉集成 -->
+    <url>
+        <loc>https://typerbody.xyz/dingtalk-integration.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 新增：企业微信集成 -->
+    <url>
+        <loc>https://typerbody.xyz/wechat-work-integration.html</loc>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -124,28 +181,28 @@
     <!-- 静态资源目录 -->
     <url>
         <loc>https://typerbody.xyz/css/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://typerbody.xyz/js/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://typerbody.xyz/images/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://typerbody.xyz/fonts/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
@@ -153,7 +210,7 @@
     <!-- SEO优化页面 -->
     <url>
         <loc>https://typerbody.xyz/robots.txt</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -161,47 +218,37 @@
     <!-- 结构化数据页面 -->
     <url>
         <loc>https://typerbody.xyz/sitemap.xml</loc>
-        <lastmod>2026-03-14</lastmod>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.1</priority>
     </url>
     
-    <!-- 竞争性关键词优化：针对Astrbot和OpenClaw市场 -->
-    <!-- 注意：以下URL为未来计划，用于增强竞争力 -->
+    <!-- 博客分类页面 -->
     <url>
-        <loc>https://typerbody.xyz/comparison/langbot-vs-astrbot.html</loc>
-        <lastmod>2026-03-14</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://typerbody.xyz/comparison/langbot-vs-openclaw.html</loc>
-        <lastmod>2026-03-14</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://typerbody.xyz/tutorials/</loc>
-        <lastmod>2026-03-14</lastmod>
+        <loc>https://typerbody.xyz/category/langbot.html</loc>
+        <lastmod>2026-03-17</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.7</priority>
     </url>
     
-    <!-- 企业AI解决方案页面 -->
     <url>
-        <loc>https://typerbody.xyz/solutions/enterprise-ai.html</loc>
-        <lastmod>2026-03-14</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://typerbody.xyz/category/tutorial.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
     </url>
     
-    <!-- 开源AI工具对比页面 -->
     <url>
-        <loc>https://typerbody.xyz/comparison/open-source-ai-tools.html</loc>
-        <lastmod>2026-03-14</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://typerbody.xyz/category/design.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://typerbody.xyz/category/music.html</loc>
+        <lastmod>2026-03-17</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     
