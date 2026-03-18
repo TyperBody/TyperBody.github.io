@@ -130,6 +130,14 @@
         <priority>0.8</priority>
     </url>
     
+    <!-- 文章：LangBot 7 - LangBot&登录篇 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot7</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
     <!-- 新增：企业AI机器人平台页面 -->
     <url>
         <loc>https://typerbody.xyz/enterprise-ai-bot-platform.html</loc>

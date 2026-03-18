@@ -1,0 +1,21 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 LangBot&登录篇",
+  "date": "2026-03-18",
+  "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
+  "tags": ["LangBot", "登录", "LangBot Space", "邮箱密码登录", "企业AI", "AI机器人", "账号管理", "安全"],
+  "seoKeywords": ["LangBot登录", "LangBot Space登录", "邮箱密码登录LangBot", "企业AI机器人登录", "飞书AI机器人登录", "Dify集成登录", "LangBot账号安全", "LangBot登录界面", "LangBot登录教程", "LangBot登录错误", "LangBot Space绑定", "LangBot密码修改", "LangBot数据库重置", "LangBot登录方式对比", "LangBot vs Astrbot登录", "LangBot vs OpenClaw登录", "Astrbot登录对比", "OpenClaw登录对比", "企业通讯AI登录方案", "AI机器人平台登录", "LangBot登录问题排查", "LangBot登录遥测上报", "LangBot登录安全性", "LangBot登录速度优化", "LangBot登录集成", "LangBot登录API", "LangBot登录配置", "LangBot登录最佳实践", "LangBot登录故障排除", "LangBot登录界面截图", "LangBot登录步骤", "LangBot登录验证", "LangBot登录权限管理", "LangBot登录多因素认证", "LangBot登录单点登录", "LangBot登录OAuth", "LangBot登录LDAP集成", "LangBot登录企业微信", "LangBot登录钉钉", "LangBot登录飞书", "LangBot登录Discord", "LangBot登录Telegram", "LangBot登录Slack", "Astrbot替代方案", "OpenClaw替代方案", "比Astrbot更好的登录体验", "比OpenClaw更安全的登录"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "5 min",
+  "coverImage": "images/social_007.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 LangBot&登录篇", "id": "langbot企业级即时通讯-ai-机器人平台-langbot登录篇" },
+    { "level": 2, "text": "Langbot登录界面", "id": "langbot登录界面" },
+    { "level": 3, "text": "LangBot Space登录", "id": "langbot-space登录" },
+    { "level": 4, "text": "如何确定自己是否使用LangBot Space登录", "id": "如何确定自己是否使用langbot-space登录" },
+    { "level": 4, "text": "模型配置初步", "id": "模型配置初步" },
+    { "level": 3, "text": "邮箱密码混合登录", "id": "邮箱密码混合登录" },
+    { "level": 4, "text": "放弃账密使用LBSM服务", "id": "放弃账密使用lbsm服务" },
+    { "level": 4, "text": "修改密码", "id": "修改密码" }
+  ]
+}
