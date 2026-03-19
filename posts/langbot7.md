@@ -2,6 +2,8 @@
 
 > *"专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。"*
 
+[LangBot项目地址](https://github.com/langbot-app/LangBot) [LangBot项目官网]() [LangBot项目社区](https://docs.langbot.app/zh/insight/community) [我的博客](https://typerbody.xyz) [LangBot项目文档](https://docs.langbot.app/zh/insight/guide)
+
 **LangBot** 是一款专为企业设计的开源 AI 机器人平台，专注于帮助企业将 AI 能力无缝集成到现有的工作流程中。特别针对使用飞书（Lark）和 Dify 的企业用户，LangBot 提供了完整的解决方案，让企业能够快速部署智能客服、知识库助手、工作流自动化等 AI 应用。
 
 ## Langbot登录界面

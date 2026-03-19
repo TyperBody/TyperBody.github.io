@@ -1,6 +1,10 @@
-# 关于我要做一个LangBot系列教程的事情
+# 关于我要做一个LangBot(原QchatGPT)系列教程的事情
 
 > *"语言是思想的边界，而LangBot是跨越这些边界的桥梁。"*
+
+
+[LangBot项目地址](https://github.com/langbot-app/LangBot) [LangBot项目官网]() [LangBot项目社区](https://docs.langbot.app/zh/insight/community) [我的博客](https://typerbody.xyz) [LangBot项目文档](https://docs.langbot.app/zh/insight/guide)
+
 
 我是TyperBody，也是LangBot核心开发者之一。面对搜索和使用的现状，我发现没有任何一个视频或文档完整展现出LangBot的全部功能与效果。因此，我决定通过这个系列教程，帮助大家更好地理解和使用这个强大的工具。
 
