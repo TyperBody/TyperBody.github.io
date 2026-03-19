@@ -2541,9 +2541,29 @@ body {
 }
 
 .collection-list.expanded {
-    max-height: 500px;
+    max-height: 800px;
     padding-top: 20px;
     opacity: 1;
+    overflow-y: auto;
+}
+
+/* 合集列表滚动条样式 */
+.collection-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.collection-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.collection-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.3);
+    border-radius: 3px;
+}
+
+.collection-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 212, 255, 0.5);
 }
 
 .collection-item {
@@ -2688,6 +2708,8 @@ body {
     );
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .prev-article:hover,

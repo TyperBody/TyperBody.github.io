@@ -1,0 +1,16 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 · 配置篇",
+  "date": "2026-03-19",
+  "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
+  "tags": ["LangBot", "配置", "YAML", "环境变量", "系统配置", "AI机器人", "企业AI", "数据库配置", "向量数据库", "插件系统"],
+  "seoKeywords": ["LangBot配置", "LangBot config.yaml", "LangBot环境变量", "企业AI机器人配置", "飞书AI机器人配置", "Dify集成配置", "LangBot系统环境", "LangBot数据库配置", "LangBot向量数据库配置", "LangBot插件系统配置", "LangBot代理配置", "LangBot对象存储配置", "LangBot命令配置", "LangBot并发设置", "LangBot JWT配置", "LangBot部署配置", "LangBot配置教程", "LangBot配置最佳实践", "LangBot配置问题排查", "LangBot配置安全", "LangBot配置性能优化", "LangBot配置YAML示例", "LangBot配置JSON示例", "LangBot配置环境变量覆盖", "LangBot配置管理员会话", "LangBot配置API端口", "LangBot配置Webhook前缀", "LangBot配置命令前缀", "LangBot配置权限管理", "LangBot配置流水线并发", "LangBot配置单会话并发", "LangBot配置SQLite路径", "LangBot配置PostgreSQL连接", "LangBot配置插件运行时", "LangBot配置插件市场", "LangBot配置代理服务器", "LangBot配置S3存储", "LangBot配置JWT密钥", "LangBot配置恢复密钥", "LangBot配置Chroma向量库", "LangBot配置Qdrant向量库", "LangBot配置Milvus向量库", "LangBot配置Pgvector向量库", "LangBot配置SeekDB向量库"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "8 min",
+  "coverImage": "images/social_008.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 · 配置篇", "id": "langbot企业级即时通讯-ai-机器人平台-配置篇" },
+    { "level": 2, "text": "系统环境配置", "id": "系统环境配置" },
+    { "level": 2, "text": "环境变量配置", "id": "环境变量配置" }
+  ]
+}
