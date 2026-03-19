@@ -2415,16 +2415,28 @@ function initCollectionNav(currentArticle, allArticles, collections) {
     // 设置上一篇/下一篇按钮
     if (currentIndex > 0) {
         const prevArticle = collectionArticles[currentIndex - 1];
-        prevArticleEl.href = `post.html?id=${prevArticle.id}`;
+        const prevUrl = `post.html?id=${prevArticle.id}`;
+        prevArticleEl.href = prevUrl;
         prevArticleEl.style.visibility = 'visible';
         prevArticleEl.title = prevArticle.title;
+        // 确保点击事件正常工作
+        prevArticleEl.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = prevUrl;
+        };
     }
     
     if (currentIndex < collectionArticles.length - 1) {
         const nextArticle = collectionArticles[currentIndex + 1];
-        nextArticleEl.href = `post.html?id=${nextArticle.id}`;
+        const nextUrl = `post.html?id=${nextArticle.id}`;
+        nextArticleEl.href = nextUrl;
         nextArticleEl.style.visibility = 'visible';
         nextArticleEl.title = nextArticle.title;
+        // 确保点击事件正常工作
+        nextArticleEl.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = nextUrl;
+        };
     }
     
     // 展开/收起切换
