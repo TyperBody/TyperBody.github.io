@@ -137,7 +137,6 @@
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-    
     <!-- 文章：LangBot 8 - 配置篇 -->
     <url>
         <loc>https://typerbody.xyz/post.html?id=langbot8</loc>
@@ -145,6 +144,23 @@
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+    <!-- 文章：LangBot 9 - 页面介绍初步篇 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot9</loc>
+        <lastmod>2026-03-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- 文章：LangBot 10 - 模型配置与流水线调试篇 -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot10</loc>
+        <lastmod>2026-03-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
     
     <!-- 新增：企业AI机器人平台页面 -->
     <url>

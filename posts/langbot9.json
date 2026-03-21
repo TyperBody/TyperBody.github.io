@@ -1,0 +1,28 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 页面介绍初步篇",
+  "date": "2026-03-21",
+  "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
+  "tags": ["LangBot", "页面介绍", "教程", "AI机器人", "企业通讯", "功能概览", "界面设计"],
+  "seoKeywords": ["LangBot页面介绍", "LangBot界面概览", "LangBot功能页面", "企业AI机器人界面", "LangBot使用教程", "LangBot页面导航", "LangBot侧边栏功能", "LangBot机器人页面", "LangBot流水线页面", "LangBot知识库页面", "LangBot插件扩展页面", "LangBot日志监控", "LangBot系统设置", "LangBot模型配置", "LangBot页面初步", "LangBot入门指南", "LangBot页面功能介绍", "LangBot页面截图", "LangBot页面布局", "LangBot页面使用教程", "LangBot页面配置", "LangBot页面介绍篇", "LangBot页面概览", "LangBot页面导航教程", "LangBot页面功能详解", "LangBot页面使用指南", "LangBot页面操作指南", "LangBot页面界面设计", "LangBot页面UI介绍", "LangBot页面用户体验"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "5 min",
+  "coverImage": "images/develop_comp_arch_1.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 页面介绍初步篇", "id": "langbot企业级即时通讯-ai-机器人平台-页面介绍初步篇" },
+    { "level": 2, "text": "页面介绍初步", "id": "页面介绍初步" },
+    { "level": 3, "text": "机器人", "id": "机器人" },
+    { "level": 3, "text": "流水线", "id": "流水线" },
+    { "level": 4, "text": "ai能力", "id": "ai能力" },
+    { "level": 4, "text": "安全控制", "id": "安全控制" },
+    { "level": 4, "text": "流水线侧边栏", "id": "流水线侧边栏" },
+    { "level": 4, "text": "对话调试", "id": "对话调试" },
+    { "level": 4, "text": "监控日志", "id": "监控日志" },
+    { "level": 4, "text": "新建流水线", "id": "新建流水线" },
+    { "level": 3, "text": "日志监控", "id": "日志监控" },
+    { "level": 3, "text": "知识库", "id": "知识库" },
+    { "level": 3, "text": "知识库（外部式）", "id": "知识库外部式" },
+    { "level": 3, "text": "插件扩展", "id": "插件扩展" },
+    { "level": 4, "text": "对于寻找老版本插件", "id": "对于寻找老版本插件" }
+  ]
+}

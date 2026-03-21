@@ -1,0 +1,20 @@
+{
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 模型配置与流水线调试篇",
+  "date": "2026-03-22",
+  "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
+  "tags": ["LangBot", "模型配置", "流水线调试", "AI模型", "嵌入模型", "对话模型", "教程", "企业AI"],
+  "seoKeywords": ["LangBot模型配置", "LangBot流水线调试", "AI模型配置教程", "企业AI机器人模型", "LangBot自定义模型", "对话模型配置", "嵌入模型配置", "LangBot模型服务", "LangBot Space模型", "LangBot模型供应商", "LangBot请求URL配置", "LangBot API Key配置", "LangBot视觉能力配置", "LangBot函数调用配置", "LangBot模型能力选择", "LangBot嵌入模型使用", "seekdb内置嵌入模型", "LangBot模型测试", "LangBot实际测试", "LangBot模型配置步骤", "LangBot模型配置指南", "LangBot模型配置最佳实践", "LangBot模型配置问题排查", "LangBot模型配置安全", "LangBot模型配置性能优化", "LangBot模型配置YAML示例", "LangBot模型配置JSON示例", "LangBot模型配置环境变量", "LangBot模型配置管理员会话"],
+  "category": ["LangBot", "tutorial"],
+  "featured": false,
+  "readingTime": "6 min",
+  "coverImage": "images/langbot_main1.png",
+  "headings": [
+    { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 模型配置与流水线调试篇", "id": "langbot企业级即时通讯-ai-机器人平台-模型配置与流水线调试篇" },
+    { "level": 2, "text": "模型配置与流水线调试篇", "id": "模型配置与流水线调试篇" },
+    { "level": 3, "text": "LangBot Models", "id": "langbot-models" },
+    { "level": 3, "text": "自定义模型", "id": "自定义模型" },
+    { "level": 4, "text": "对话模型", "id": "对话模型" },
+    { "level": 4, "text": "嵌入模型", "id": "嵌入模型" },
+    { "level": 3, "text": "实际测试", "id": "实际测试" }
+  ]
+}
