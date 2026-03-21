@@ -7,7 +7,7 @@
   "category": ["LangBot", "tutorial"],
   "featured": false,
   "readingTime": "6 min",
-  "coverImage": "images/langbot_main1.png",
+  "coverImage": "images/social_010.png.png",
   "headings": [
     { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 模型配置与流水线调试篇", "id": "langbot企业级即时通讯-ai-机器人平台-模型配置与流水线调试篇" },
     { "level": 2, "text": "模型配置与流水线调试篇", "id": "模型配置与流水线调试篇" },
