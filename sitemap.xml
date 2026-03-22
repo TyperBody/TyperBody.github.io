@@ -159,7 +159,14 @@
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-    
+
+    <!-- 文章：LangBot 11 - 流水线接入指南（Coze/Dify/Langflow/n8n/TBox） -->
+    <url>
+        <loc>https://typerbody.xyz/post.html?id=langbot11</loc>
+        <lastmod>2026-03-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
     
     
     <!-- 新增：企业AI机器人平台页面 -->
