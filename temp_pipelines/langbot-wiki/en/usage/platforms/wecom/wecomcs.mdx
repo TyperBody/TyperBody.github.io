@@ -1,0 +1,35 @@
+---
+title: "Deploy WeCom Customer Service"
+---
+
+<Info title="This article details the process of deploying LangBot to a WeCom customer service account, which allows conversations between the customer service account and regular WeChat. If you only need to use it within WeCom, please refer to [WeCom Internal Application Implementation](wecom).">
+
+**Deploying a WeCom customer service account requires enterprise qualifications**. Please check the [WeCom Customer Service Integration Guide](https://developer.work.weixin.qq.com/document/path/94638) and provide the corresponding enterprise qualification certificates according to this document.
+
+</Info>
+
+## Effect Demonstration
+
+![Effect Demonstration](/images/zh/deploy/bots/wecom/wecomcs/wecomcs_01.jpg)
+
+## Deploy WeCom Customer Service
+
+#### Configure WeCom Customer Service Page
+
+Open the [WeCom Customer Service Admin](https://kf.weixin.qq.com/kf), log in, click on `Enterprise Information`, and obtain the `Enterprise ID`.
+
+![Home Page](/images/zh/deploy/bots/wecom/wecomcs/wecomcs_03.png)
+
+Save the Enterprise ID, then click on `Developer Settings`, click on `Start Using`, and randomly generate a Token and EncodingAESKey. Fill these three items into the LangBot configuration page. The Secret can be filled in arbitrarily, as shown below:
+
+![connect](/images/zh/deploy/bots/wecom/wecomcs/connect_to_langbot.png)
+
+Click Submit on the LangBot configuration page to enable the robot, copy the Webhook callback address, and fill it into the URL in the WeCom Customer Service admin backend (remember to change it to your own IP or domain name), then click Save. If it saves successfully, it means the connection is working.
+
+<Tip>
+**Domain setup too complicated?** [LangBot Cloud](https://space.langbot.app/cloud) includes built-in domain and HTTPS — no configuration needed.
+</Tip>
+
+Copy the Secret from the page, then open the newly created LangBot WeCom Customer Service robot, fill in the new Secret, and restart.
+
+Go back to the WeCom Customer Service configuration page, click on Customer Service Accounts, create a customer service account, and you can start using it.
