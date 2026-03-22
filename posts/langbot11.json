@@ -1,13 +1,13 @@
 {
-  "title": "# LangBot：企业级即时通讯 AI 机器人平台 LLMops(dify,n8n,langflow,TBox,coze)平台接入指南",
-  "date": "2026-03-22",
+  "title": "# LangBot：企业级即时通讯 AI 机器人平台 LLMops平台接入指南",
+  "date": "2026-03-23",
   "excerpt": "专为企业打造的即时通讯 AI 机器人平台，无缝集成飞书（Lark）、钉钉、企业微信等企业通讯工具，与 Dify 等 AI 应用平台深度整合，让企业 AI 应用快速落地。",
   "tags": ["LangBot", "LLMops", "Dify", "n8n", "Langflow", "TBox", "Coze", "流水线", "平台接入", "教程", "企业AI"],
   "seoKeywords": ["LangBot流水线接入", "LangBot Dify集成", "LangBot n8n集成", "LangBot Langflow集成", "LangBot TBox集成", "LangBot Coze集成", "LLMops平台接入指南", "企业AI机器人平台", "LangBot流水线配置", "LangBot运行器配置", "Dify工作流接入", "n8n工作流接入", "Langflow工作流接入", "TBox蚂蚁百宝箱接入", "Coze API接入", "LangBot平台集成教程", "LangBot多平台接入", "LangBot流水线调试", "LangBot AI能力配置", "LangBot请求变量配置", "LangBot输出处理", "LangBot常见问题", "LangBot总结", "LangBot最佳实践"],
   "category": ["LangBot", "tutorial"],
   "featured": false,
   "readingTime": "8 min",
-  "coverImage": "images/arch.png",
+  "coverImage": "images/social_011.png",
   "headings": [
     { "level": 1, "text": "LangBot：企业级即时通讯 AI 机器人平台 LLMops(dify,n8n,langflow,TBox,coze)平台接入指南", "id": "langbot企业级即时通讯-ai-机器人平台-llmopsdifyn8nlangflowtboxcoze平台接入指南" },
     { "level": 2, "text": "LLMops平台接入指南", "id": "llmops平台接入指南" },
