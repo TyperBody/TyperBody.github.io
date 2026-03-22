@@ -31,11 +31,11 @@ LangBot 首次启动时会自动创建一个默认的流水线。创建机器人
 
 运行器定义了如何调度大模型处理消息。默认为`内置 Agent`，这是 LangBot 实现的一个多回合 Agent 策略，当且仅当选择此运行器时，才会使用 LangBot 内部配置的模型和工具。
 
-<img width="400px" src="/images/edit_pipeline_ai.png" alt="edit_pipeline" />
+![edit_pipeline](https://typerbody.xyz/images/edit_pipeline_ai.png)
 
 您也可以选择使用 `Dify`、 `n8n` 等外部 LLMOps 平台，这种情况下所使用的模型、提示词、工具等资源将由外部平台提供。
 
-<img width="400px" src="/images/more_runner.png" alt="more_runner" />
+![more_runner](https://typerbody.xyz/images/more_runner.png)
 
 #### 请求变量
 
